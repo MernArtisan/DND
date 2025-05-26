@@ -3,7 +3,7 @@ name: 🚀 Auto Deploy to FTP (spravato)
 on:
   push:
     branches:
-      - main  # Deploy only when main branch is pushed
+      - main  # Trigger only when code is pushed to main
 
 jobs:
   ftp-deploy:
@@ -20,15 +20,18 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp                     # Try ftps if ftp fails
+          protocol: ftp                  # You can change to ftps if needed
           port: 21
-          server-dir: /dnd.appwebdemo.pro/  # Change if your root is different
-          local-dir: ./                     # Root of your repo
-          passive: false                    # Try true if false doesn't work
-          retry: true                       # Enable retry if connection drops
+          server-dir: /dnd.appwebdemo.pro/  # Replace with your directory
+          local-dir: ./                 # Root of your project
+          passive: false                # Try true if false fails
+          retry: true                   # Auto retry on connection reset
           exclude: |
             **/.git*
             .git/
+            .github/
             **/.vscode*
             **/tests/**
             **/storage/logs/**
+            **/node_modules/**
+            **/vendor/**
