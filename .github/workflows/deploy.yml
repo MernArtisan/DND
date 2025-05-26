@@ -1,37 +1,32 @@
 name: 🚀 Auto Deploy to FTP (spravato)
-
+ 
 on:
   push:
     branches:
-      - main  # Trigger only when code is pushed to main
-
+      - main
+ 
 jobs:
   ftp-deploy:
     name: Upload via FTP
     runs-on: ubuntu-latest
-
+ 
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
-
+ 
       - name: 📤 FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp                  # You can change to ftps if needed
+          protocol: ftp
           port: 21
-          server-dir: /dnd.appwebdemo.pro/  # Replace with your directory
-          local-dir: ./                 # Root of your project
-          passive: false                # Try true if false fails
-          retry: true                   # Auto retry on connection reset
+          server-dir: /dnd.appwebdemo.pro/
+          local-dir: ./
+          passive: true
           exclude: |
             **/.git*
-            .git/
-            .github/
             **/.vscode*
             **/tests/**
             **/storage/logs/**
-            **/node_modules/**
-            **/vendor/**
