@@ -24,14 +24,15 @@ jobs:
           port: 21
           server-dir: /dnd.appwebdemo.pro/
           local-dir: ./
-          passive: false          # ✅ Most FTP hosts work better with passive: false
+          passive: false
           retry: true
-          exclude: |              # ✅ Strict exclusion
+          exclude: |
             .git/
             .git/**
             .github/
+            .github/**
             **/.git*
+            **/.github*
             **/.vscode*
-            **/tests/**
-            **/storage/logs/**
             **/node_modules/**
+       
