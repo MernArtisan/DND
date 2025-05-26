@@ -1,19 +1,19 @@
 name: 🚀 Auto Deploy to FTP (spravato)
- 
+
 on:
   push:
     branches:
       - main
- 
+
 jobs:
   ftp-deploy:
     name: Upload via FTP
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
- 
+
       - name: 📤 FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -24,9 +24,14 @@ jobs:
           port: 21
           server-dir: /dnd.appwebdemo.pro/
           local-dir: ./
-          passive: true
-          exclude: |
+          passive: false          # ✅ Most FTP hosts work better with passive: false
+          retry: true
+          exclude: |              # ✅ Strict exclusion
+            .git/
+            .git/**
+            .github/
             **/.git*
             **/.vscode*
             **/tests/**
             **/storage/logs/**
+            **/node_modules/**
