@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-Route::get('/run-migrate', function () {
-    if (request('key') !== 'secret-key') abort(403);
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    return 'Migrations done!';
-});
+use App\Http\Controllers\MigrationController;
 
-Route::get('/', function () { 
-    return view('welcome'); 
+
+
+Route::get('/run-migrate', [MigrationController::class, 'runAll']);
+Route::get('/run-specific-migration', [MigrationController::class, 'runSpecific']);
+
+Route::get('/', function () {
+    return view('welcome');
     // return "abc";
 });
