@@ -19,14 +19,14 @@ class TwilioService
     public function sendSMS($to, $message)
     {
         return $this->twilio->messages->create($to, [
-            'from' => config('services.twilio.from'),
+            'from' => config('services.twilio.phone_number'),
             'body' => $message
         ]);
     }
 
     public function makeCall($to, $url)
     {
-        return $this->twilio->calls->create($to, config('services.twilio.from'), [
+        return $this->twilio->calls->create($to, config('services.twilio.phone_number'), [
             'url' => $url
         ]);
     }
