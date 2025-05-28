@@ -12,7 +12,7 @@ class TwilioService
     {
         $this->twilio = new Client(
             config('services.twilio.sid'),
-            config('services.twilio.token')
+            config('services.twilio.auth_token')
         );
     }
 
