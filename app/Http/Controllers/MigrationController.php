@@ -53,4 +53,19 @@ class MigrationController extends Controller
             ]);
         }
     }
+
+    public function clearAll()
+    {
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+        Artisan::call('view:clear');
+        Artisan::call('config:cache');
+        Artisan::call('optimize:clear');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'All caches cleared and optimized successfully.'
+        ]);
+    }
 }
