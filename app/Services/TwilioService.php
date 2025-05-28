@@ -12,21 +12,21 @@ class TwilioService
     {
         $this->twilio = new Client(
             config('services.twilio.sid'),
-            config('services.twilio.auth_token')
+            config('services.twilio.token')
         );
     }
 
     public function sendSMS($to, $message)
     {
         return $this->twilio->messages->create($to, [
-            'from' => config('services.twilio.phone_number'),
+            'from' => config('services.twilio.from'),
             'body' => $message
         ]);
     }
 
     public function makeCall($to, $url)
     {
-        return $this->twilio->calls->create($to, config('services.twilio.phone_number'), [
+        return $this->twilio->calls->create($to, config('services.twilio.from'), [
             'url' => $url
         ]);
     }
