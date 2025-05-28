@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login',[App\Http\Controllers\api\AuthController::class,'login']);
+Route::post('signin',[App\Http\Controllers\api\AuthController::class,'signin']);
 
 
 Route::get('/user', function (Request $request) {
