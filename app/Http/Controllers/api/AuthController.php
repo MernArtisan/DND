@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use App\Services\TwilioService;
+use app\Services\TwilioService;
 
 class AuthController extends Controller
 {
