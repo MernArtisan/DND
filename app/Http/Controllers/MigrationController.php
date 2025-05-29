@@ -12,7 +12,7 @@ class MigrationController extends Controller
     {
         if ($request->key !== 'secret-key') {
             abort(403, 'Unauthorized.');
-        }
+        } 
 
         Artisan::call('migrate', ['--force' => true]);
 
