@@ -41,14 +41,19 @@ class AuthController extends Controller
                     $msg->to($user->email)->subject('Your OTP Code');
                 });
             } else {
-                $twilio->sendSMS('+92' . ltrim($user->phone, '0'), "Your OTP is: $otp");
+                $formattedPhone = $user->phone;
+                if (!str_starts_with($formattedPhone, '+')) {
+                    $formattedPhone = '+1' . ltrim($formattedPhone, '0'); // default to US code
+                }
+
+                $twilio->sendSMS($formattedPhone, "Your OTP is: $otp");
             }
 
             return response()->json([
                 'status' => true,
                 'message' => 'OTP sent successfully.',
                 'medium' => $field,
-                'otp' => $otp // only for testing; remove in production
+                'otp' => $otp
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -60,6 +65,7 @@ class AuthController extends Controller
         }
     }
 
+
     public function verifyOtp(Request $request)
     {
         $request->validate([
@@ -68,30 +74,48 @@ class AuthController extends Controller
             'otp' => 'required|string',
         ]);
 
-        $field = $request->login_type;
-        $value = $request->value;
+        try {
+            $field = $request->login_type;
+            $value = $request->value;
 
-        $user = User::where($field, $value)->first();
+            $user = User::where($field, $value)->first();
 
-        if (!$user) {
-            return response()->json(['status' => false, 'message' => 'User not found']);
+            if (!$user) {
+                return response()->json(['status' => false, 'message' => 'User not found']);
+            }
+
+            $record = DB::table('user_otps')->where('user_id', $user->id)->first();
+
+            if (!$record || $record->otp !== $request->otp) {
+                return response()->json(['status' => false, 'message' => 'Invalid OTP']);
+            }
+
+            $otpCreated = \Carbon\Carbon::parse($record->created_at);
+            if ($otpCreated->diffInSeconds(now()) > 60) {
+
+                DB::table('user_otps')->where('user_id', $user->id)->delete();
+
+                return response()->json(['status' => false, 'message' => 'OTP expired']);
+            }
+
+            DB::table('user_otps')->where('user_id', $user->id)->delete();
+
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Login successful',
+                'token' => $token,
+                'user' => $user
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to verify OTP.',
+                'error' => $e->getMessage()
+            ]);
         }
-
-        $record = DB::table('user_otps')->where('user_id', $user->id)->first();
-
-        if (!$record || $record->otp !== $request->otp) {
-            return response()->json(['status' => false, 'message' => 'Invalid OTP']);
-        }
-
-        DB::table('user_otps')->where('user_id', $user->id)->delete();
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Login successful',
-            'token' => $token,
-            'user' => $user
-        ]);
     }
 }
