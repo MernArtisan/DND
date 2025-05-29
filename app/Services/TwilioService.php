@@ -23,11 +23,4 @@ class TwilioService
             'body' => $message
         ]);
     }
-
-    public function makeCall($to, $url)
-    {
-        return $this->twilio->calls->create($to, config('services.twilio.from'), [
-            'url' => $url
-        ]);
-    }
 }

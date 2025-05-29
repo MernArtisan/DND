@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Services\TwilioService;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -24,10 +25,7 @@ class AuthController extends Controller
         $user = User::where($field, $value)->first();
 
         if (!$user) {
-            $user = User::create([
-                $field => $value,
-                'name' => 'Guest User',
-            ]);
+            return response()->json(['status' => false, 'message' => 'User not found']);
         }
 
         $otp = rand(100000, 999999);
@@ -37,20 +35,29 @@ class AuthController extends Controller
             ['otp' => $otp, 'created_at' => now()]
         );
 
-        if ($field === 'email') {
-            Mail::raw("Your OTP is: $otp", function ($msg) use ($user) {
-                $msg->to($user->email)->subject('Your OTP Code');
-            });
-        } else {
-            $twilio->sendSMS($user->phone, "Your OTP is: $otp");
-        }
+        try {
+            if ($field === 'email') {
+                Mail::raw("Your OTP is: $otp", function ($msg) use ($user) {
+                    $msg->to($user->email)->subject('Your OTP Code');
+                });
+            } else {
+                $twilio->sendSMS('+92' . ltrim($user->phone, '0'), "Your OTP is: $otp");
+            }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'OTP sent successfully.',
-            'medium' => $field,
-            'otp' => $otp // ⚠️ For testing only — remove in production
-        ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'OTP sent successfully.',
+                'medium' => $field,
+                'otp' => $otp // only for testing; remove in production
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to send OTP.',
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function verifyOtp(Request $request)
