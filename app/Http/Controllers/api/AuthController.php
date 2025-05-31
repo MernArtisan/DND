@@ -37,9 +37,9 @@ class AuthController extends Controller
 
         try {
             if ($field === 'email') {
-                Mail::raw("Your OTP is: $otp", function ($msg) use ($user) {
-                    $msg->to($user->email)->subject('Your OTP Code');
-                });
+                // Mail::raw("Your OTP is: $otp", function ($msg) use ($user) {
+                //     $msg->to($user->email)->subject('Your OTP Code');
+                // });
             } else {
                 $formattedPhone = $user->phone;
                 if (!str_starts_with($formattedPhone, '+')) {
@@ -64,8 +64,6 @@ class AuthController extends Controller
             ]);
         }
     }
-
-
     public function verifyOtp(Request $request)
     {
         $request->validate([
@@ -92,22 +90,21 @@ class AuthController extends Controller
 
             $otpCreated = \Carbon\Carbon::parse($record->created_at);
             if ($otpCreated->diffInSeconds(now()) > 60) {
-
                 DB::table('user_otps')->where('user_id', $user->id)->delete();
-
                 return response()->json(['status' => false, 'message' => 'OTP expired']);
             }
 
             DB::table('user_otps')->where('user_id', $user->id)->delete();
 
-
+            $user->last_login_at = now();
+            $user->save();
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
                 'status' => true,
-                'message' => 'Login successful',
+                'message' => $user->name . 'Login successful',
                 'token' => $token,
-                'user' => $user
+                'user' => $user->fresh()->makeHidden('image')->append('image_url'),
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -117,5 +114,40 @@ class AuthController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
+    }
+
+    public function signup(Request $request)
+    {
+
+        $validated = $this->validateUser($request);
+        $user = $this->createUser($validated);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User created successfully.',
+            'user' => $user
+        ]);
+    }
+
+    private function validateUser(Request $request)
+    {
+        return $request->validate([
+            'role' => 'required|in:user,streamer',
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'phone_code' => 'required|string',
+            'phone' => 'required|string|unique:users',
+            'password' => 'required|confirmed',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
+            'address' => 'required|string',
+            'gender' => 'required|in:male,female,other',
+        ]);
+    }
+    private function createUser(array $data)
+    {
+        $data['password'] = bcrypt($data['password']);
+        return User::create($data);
     }
 }
