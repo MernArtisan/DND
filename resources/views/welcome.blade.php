@@ -33,7 +33,7 @@
     const userID = "web_" + Math.floor(Math.random() * 10000);
     const userName = "WebViewer";
 
-    const streamID = "flutter_stream_1";  // 🔁 Change this to actual streamID from Flutter
+    const streamID = "stream_001";  // 🔁 Change this to actual streamID from Flutter
     const roomID = "test_room";           // 🔁 Change this to the same room Flutter is using
 
     const zg = new ZegoExpressEngine(appID, appSign);
