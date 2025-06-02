@@ -1,38 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Watch Live Stream</title>
-  <!-- ✅ Correct Prebuilt UI script -->
-  <script src="https://zegocloud.github.io/zego-uikit-prebuilt/live-streaming/zego-uikit-prebuilt-live-streaming.min.js"></script>
-</head>
-<body>
-  <div id="zego-container" style="width: 100%; height: 100vh;"></div>
+    <head>
+        <title>Zego Viewer</title>
+        <script src="/public/ZegoExpressEngine.min.js"></script>
+    </head>
+    <body>
+        <h2>Zego Viewer</h2>
+        <div
+            id="video-container"
+            style="width: 640px; height: 360px; background: #ddd"
+        ></div>
+        <button onclick="startViewing()">Start Watching</button>
 
-  <script>
-    window.onload = function () {
-      const appID = 1173379578;
-      const appSign = "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458";
-      const userID = "viewer_" + Date.now();
-      const userName = "Web Viewer";
-      const liveID = "stream_001";
+        <script>
+            async function startViewing() {
+                const res = await fetch("/stream-info");
+                const data = await res.json();
 
-      const config = {
-        role: "Audience",
-        scenario: {
-          mode: ZegoUIKitPrebuiltLiveStreaming.LiveStreamingMode,
-        },
-      };
+                const zg = new ZegoExpressEngine(data.appID, data.appSign);
 
-      ZegoUIKitPrebuiltLiveStreaming.create({
-        appID,
-        appSign,
-        userID,
-        userName,
-        liveID,
-        container: document.getElementById("zego-container"),
-        config,
-      });
-    };
-  </script>
-</body>
+                await zg.loginRoom(data.roomID, 1, {
+                    userID: data.userID,
+                    userName: data.userName,
+                });
+
+                const container = document.getElementById("video-container");
+
+                // ✅ Use actual stream ID from dashboard
+                const streamID = "stream_001_host_1748895299669_main";
+
+                zg.startPlayingStream(streamID, { 
+                    container: container,
+                    muted: true,
+                });
+
+                console.log("✅ Playing:", streamID);
+            }
+        </script>
+    </body>
 </html>
