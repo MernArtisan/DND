@@ -12,43 +12,48 @@ Route::get('/', function () {
     return view('welcome');
     // return "abc";
 });
-
-// Already exists
+ 
 Route::get('/stream-info', function () {
     return response()->json([
-        'appID' => env('ZEGO_APP_ID', 1173379578),
-        'appSign' => env('ZEGO_APP_SIGN', '7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458'),
-        'roomID' => 'streaming_001', // Must match Flutter app's roomID
-        'userID' => 'viewer_' . rand(1000, 9999),
-        'userName' => 'Viewer_' . rand(1, 100)
+        'appID' => env('ZEGO_APP_ID'),
+        'appSign' => env('ZEGO_APP_SIGN'),
+        'roomID' => 'Live-001', // ✅ same as Flutter liveID
+        'userID' => 3333,
+        'userName' => 'Viewer_63'
     ]);
 });
-
 
 Route::get('/viewer', function () {
     return response()->file(public_path('stream.html'));
 });
 
-
 Route::get('/zego-token', function () {
     $appID = intval(env('ZEGO_APP_ID'));
-    $serverSecret = env('ZEGO_SERVER_SECRET'); // ✅ Add this in .env
+    $serverSecret = env('ZEGO_SERVER_SECRET');
     $userID = request('userID');
-    $expire = time() + 3600; // valid for 1 hour
+
+    if (!$serverSecret || !$userID) {
+        return response()->json(['error' => 'Missing secret or userID'], 400);
+    }
+
+    $expire = time() + 3600;
     $nonce = random_int(100000, 999999);
 
-    $payload = json_encode([
+    $payloadArray = [
         'app_id' => $appID,
         'user_id' => $userID,
         'nonce' => $nonce,
         'expired' => $expire,
-    ]);
+    ];
 
-    openssl_sign($payload, $signature, $serverSecret, 'sha256');
+    $payload = json_encode($payloadArray);
+    $signature = hash_hmac('sha256', $payload, $serverSecret, true);
     $token = base64_encode($signature) . '.' . base64_encode($payload);
 
-    return Response::json(['token' => $token]);
+    return response()->json(['token' => $token]);
 });
+
+
 
 Route::get('/zego-check', function () {
     if (env('ZEGO_APP_ID') && env('ZEGO_APP_SIGN')) {
