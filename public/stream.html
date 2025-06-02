@@ -2,77 +2,116 @@
 <html>
 <head>
     <title>Zego Viewer</title>
-    <!-- Use official CDN -->
-    <script src="https://zegocloud.github.io/zego-express-webrtc-sdk/webrtc/ZegoExpressEngine.min.js"></script>
+    <!-- Primary CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/zego-express-engine-webrtc@2.15.0/sdk/ZegoExpressEngine.min.js"></script>
+    <!-- Fallback CDN -->
+    <script>
+    if (!window.ZegoExpressEngine) {
+        document.write('<script src="https://storage.zego.im/express/webrtc/2.15.0/ZegoExpressEngine.min.js"><\/script>');
+    }
+    </script>
 </head>
 <body>
     <h2>Zego Viewer</h2>
     <div id="video-container" style="width: 640px; height: 360px; background: #ddd"></div>
     <button onclick="startViewing()">Start Watching</button>
-    <div id="status" style="margin-top: 20px; color: red;"></div>
+    <div id="status" style="color: red; margin-top: 10px;"></div>
 
     <script>
-        async function startViewing() {
-            try {
-                const statusEl = document.getElementById('status');
-                statusEl.textContent = "Loading...";
-                
-                // 1. Verify SDK loaded
-                if (!window.ZegoExpressEngine) {
-                    throw new Error("Zego SDK not loaded - check browser console");
-                }
-                statusEl.textContent = "SDK loaded successfully";
-
-                // 2. Get stream info
-                const res = await fetch("/stream-info");
-                const data = await res.json();
-                console.log("Stream info:", data);
-                statusEl.textContent = "Got stream info";
-
-                // 3. Initialize Zego
-                const zg = new ZegoExpressEngine(data.appID, data.appSign);
-                statusEl.textContent = "Zego engine created";
-
-                // 4. Add stream update listener
-                zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
-                    console.log('Stream update:', updateType, streamList);
-                    statusEl.textContent = `Stream update: ${updateType}`;
-                    
-                    if (updateType === 'ADD' && streamList.length > 0) {
-                        const streamID = streamList[0].streamID;
-                        playStream(zg, streamID);
-                    }
-                });
-
-                // 5. Login to room
-                await zg.loginRoom(data.roomID, 1, {
-                    userID: data.userID,
-                    userName: data.userName,
-                });
-                statusEl.textContent = "Successfully joined room";
-                
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById('status').textContent = "Error: " + error.message;
-            }
+    // Verify SDK loaded before any interaction
+    window.addEventListener('load', () => {
+        if (!window.ZegoExpressEngine) {
+            document.getElementById('status').textContent = 
+                "❌ SDK failed to load. Please: \n1. Check internet \n2. Disable ad-blockers \n3. Try another browser";
+            console.error("ZegoExpressEngine not found after page load");
         }
+    });
 
-        function playStream(zg, streamID) {
-            const container = document.getElementById("video-container");
+    async function startViewing() {
+        try {
             const statusEl = document.getElementById('status');
             
-            statusEl.textContent = `Trying to play stream: ${streamID}`;
+            // 1. Final SDK verification
+            if (!window.ZegoExpressEngine) {
+                throw new Error("Zego SDK still not loaded after multiple attempts");
+            }
+            statusEl.textContent = "✅ SDK verification passed";
+
+            // 2. Get stream info
+            statusEl.textContent = "Fetching stream info...";
+            const res = await fetch("/stream-info");
+            if (!res.ok) throw new Error("Failed to fetch stream info");
             
-            zg.startPlayingStream(streamID, { 
-                container: container,
-                muted: true,
-            }).then(() => {
-                statusEl.textContent = `✅ Playing stream: ${streamID}`;
-                container.style.background = 'transparent'; // Remove gray background
-            }).catch(err => {
-                statusEl.textContent = `❌ Play failed: ${err.message}`;
+            const data = await res.json();
+            console.log("Stream info:", data);
+            statusEl.textContent = "🔍 Stream info received";
+
+            // 3. Initialize Zego (with version check)
+            const zg = new ZegoExpressEngine(data.appID, data.appSign);
+            if (!zg) throw new Error("Failed to initialize Zego engine");
+            statusEl.textContent = "🚀 Zego engine initialized";
+
+            // 4. Set up stream listeners
+            zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
+                console.log('Stream update:', updateType, streamList);
+                statusEl.textContent = `🔄 Stream update: ${updateType}`;
+                
+                if (updateType === 'ADD' && streamList.length > 0) {
+                    statusEl.textContent = `🎬 Found stream: ${streamList[0].streamID}`;
+                    playStream(zg, streamList[0].streamID);
+                }
             });
+
+            // 5. Join room with timeout
+            statusEl.textContent = "🔑 Joining room...";
+            await Promise.race([
+                zg.loginRoom(data.roomID, 1, {
+                    userID: data.userID,
+                    userName: data.userName,
+                }),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error("Room join timeout (10s)")), 10000)
+                )
+            ]);
+            statusEl.textContent = "✅ Successfully joined room";
+            
+        } catch (error) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = `❌ Error: ${error.message}`;
+            statusEl.style.whiteSpace = 'pre-wrap';
+            console.error("Viewer error:", error);
+            
+            // Suggest specific solutions based on error
+            if (error.message.includes("SDK")) {
+                statusEl.innerHTML += "\n\nTry: <button onclick='location.reload()'>Reload Page</button> " + 
+                                      "or <button onclick='downloadSDK()'>Download SDK Manually</button>";
+            }
         }
+    }
+
+    function playStream(zg, streamID) {
+        const container = document.getElementById("video-container");
+        const statusEl = document.getElementById('status');
+        
+        statusEl.textContent = `▶️ Attempting to play: ${streamID}`;
+        
+        zg.startPlayingStream(streamID, { 
+            container: container,
+            muted: true,
+        }).then(() => {
+            statusEl.textContent = `🎥 Now playing: ${streamID}`;
+            container.style.background = 'transparent';
+        }).catch(err => {
+            statusEl.textContent = `❌ Play failed: ${err.message}`;
+            console.error("Playback error:", err);
+        });
+    }
+
+    function downloadSDK() {
+        // Manual SDK download option
+        window.open("https://storage.zego.im/express/webrtc/2.15.0/ZegoExpressEngine.min.js", "_blank");
+        document.getElementById('status').textContent += "\n\nAfter downloading, save as '/public/js/ZegoExpressEngine.min.js' and update script tag";
+    }
     </script>
 </body>
 </html>
