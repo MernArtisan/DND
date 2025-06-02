@@ -37,7 +37,7 @@ class ProfileController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Profile updated successfully.',
-            'user' => new UserResource($user),
+            'user' => $user
         ]);
     }
 

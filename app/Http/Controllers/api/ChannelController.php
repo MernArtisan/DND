@@ -33,7 +33,7 @@ class ChannelController extends Controller
             $baseSlug = Str::slug($validated['name']);
             $slug = $baseSlug;
             $count = 1;
-            
+
             while (Channel::where('slug', $slug)->exists()) {
                 $slug = $baseSlug . '-' . $count++;
             }
@@ -52,17 +52,7 @@ class ChannelController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Channel created successfully.',
-                'channel' => [
-                    'id' => $channel->id,
-                    'name' => $channel->name,
-                    'slug' => $channel->slug,
-                    'description' => $channel->description,
-                    'banner' => asset($channel->banner),
-                    'logo' => asset($channel->logo),
-                    'streamer_id' => $channel->streamer_id,
-                    'created_at' => $channel->created_at,
-                    'updated_at' => $channel->updated_at,
-                ]
+                'channel' => $channel
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

@@ -56,10 +56,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
- 
+    public function getImageAttribute($value)
+    {
+        return $value ? asset($value) : asset('public/default-man.png');
+    }
+
 
     public function channel()
     {
-        return $this->hasMany(Channel::class,'streamer_id');
+        return $this->hasMany(Channel::class, 'streamer_id');
     }
 }
