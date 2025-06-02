@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ZegoCloud Viewer</title>
-    <!-- Latest Zego SDK -->
-    <script src="https://storage.zego.im/sdk/rtc/ZegoExpressEngine.min.js"></script>
+    <title>Zego Viewer</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #video-container { width: 640px; height: 360px; background: #000; margin: 20px auto; }
-        #status { padding: 10px; margin: 10px; border-radius: 5px; }
-        .error { background: #ffebee; color: #d32f2f; }
-        .success { background: #e8f5e9; color: #388e3c; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        body { font-family: Arial; text-align: center; padding: 20px; }
+        #video-container { 
+            width: 640px; 
+            height: 360px; 
+            background: black; 
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #status {
+            margin: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .error { background: #FFEBEE; color: #D32F2F; }
+        .success { background: #E8F5E9; color: #388E3C; }
     </style>
 </head>
 <body>
     <h1>ZegoCloud Stream Viewer</h1>
-    <div id="video-container"></div>
-    <button id="watch-btn">Start Watching</button>
-    <div id="status">Ready to connect...</div>
+    <div id="video-container">Waiting for stream...</div>
+    <button id="watchBtn">Start Watching</button>
+    <div id="status">Ready to connect</div>
 
+    <!-- Self-hosted SDK solution -->
+    <script src="/zego/ZegoExpressEngine.min.js"></script>
+    
     <script>
+    // Configuration - MUST match your Flutter app
+    const config = {
+        appID: 1173379578,
+        appSign: "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458",
+        roomID: "streaming_001", // Must match Flutter app
+        userID: "viewer_" + Math.floor(Math.random() * 10000),
+        userName: "Viewer_" + Math.floor(Math.random() * 100)
+    };
+
     const statusEl = document.getElementById('status');
-    const watchBtn = document.getElementById('watch-btn');
+    const watchBtn = document.getElementById('watchBtn');
     let zg = null;
     let currentStreamID = null;
 
-    // Update status display
     function updateStatus(message, isError = false) {
         statusEl.textContent = message;
         statusEl.className = isError ? 'error' : 'success';
         console.log(message);
     }
 
-    // Initialize Zego engine
-    async function initZego() {
+    async function initialize() {
         try {
+            // 1. Verify SDK loaded
             if (!window.ZegoExpressEngine) {
-                throw new Error('Zego SDK not loaded. Check: 1. Internet 2. Ad-blockers 3. Console errors');
+                throw new Error("Zego SDK not loaded. Please ensure /zego/ZegoExpressEngine.min.js exists on your server");
             }
             
-            updateStatus('SDK loaded successfully');
+            // 2. Create engine instance
+            zg = new ZegoExpressEngine(config.appID, config.appSign);
+            updateStatus("SDK initialized successfully");
+            
+            // 3. Set up event listeners
+            zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
+                if (updateType === 'ADD') {
+                    currentStreamID = streamList[0].streamID;
+                    playStream(currentStreamID);
+                } else if (updateType === 'DELETE') {
+                    stopPlaying();
+                }
+            });
+            
             return true;
         } catch (error) {
             updateStatus(error.message, true);
@@ -47,81 +90,54 @@
         }
     }
 
-    // Start watching stream
     async function startViewing() {
         try {
             watchBtn.disabled = true;
-            updateStatus('Connecting...');
-
-            // 1. Get Zego credentials
-            const res = await fetch("/stream-info");
-            if (!res.ok) throw new Error('Failed to get stream info');
-            const { appID, appSign, roomID, userID, userName } = await res.json();
+            updateStatus("Joining room...");
             
-            // 2. Create Zego instance
-            zg = new ZegoExpressEngine(appID, appSign);
-            
-            // 3. Listen for stream updates
-            zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
-                if (updateType === 'ADD') {
-                    updateStatus(`Found ${streamList.length} stream(s)`);
-                    currentStreamID = streamList[0].streamID;
-                    playStream(currentStreamID);
-                } else if (updateType === 'DELETE') {
-                    updateStatus('Stream ended');
-                    stopPlaying();
-                }
+            // Join the same room as Flutter app
+            await zg.loginRoom(config.roomID, 1, {
+                userID: config.userID,
+                userName: config.userName
             });
-
-            // 4. Join room (same as Flutter app)
-            await zg.loginRoom(roomID, 1, { userID, userName });
-            updateStatus(`Joined room: ${roomID}`);
-
+            
+            updateStatus(`Joined room: ${config.roomID}`);
         } catch (error) {
-            updateStatus(`Error: ${error.message}`, true);
+            updateStatus("Join failed: " + error.message, true);
             watchBtn.disabled = false;
         }
     }
 
-    // Play the stream
     async function playStream(streamID) {
         try {
             const container = document.getElementById('video-container');
-            await zg.startPlayingStream(streamID, { 
+            await zg.startPlayingStream(streamID, {
                 container: container,
                 video: true,
                 audio: true
             });
-            updateStatus(`Playing: ${streamID}`);
+            updateStatus(`Now playing: ${streamID}`);
         } catch (error) {
-            updateStatus(`Play failed: ${error.message}`, true);
+            updateStatus("Play failed: " + error.message, true);
         }
     }
 
-    // Stop playing
     function stopPlaying() {
         if (currentStreamID && zg) {
             zg.stopPlayingStream(currentStreamID);
-            document.getElementById('video-container').innerHTML = '';
-            updateStatus('Playback stopped');
+            document.getElementById('video-container').innerHTML = "Stream ended";
+            updateStatus("Playback stopped");
         }
     }
 
-    // Initialize on page load
+    // Initialize when page loads
     window.addEventListener('DOMContentLoaded', async () => {
-        const initialized = await initZego();
+        const initialized = await initialize();
         if (initialized) {
             watchBtn.addEventListener('click', startViewing);
         } else {
             watchBtn.disabled = true;
-        }
-    });
-
-    // Cleanup
-    window.addEventListener('beforeunload', () => {
-        if (zg) {
-            if (currentStreamID) zg.stopPlayingStream(currentStreamID);
-            zg.logoutRoom();
+            watchBtn.textContent = "SDK Not Available";
         }
     });
     </script>
