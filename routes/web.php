@@ -14,18 +14,19 @@ Route::get('/', function () {
     // return "abc";
 });
 
+// Already exists
 Route::get('/stream-info', function () {
     return response()->json([
         'appID' => env('ZEGO_APP_ID'),
         'appSign' => env('ZEGO_APP_SIGN'),
-        'userID' => 'user_' . rand(1000, 9999),
-        'userName' => 'User_' . rand(1, 100),
+        'userID' => 'user_viewer_' . rand(1000, 9999),
+        'userName' => 'Viewer_' . rand(1, 100),
         'roomID' => 'stream_001',
     ]);
 });
 
 
-Route::get('/stream', function () {
+Route::get('/viewer', function () {
     return response()->file(public_path('stream.html'));
 });
 
