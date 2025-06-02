@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Zego Viewer</title>
+    <title>Zego Viewer - streaming_001</title>
     <style>
         body { font-family: Arial; text-align: center; padding: 20px; }
         #video-container { 
@@ -9,10 +9,10 @@
             height: 360px; 
             background: black; 
             margin: 20px auto;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
         }
         button {
             padding: 10px 20px;
@@ -22,39 +22,45 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin: 10px;
         }
         #status {
-            margin: 20px;
-            padding: 10px;
-            border-radius: 4px;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 5px;
+            max-width: 600px;
         }
         .error { background: #FFEBEE; color: #D32F2F; }
         .success { background: #E8F5E9; color: #388E3C; }
     </style>
+    <!-- Using official CDN with fallback -->
+    <script src="https://storage.zego.im/sdk/rtc/ZegoExpressEngine.min.js"></script>
+    <script>
+        if (!window.ZegoExpressEngine) {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/zego-express-engine-webrtc@latest/sdk/ZegoExpressEngine.min.js"><\/script>');
+        }
+    </script>
 </head>
 <body>
     <h1>ZegoCloud Stream Viewer</h1>
-    <div id="video-container">Waiting for stream...</div>
+    <div id="video-container">Stream will appear here</div>
     <button id="watchBtn">Start Watching</button>
-    <div id="status">Ready to connect</div>
+    <div id="status">Ready to connect to streaming_001</div>
 
-    <!-- Self-hosted SDK solution -->
-    <script src="/zego/ZegoExpressEngine.min.js"></script>
-    
     <script>
-    // Configuration - MUST match your Flutter app
+    // Configuration from your dashboard
     const config = {
-        appID: 1173379578,
-        appSign: "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458",
+        appID: 1173379578, // Your App ID
+        appSign: "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458", // Your App Sign
         roomID: "streaming_001", // Must match Flutter app
         userID: "viewer_" + Math.floor(Math.random() * 10000),
-        userName: "Viewer_" + Math.floor(Math.random() * 100)
+        userName: "Viewer_" + Math.floor(Math.random() * 100),
+        streamID: "streaming_001_bnet_1748895246921_main" // From your dashboard
     };
 
     const statusEl = document.getElementById('status');
     const watchBtn = document.getElementById('watchBtn');
     let zg = null;
-    let currentStreamID = null;
 
     function updateStatus(message, isError = false) {
         statusEl.textContent = message;
@@ -66,20 +72,22 @@
         try {
             // 1. Verify SDK loaded
             if (!window.ZegoExpressEngine) {
-                throw new Error("Zego SDK not loaded. Please ensure /zego/ZegoExpressEngine.min.js exists on your server");
+                throw new Error("Zego SDK failed to load from both CDNs. Check:\n1. Internet connection\n2. Ad blockers\n3. Console errors");
             }
+            
+            updateStatus("SDK loaded successfully");
             
             // 2. Create engine instance
             zg = new ZegoExpressEngine(config.appID, config.appSign);
-            updateStatus("SDK initialized successfully");
             
             // 3. Set up event listeners
             zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
                 if (updateType === 'ADD') {
-                    currentStreamID = streamList[0].streamID;
-                    playStream(currentStreamID);
+                    updateStatus(`Found stream: ${streamList[0].streamID}`);
+                    playStream(streamList[0].streamID);
                 } else if (updateType === 'DELETE') {
-                    stopPlaying();
+                    updateStatus("Stream ended");
+                    document.getElementById('video-container').innerHTML = "Stream ended";
                 }
             });
             
@@ -95,15 +103,19 @@
             watchBtn.disabled = true;
             updateStatus("Joining room...");
             
-            // Join the same room as Flutter app
+            // Join room (same as Flutter app)
             await zg.loginRoom(config.roomID, 1, {
                 userID: config.userID,
                 userName: config.userName
             });
             
             updateStatus(`Joined room: ${config.roomID}`);
+            
+            // Try playing the specific stream from your dashboard
+            playStream(config.streamID);
+            
         } catch (error) {
-            updateStatus("Join failed: " + error.message, true);
+            updateStatus("Error: " + error.message, true);
             watchBtn.disabled = false;
         }
     }
@@ -116,17 +128,9 @@
                 video: true,
                 audio: true
             });
-            updateStatus(`Now playing: ${streamID}`);
+            updateStatus(`Playing: ${streamID}`);
         } catch (error) {
             updateStatus("Play failed: " + error.message, true);
-        }
-    }
-
-    function stopPlaying() {
-        if (currentStreamID && zg) {
-            zg.stopPlayingStream(currentStreamID);
-            document.getElementById('video-container').innerHTML = "Stream ended";
-            updateStatus("Playback stopped");
         }
     }
 
@@ -137,7 +141,6 @@
             watchBtn.addEventListener('click', startViewing);
         } else {
             watchBtn.disabled = true;
-            watchBtn.textContent = "SDK Not Available";
         }
     });
     </script>
