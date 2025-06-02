@@ -13,3 +13,20 @@ Route::get('/', function () {
     return view('welcome');
     // return "abc";
 });
+
+// routes/api.php
+Route::get('/stream-info', function () {
+    return response()->json([
+        'appID' => env('ZEGO_APP_ID'),
+        'appSign' => env('ZEGO_APP_SIGN'),
+        'userID' => 'user_' . rand(1000, 9999),
+        'userName' => 'User ' . rand(1, 100),
+        'roomID' => 'stream_001',
+    ]);
+});
+
+// web.php
+Route::get('/stream', function () {
+    return response()->file(public_path('stream.html'));
+});
+
