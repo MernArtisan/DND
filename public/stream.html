@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>ZegoCloud Stream Test</title>
-        <script src="https://cdn.zegocloud.com/sdk/ZegoExpressEngineWebRTC/latest/ZegoExpressEngine.min.js"></script>
-    </head>
-    <body>
-        <h2>Zego Stream</h2>
-        <div
-            id="video-container"
-            style="width: 640px; height: 360px; background: #eee"
-        ></div>
+<head>
+    <title>ZegoCloud Stream Test</title>
+    <script src="/public/ZegoExpressEngine.min.js"></script>
+</head>
+<body>
+    <h2>Zego Stream</h2>
+    <div id="video-container" style="width: 640px; height: 360px; background: #eee;"></div>
 
-        <script>
-            async function startZegoStream() {
-                const res = await fetch("/stream-info");
-                const data = await res.json();
+    <script>
+        async function startZegoStream() {
+            const res = await fetch("/stream-info");
+            const data = await res.json();
 
-                const zg = new ZegoExpressEngine(data.appID, data.appSign);
+            const zg = new ZegoExpressEngine(data.appID, data.appSign);
 
-                await zg.loginRoom(data.roomID, 1, {
-                    userID: data.userID,
-                    userName: data.userName,
-                });
+            await zg.loginRoom(data.roomID, 1, {
+                userID: data.userID,
+                userName: data.userName,
+            });
 
-                const localStream = await zg.createStream();
-                zg.startPublishingStream(data.roomID, localStream);
+            const localStream = await zg.createStream();
+            zg.startPublishingStream(data.roomID, localStream);
 
-                const container = document.getElementById("video-container");
-                zg.startPlayingStream(data.roomID, { container });
+            const container = document.getElementById("video-container");
+            zg.startPlayingStream(data.roomID, { container });
 
-                console.log("✅ Zego Stream connected!");
-            }
+            console.log("✅ Zego Stream connected!");
+        }
 
-            startZegoStream();
-        </script>
-    </body>
+        startZegoStream();
+    </script>
+</body>
 </html>
