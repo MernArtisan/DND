@@ -24,6 +24,13 @@ Route::get('/stream-info', function () {
         'roomID' => 'stream_002',
     ]);
 });
+Route::get('/zego-check', function () {
+    if (env('ZEGO_APP_ID') && env('ZEGO_APP_SIGN')) {
+        return response()->json(['status' => 'ok', 'message' => 'Zego credentials loaded']);
+    } else {
+        return response()->json(['status' => 'error', 'message' => 'Zego credentials missing']);
+    }
+});
 
 // web.php
 Route::get('/stream', function () {
