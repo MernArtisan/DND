@@ -1,35 +1,39 @@
-<!-- public/stream.html -->
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>ZegoCloud Stream</title>
-        <script src="https://js.zegocloud.com/sdk/latest/zego-express-video.min.js"></script>
-    </head>
-    <body>
-        <div id="video-container" style="width: 600px; height: 400px"></div>
-        <!-- <h1>sd</h1> -->
-        <script>
-            async function startZegoStream() {
-                const res = await fetch("/stream-info");
-                const data = await res.json();
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ZegoCloud Test</title>
+</head>
+<body>
+  <h2>ZegoCloud Test</h2>
+  <div id="video-container" style="width: 640px; height: 360px;"></div>
 
-                const zg = new ZegoExpressEngine(data.appID, data.appSign);
+  <script src="https://unpkg.com/zego-express-engine-webrtc@latest/sdk/ZegoExpressEngine.min.js"></script>
+  <script>
+    async function startZegoStream() {
+      const res = await fetch('/api/stream-info');
+      const data = await res.json();
 
-                await zg.loginRoom(data.roomID, 1, {
-                    userID: data.userID,
-                    userName: data.userName,
-                });
+      const zg = new ZegoExpressEngine(data.appID, data.appSign);
 
-                const localStream = await zg.createStream();
-                const remoteContainer =
-                    document.getElementById("video-container");
-                zg.startPublishingStream("stream_001", localStream);
-                zg.startPlayingStream("stream_001", {
-                    container: remoteContainer,
-                });
-            }
+      try {
+        await zg.loginRoom(data.roomID, 1, {
+          userID: data.userID,
+          userName: data.userName
+        });
 
-            startZegoStream();
-        </script>
-    </body>
+        const localStream = await zg.createStream();
+        zg.startPublishingStream(data.roomID, localStream);
+
+        const container = document.getElementById('video-container');
+        zg.startPlayingStream(data.roomID, { container });
+        console.log("✅ Zego Connected");
+      } catch (e) {
+        console.error("❌ Zego Error:", e);
+      }
+    }
+
+    startZegoStream();
+  </script>
+</body>
 </html>
