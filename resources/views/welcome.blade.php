@@ -13,8 +13,8 @@
 <h2>ZegoCloud Live Stream Viewer</h2>
 <div id="remoteVideo"></div>
 
-<!-- ✅ Latest working ZegoCloud Web SDK -->
-<script src="https://zegocloud.github.io/zego-express-web-sdk/index.js"></script>
+<!-- ✅ Working Zego Web SDK -->
+<script src="https://cdn.jsdelivr.net/npm/zego-express-engine-webrtc@latest/index.js"></script>
 
 <script>
     const appID = 108591398;
@@ -22,8 +22,8 @@
     const userID = "web_" + Math.floor(Math.random() * 10000);
     const userName = "LaravelViewer";
 
-    const streamID = "stream_001";     // 👈 Must match what Flutter app is using
-    const roomID = "test_room";        // 👈 Must match Flutter’s room
+    const streamID = "stream_001";     // Flutter se same hona chahiye
+    const roomID = "test_room";        // Flutter se same hona chahiye
 
     const zg = new ZegoExpressEngine(appID, appSign);
 
