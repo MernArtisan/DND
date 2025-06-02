@@ -102,9 +102,26 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => $user->name . 'Login successful',
+                'message' => $user->name . ' Login successful',
                 'token' => $token,
-                'user' => $user->fresh()->makeHidden('image')->append('image_url'),
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                    'phone_code' => $user->phone_code,
+                    'phone' => $user->phone,
+                    'bio' => $user->bio,
+                    'country' => $user->country,
+                    'state' => $user->state,
+                    'city' => $user->city,
+                    'zip_code' => $user->zip_code,
+                    'email_verified_at' => $user->email_verified_at,
+                    'gender' => $user->gender,
+                    'address' => $user->address,
+                    'image' => $user->image ? asset($user->image) : asset('default-man.png'),
+                    'last_login_at' => $user->last_login_at,
+                ]
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
