@@ -31,6 +31,7 @@ Route::get('/viewer', function () {
 });
 
 
+
 Route::get('/zego-check', function () {
     if (env('ZEGO_APP_ID') && env('ZEGO_APP_SIGN')) {
         return response()->json(['status' => 'ok', 'message' => 'Zego credentials loaded']);
