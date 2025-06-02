@@ -62,7 +62,6 @@ class ChannelController extends Controller
                     'created_at' => $channel->created_at,
                     'updated_at' => $channel->updated_at,
                 ]
-
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
