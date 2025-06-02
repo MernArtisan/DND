@@ -1,61 +1,78 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Zego Viewer</title>
-        <!-- Correct SDK path (adjust as needed) -->
-        <script src="https://zegocloud.github.io/zego-express-webrtc-sdk/webrtc/ZegoExpressEngine.min.js"></script>
-    </head>
-    <body>
-        <h2>Zego Viewer</h2>
-        <div
-            id="video-container"
-            style="width: 640px; height: 360px; background: #ddd"
-        ></div>
-        <button onclick="startViewing()">Start Watching</button>
+<head>
+    <title>Zego Viewer</title>
+    <!-- Use official CDN -->
+    <script src="https://zegocloud.github.io/zego-express-webrtc-sdk/webrtc/ZegoExpressEngine.min.js"></script>
+</head>
+<body>
+    <h2>Zego Viewer</h2>
+    <div id="video-container" style="width: 640px; height: 360px; background: #ddd"></div>
+    <button onclick="startViewing()">Start Watching</button>
+    <div id="status" style="margin-top: 20px; color: red;"></div>
 
-        <script>
-            async function startViewing() {
-                try {
-                    const res = await fetch("/stream-info");
-                    const data = await res.json();
-
-                    // Check if SDK is properly loaded
-                    if (!window.ZegoExpressEngine) {
-                        throw new Error("Zego SDK not loaded");
-                    }
-
-                    const zg = new ZegoExpressEngine(data.appID, data.appSign);
-
-                    // Add event listeners
-                    zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
-                        console.log('Stream update:', updateType, streamList);
-                        if (updateType === 'ADD' && streamList.length > 0) {
-                            const streamID = streamList[0].streamID;
-                            playStream(zg, streamID);
-                        }
-                    });
-
-                    await zg.loginRoom(data.roomID, 1, {
-                        userID: data.userID,
-                        userName: data.userName,
-                    });
-
-                    console.log("✅ Successfully joined room");
-                    
-                } catch (error) {
-                    console.error("Error:", error);
-                    alert("Error: " + error.message);
+    <script>
+        async function startViewing() {
+            try {
+                const statusEl = document.getElementById('status');
+                statusEl.textContent = "Loading...";
+                
+                // 1. Verify SDK loaded
+                if (!window.ZegoExpressEngine) {
+                    throw new Error("Zego SDK not loaded - check browser console");
                 }
-            }
+                statusEl.textContent = "SDK loaded successfully";
 
-            function playStream(zg, streamID) {
-                const container = document.getElementById("video-container");
-                zg.startPlayingStream(streamID, { 
-                    container: container,
-                    muted: true,
+                // 2. Get stream info
+                const res = await fetch("/stream-info");
+                const data = await res.json();
+                console.log("Stream info:", data);
+                statusEl.textContent = "Got stream info";
+
+                // 3. Initialize Zego
+                const zg = new ZegoExpressEngine(data.appID, data.appSign);
+                statusEl.textContent = "Zego engine created";
+
+                // 4. Add stream update listener
+                zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
+                    console.log('Stream update:', updateType, streamList);
+                    statusEl.textContent = `Stream update: ${updateType}`;
+                    
+                    if (updateType === 'ADD' && streamList.length > 0) {
+                        const streamID = streamList[0].streamID;
+                        playStream(zg, streamID);
+                    }
                 });
-                console.log("✅ Playing stream:", streamID);
+
+                // 5. Login to room
+                await zg.loginRoom(data.roomID, 1, {
+                    userID: data.userID,
+                    userName: data.userName,
+                });
+                statusEl.textContent = "Successfully joined room";
+                
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById('status').textContent = "Error: " + error.message;
             }
-        </script>
-    </body>
+        }
+
+        function playStream(zg, streamID) {
+            const container = document.getElementById("video-container");
+            const statusEl = document.getElementById('status');
+            
+            statusEl.textContent = `Trying to play stream: ${streamID}`;
+            
+            zg.startPlayingStream(streamID, { 
+                container: container,
+                muted: true,
+            }).then(() => {
+                statusEl.textContent = `✅ Playing stream: ${streamID}`;
+                container.style.background = 'transparent'; // Remove gray background
+            }).catch(err => {
+                statusEl.textContent = `❌ Play failed: ${err.message}`;
+            });
+        }
+    </script>
+</body>
 </html>
