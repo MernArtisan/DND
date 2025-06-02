@@ -17,7 +17,7 @@ Route::get('/', function () {
 // Already exists
 Route::get('/stream-info', function () {
     return response()->json([
-        'appID' => env('ZsEGO_APP_ID'),
+        'appID' => env('ZEGO_APP_ID'),
         'appSign' => env('ZEGO_APP_SIGN'),
         'userID' => 'user_viewer_' . rand(1000, 9999),
         'userName' => 'Viewer_' . rand(1, 100),
