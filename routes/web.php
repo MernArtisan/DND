@@ -21,7 +21,7 @@ Route::get('/stream-info', function () {
         'appSign' => env('ZEGO_APP_SIGN'),
         'userID' => 'user_' . rand(1000, 9999),
         'userName' => 'User ' . rand(1, 100),
-        'roomID' => 'stream_001',
+        'roomID' => 'stream_002',
     ]);
 });
 
