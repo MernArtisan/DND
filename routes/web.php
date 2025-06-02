@@ -17,11 +17,11 @@ Route::get('/', function () {
 // Already exists
 Route::get('/stream-info', function () {
     return response()->json([
-        'appID' => env('ZEGO_APP_ID'),
-        'appSign' => env('ZEGO_APP_SIGN'),
-        'userID' => 'user_viewer_' . rand(1000, 9999),
-        'userName' => 'Viewer_' . rand(1, 100),
-        'roomID' => 'streaming_001',
+        'appID' => env('ZEGO_APP_ID', 1173379578),
+        'appSign' => env('ZEGO_APP_SIGN', '7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458'),
+        'roomID' => 'streaming_001', // Must match Flutter app's roomID
+        'userID' => 'viewer_' . rand(1000, 9999),
+        'userName' => 'Viewer_' . rand(1, 100)
     ]);
 });
 
