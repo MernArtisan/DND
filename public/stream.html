@@ -1,114 +1,118 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Zego Viewer</title>
-    <script src="public/dist_js/ZegoExpressWebRTC-3.9.0.js"></script>
-    <style>
-        #video-container {
-            width: 100%;
-            max-width: 640px;
-            height: 360px;
-            background: #333;
-            margin: 20px auto;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background: #0066ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin: 20px auto;
-        }
-        .status {
-            text-align: center;
-            margin: 10px;
-            font-family: Arial;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <h2 style="text-align:center">Zego Live Stream Viewer</h2>
-    <div id="video-container"></div>
-    <p class="status" id="status">Ready to connect to Live-001...</p>
-    <button onclick="startViewing()">Start Watching Live Stream</button>
-
-    <script>
-        // ZEGO Credentials
-        const APP_ID = 1173379578;
-        const APP_SIGN = "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458";
-        
-        // Stream details from app developer
-        const ROOM_ID = "Live-001";
-        const STREAM_ID = "Live-001";
-
-        async function startViewing() {
-            try {
-                document.getElementById('status').textContent = "Initializing...";
-                
-                // 1. Initialize Zego SDK
-                const zg = new ZegoExpressEngine(APP_ID, APP_SIGN);
-                console.log("SDK initialized");
-
-                // 2. Enable debug logs
-                zg.setLogConfig({ logLevel: 'debug' });
-
-                // 3. Generate a basic token (required by newer SDK versions)
-                const generateBasicToken = () => {
-                    const payload = {
-                        app_id: APP_ID,
-                        user_id: "viewer_" + Math.floor(Math.random() * 10000),
-                        nonce: Math.floor(Math.random() * 1000000),
-                        expired: Math.floor(Date.now() / 1000) + 3600
-                    };
-                    return "dummy_token." + btoa(JSON.stringify(payload));
-                };
-
-                // 4. Login to room with token
-                const userID = "viewer_" + Math.floor(Math.random() * 10000);
-                const token = generateBasicToken();
-                
-                document.getElementById('status').textContent = "Connecting to room...";
-                await zg.loginRoom(ROOM_ID, token, {
-                    userID: userID,
-                    userName: "Viewer_" + userID,
-                    config: {
-                        maxRetryCount: 3,
-                        retryDelay: 2000
-                    }
-                });
-                console.log("Logged in to room:", ROOM_ID);
-
-                // 5. Start playing stream
-                document.getElementById('status').textContent = "Loading stream...";
-                const container = document.getElementById("video-container");
-                await zg.startPlayingStream(STREAM_ID, {
-                    container: container,
-                    video: true,
-                    audio: true
-                });
-                
-                document.getElementById('status').textContent = "Watching Live Stream!";
-                console.log("Playing stream:", STREAM_ID);
-
-                // Handle stream events
-                zg.on("playerStateUpdate", (result) => {
-                    console.log("Stream state:", result.state);
-                    if (result.state === "NO_PLAY") {
-                        document.getElementById('status').textContent = "Stream disconnected";
-                    }
-                });
-
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById('status').textContent = "Error: " + 
-                    (error.message || "Failed to connect");
-                alert("Error: " + (error.message || "Check console for details"));
+    <head>
+        <title>Zego Viewer</title>
+        <script src="dist_js/ZegoExpressWebRTC-3.9.0.js"></script>
+        <style>
+            #video-container {
+                width: 100%;
+                max-width: 640px;
+                height: 360px;
+                background: #333;
+                margin: 20px auto;
             }
-        }
-    </script>
-</body>
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                background: #0066ff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                display: block;
+                margin: 20px auto;
+            }
+            .status {
+                text-align: center;
+                margin: 10px;
+                font-family: Arial;
+                color: #333;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 style="text-align: center">Zego Live Stream Viewer</h2>
+        <div id="video-container"></div>
+        <p class="status" id="status">Ready to connect to Live-001...</p>
+        <button onclick="startViewing()">Start Watching Live Stream</button>
+
+        <script>
+            // ZEGO Credentials
+            const APP_ID = 1173379578;
+            const APP_SIGN =
+                "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458";
+
+            // Stream details
+            const ROOM_ID = "Live-001";
+            const STREAM_ID = "Live-001";
+
+            async function startViewing() {
+                try {
+                    // 1. Get fresh token every time
+                    const userID =
+                        "viewer_" + Math.floor(Math.random() * 10000);
+                    const tokenRes = await fetch(
+                        `/zego-token?userID=${userID}`
+                    );
+                    if (!tokenRes.ok)
+                        throw new Error("Token generation failed");
+                    const { token } = await tokenRes.json();
+
+                    // 2. Initialize SDK
+                    const zg = new ZegoExpressEngine(
+                        1173379578,
+                        "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458"
+                    );
+
+                    // 3. Add error listeners BEFORE login
+                    zg.on(
+                        "roomStateUpdate",
+                        (roomID, state, errorCode, extendedData) => {
+                            if (errorCode !== 0) {
+                                console.error(
+                                    "Room error:",
+                                    errorCode,
+                                    extendedData
+                                );
+                                alert(
+                                    `Room error ${errorCode}: ${JSON.stringify(
+                                        extendedData
+                                    )}`
+                                );
+                            }
+                        }
+                    );
+
+                    // 4. Login with token
+                    await zg.loginRoom("Live-001", token, {
+                        userID,
+                        userName: "Viewer_" + userID,
+                        config: {
+                            maxRetryCount: 3,
+                            retryDelay: 2000,
+                        },
+                    });
+
+                    // 5. Play stream
+                    await zg.startPlayingStream("Live-001", {
+                        container: document.getElementById("video-container"),
+                        video: true,
+                        audio: true,
+                    });
+                } catch (error) {
+                    console.error("Full error:", error);
+                    if (error.code === 1102016) {
+                        alert(
+                            "Authentication failed. Please check:\n1. Server time is correct\n2. App credentials are valid\n3. Token generation works"
+                        );
+                    } else {
+                        alert(
+                            "Error: " +
+                                (error.message || error.code || "Unknown error")
+                        );
+                    }
+                }
+            }
+        </script>
+    </body>
 </html>
