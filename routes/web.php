@@ -31,6 +31,25 @@ Route::get('/viewer', function () {
 });
 
 
+Route::get('/zego-token', function () {
+    $appID = intval(env('ZEGO_APP_ID'));
+    $serverSecret = env('ZEGO_SERVER_SECRET'); // ✅ Add this in .env
+    $userID = request('userID');
+    $expire = time() + 3600; // valid for 1 hour
+    $nonce = random_int(100000, 999999);
+
+    $payload = json_encode([
+        'app_id' => $appID,
+        'user_id' => $userID,
+        'nonce' => $nonce,
+        'expired' => $expire,
+    ]);
+
+    openssl_sign($payload, $signature, $serverSecret, 'sha256');
+    $token = base64_encode($signature) . '.' . base64_encode($payload);
+
+    return Response::json(['token' => $token]);
+});
 
 Route::get('/zego-check', function () {
     if (env('ZEGO_APP_ID') && env('ZEGO_APP_SIGN')) {
