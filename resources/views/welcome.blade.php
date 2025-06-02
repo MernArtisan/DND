@@ -24,8 +24,8 @@
   <h2>ZegoCloud Live Stream Viewer</h2>
   <div id="localVideo"></div>
 
-  <!-- Zego Web SDK -->
-  <script src="https://cdn.zegocloud.com/zygocloud/zego-express-video/zego-express-video-web.min.js"></script>
+  <!-- ✅ Zego Web SDK: Correct CDN -->
+  <script src="https://zegocloud.github.io/zego-express-web-sdk/index.js"></script>
 
   <script>
     const appID = 108591398;
@@ -33,8 +33,8 @@
     const userID = "web_" + Math.floor(Math.random() * 10000);
     const userName = "WebViewer";
 
-    const streamID = "stream_001";  // 🔁 Change this to actual streamID from Flutter
-    const roomID = "test_room";           // 🔁 Change this to the same room Flutter is using
+    const streamID = "stream_001";  // 🔁 Replace with actual stream ID
+    const roomID = "test_room";     // 🔁 Replace with room ID used in Flutter
 
     const zg = new ZegoExpressEngine(appID, appSign);
 
@@ -57,7 +57,7 @@
 
         document.getElementById("localVideo").appendChild(videoElement);
       } catch (err) {
-        console.error("Error while playing stream:", err);
+        console.error("Stream play failed:", err);
         alert("Stream play failed: " + err.message);
       }
     })();
