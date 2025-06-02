@@ -11,7 +11,7 @@
   <script src="https://unpkg.com/zego-express-engine-webrtc@latest/sdk/ZegoExpressEngine.min.js"></script>
   <script>
     async function startZegoStream() {
-      const res = await fetch('/api/stream-info');
+      const res = await fetch('/stream-info');
       const data = await res.json();
 
       const zg = new ZegoExpressEngine(data.appID, data.appSign);
