@@ -2,7 +2,8 @@
 <html>
     <head>
         <title>Zego Viewer</title>
-        <script src="/public/ZegoExpressEngine.min.js"></script>
+        <!-- Correct SDK path (adjust as needed) -->
+        <script src="https://zegocloud.github.io/zego-express-webrtc-sdk/webrtc/ZegoExpressEngine.min.js"></script>
     </head>
     <body>
         <h2>Zego Viewer</h2>
@@ -14,27 +15,46 @@
 
         <script>
             async function startViewing() {
-                const res = await fetch("/stream-info");
-                const data = await res.json();
+                try {
+                    const res = await fetch("/stream-info");
+                    const data = await res.json();
 
-                const zg = new ZegoExpressEngine(data.appID, data.appSign);
+                    // Check if SDK is properly loaded
+                    if (!window.ZegoExpressEngine) {
+                        throw new Error("Zego SDK not loaded");
+                    }
 
-                await zg.loginRoom(data.roomID, 1, {
-                    userID: data.userID,
-                    userName: data.userName,
-                });
+                    const zg = new ZegoExpressEngine(data.appID, data.appSign);
 
+                    // Add event listeners
+                    zg.on('roomStreamUpdate', (roomID, updateType, streamList) => {
+                        console.log('Stream update:', updateType, streamList);
+                        if (updateType === 'ADD' && streamList.length > 0) {
+                            const streamID = streamList[0].streamID;
+                            playStream(zg, streamID);
+                        }
+                    });
+
+                    await zg.loginRoom(data.roomID, 1, {
+                        userID: data.userID,
+                        userName: data.userName,
+                    });
+
+                    console.log("✅ Successfully joined room");
+                    
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("Error: " + error.message);
+                }
+            }
+
+            function playStream(zg, streamID) {
                 const container = document.getElementById("video-container");
-
-                // ✅ Use actual stream ID from dashboard
-                const streamID = "streaming_001_host_1748898346921_main";
-
                 zg.startPlayingStream(streamID, { 
                     container: container,
                     muted: true,
                 });
-
-                console.log("✅ Playing:", streamID);
+                console.log("✅ Playing stream:", streamID);
             }
         </script>
     </body>
