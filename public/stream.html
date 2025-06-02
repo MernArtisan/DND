@@ -33,29 +33,22 @@
         .error { background: #FFEBEE; color: #D32F2F; }
         .success { background: #E8F5E9; color: #388E3C; }
     </style>
-    <!-- Using official CDN with fallback -->
-    <script src="https://storage.zego.im/sdk/rtc/ZegoExpressEngine.min.js"></script>
-    <script>
-        if (!window.ZegoExpressEngine) {
-            document.write('<script src="https://cdn.jsdelivr.net/npm/zego-express-engine-webrtc@latest/sdk/ZegoExpressEngine.min.js"><\/script>');
-        }
-    </script>
 </head>
 <body>
     <h1>ZegoCloud Stream Viewer</h1>
     <div id="video-container">Stream will appear here</div>
-    <button id="watchBtn">Start Watching</button>
-    <div id="status">Ready to connect to streaming_001</div>
+    <button id="watchBtn" disabled>Loading SDK...</button>
+    <div id="status">Initializing...</div>
 
     <script>
     // Configuration from your dashboard
     const config = {
-        appID: 1173379578, // Your App ID
-        appSign: "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458", // Your App Sign
-        roomID: "streaming_001", // Must match Flutter app
+        appID: 1173379578,
+        appSign: "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458",
+        roomID: "streaming_001",
         userID: "viewer_" + Math.floor(Math.random() * 10000),
         userName: "Viewer_" + Math.floor(Math.random() * 100),
-        streamID: "streaming_001_host_backtik_main" // From your dashboard
+        streamID: "streaming_001_host_backtik_main"
     };
 
     const statusEl = document.getElementById('status');
@@ -68,11 +61,32 @@
         console.log(message);
     }
 
+    // Modern SDK loading without document.write
+    function loadSDK() {
+        return new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = "https://storage.zego.im/sdk/rtc/ZegoExpressEngine.min.js";
+            script.onload = () => resolve(true);
+            script.onerror = () => {
+                console.log("Primary CDN failed, trying fallback...");
+                const fallbackScript = document.createElement('script');
+                fallbackScript.src = "https://cdn.jsdelivr.net/npm/zego-express-engine-webrtc@latest/sdk/ZegoExpressEngine.min.js";
+                fallbackScript.onload = () => resolve(true);
+                fallbackScript.onerror = () => resolve(false);
+                document.head.appendChild(fallbackScript);
+            };
+            document.head.appendChild(script);
+        });
+    }
+
     async function initialize() {
         try {
-            // 1. Verify SDK loaded
-            if (!window.ZegoExpressEngine) {
-                throw new Error("Zego SDK failed to load from both CDNs. Check:\n1. Internet connection\n2. Ad blockers\n3. Console errors");
+            updateStatus("Loading Zego SDK...");
+            
+            // 1. Load SDK properly
+            const sdkLoaded = await loadSDK();
+            if (!sdkLoaded || !window.ZegoExpressEngine) {
+                throw new Error("Failed to load Zego SDK from all sources");
             }
             
             updateStatus("SDK loaded successfully");
@@ -91,9 +105,15 @@
                 }
             });
             
+            watchBtn.disabled = false;
+            watchBtn.textContent = "Start Watching";
+            updateStatus("Ready to connect");
+            
             return true;
         } catch (error) {
             updateStatus(error.message, true);
+            watchBtn.disabled = true;
+            watchBtn.textContent = "SDK Not Available";
             return false;
         }
     }
@@ -103,7 +123,6 @@
             watchBtn.disabled = true;
             updateStatus("Joining room...");
             
-            // Join room (same as Flutter app)
             await zg.loginRoom(config.roomID, 1, {
                 userID: config.userID,
                 userName: config.userName
@@ -111,7 +130,7 @@
             
             updateStatus(`Joined room: ${config.roomID}`);
             
-            // Try playing the specific stream from your dashboard
+            // Try playing the specific stream from dashboard
             playStream(config.streamID);
             
         } catch (error) {
@@ -135,14 +154,8 @@
     }
 
     // Initialize when page loads
-    window.addEventListener('DOMContentLoaded', async () => {
-        const initialized = await initialize();
-        if (initialized) {
-            watchBtn.addEventListener('click', startViewing);
-        } else {
-            watchBtn.disabled = true;
-        }
-    });
+    window.addEventListener('DOMContentLoaded', initialize);
+    watchBtn.addEventListener('click', startViewing);
     </script>
 </body>
 </html>
