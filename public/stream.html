@@ -1,41 +1,59 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Zego Viewer</title>
-        <script src="/public/dist_js/ZegoExpressWebRTC-3.9.0.js"></script>
-    </head>
-    <body>
-        <h2>Zego Viewer</h2>
-        <div
-            id="video-container"
-            style="width: 640px; height: 360px; background: #ddd"
-        ></div>
-        <button onclick="startViewing()">Start Watching</button>
+<head>
+    <title>Zego Viewer</title>
+    <script src="/public/dist_js/ZegoExpressWebRTC-3.9.0.js"></script>
+</head>
+<body>
+    <h2>Zego Viewer</h2>
+    <div id="video-container" style="width: 640px; height: 360px; background: #ddd"></div>
+    <button onclick="startViewing()">Start Watching</button>
 
-        <script>
-            async function startViewing() {
+    <script>
+        async function startViewing() {
+            try {
+                // 1. Get stream info from server
                 const res = await fetch("/stream-info");
+                if (!res.ok) throw new Error("Failed to get stream info");
+                
                 const data = await res.json();
+                console.log("Stream info:", data);
 
-                const zg = new ZegoExpressEngine(data.appID, data.appSign);
+                // 2. Convert appID to number (critical fix)
+                const appID = parseInt(data.appID);
+                if (isNaN(appID)) throw new Error("Invalid appID format");
 
-                await zg.loginRoom(data.roomID, 1, {
-                    userID: data.userID,
-                    userName: data.userName,
-                });
+                // 3. Initialize SDK with proper types
+                const zg = new ZegoExpressEngine(
+                    appID,  // Must be number
+                    data.appSign  // Must be string
+                );
 
+                // 4. Login to room with token (if required)
+                await zg.loginRoom(
+                    data.roomID, 
+                    data.token || "",  // Pass empty string if no token
+                    {
+                        userID: data.userID,
+                        userName: data.userName
+                    }
+                );
+
+                // 5. Start playing stream
                 const container = document.getElementById("video-container");
-
-                // ✅ Use actual stream ID from dashboard
-                const streamID = "streaming_001";
-
+                const streamID = "streaming_001"; // Verify this matches actual stream
+                
                 zg.startPlayingStream(streamID, { 
                     container: container,
                     muted: true,
                 });
 
                 console.log("✅ Playing:", streamID);
+            } catch (error) {
+                console.error("❌ Error:", error);
+                alert("Viewer error: " + error.message);
             }
-        </script>
-    </body>
+        }
+    </script>
+</body>
 </html>
