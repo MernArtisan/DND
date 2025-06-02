@@ -51,7 +51,7 @@ class ChannelController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Channel created successfully.',
-                'channel' => $channel
+                'channel' => $channel->fresh()->makeHidden('banner', 'logo')->append('streamer'),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
