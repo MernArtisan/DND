@@ -24,6 +24,7 @@ Route::get('/stream-info', function () {
     ]);
 });
 
+
 Route::get('/stream', function () {
     return response()->file(public_path('stream.html'));
 });
