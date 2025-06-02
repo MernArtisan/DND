@@ -71,4 +71,9 @@ class User extends Authenticatable
         } 
         return asset('default-man.png');
     }
+
+    public function channel()
+    {
+        return $this->hasMany(Channel::class,'streamer_id');
+    }
 }
