@@ -11,15 +11,19 @@ class Channel extends Model
     {
         return $this->belongsTo(User::class, 'streamer_id');
     }
-    public function getStreamerAttribute()
+    public function getThumbnailAttribute()
     {
-        if ($this->banner && file_exists(public_path($this->banner) || file_exists(public_path($this->logo)))) {
-            return asset($this->banner ?? $this->logo);
+        $path = $this->banner ?? $this->logo;
+
+        if ($path && file_exists(public_path($path))) {
+            return asset($path);
         }
 
-        if ($this->banner || $this->logo) {
-            return asset('default-woman.png');
-        }
-        return asset('default-man.png');
+        return asset('default-thumbnail.png'); // put this image in public/
+    }
+
+    public function getStreamerAttribute()
+    {
+        return $this->streamer()->select('id', 'first_name', 'last_name', 'image')->first();
     }
 }
