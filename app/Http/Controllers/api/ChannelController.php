@@ -51,7 +51,18 @@ class ChannelController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Channel created successfully.',
-                'channel' => $channel
+                'channel' => [
+                    'id' => $channel->id,
+                    'name' => $channel->name,
+                    'slug' => $channel->slug,
+                    'description' => $channel->description,
+                    'banner' => asset($channel->banner),
+                    'logo' => asset($channel->logo),
+                    'streamer_id' => $channel->streamer_id,
+                    'created_at' => $channel->created_at,
+                    'updated_at' => $channel->updated_at,
+                ]
+
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
