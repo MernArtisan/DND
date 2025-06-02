@@ -56,21 +56,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    protected $hiddens = ['image']; 
-    protected $appends = ['image_url'];
  
-    public function getImageUrlAttribute()
-    { 
-        if ($this->image && file_exists(public_path($this->image))) {
-            return asset($this->image);
-        }
- 
-        if ($this->gender === 'female') {
-            return asset('default-woman.png');
-        } 
-        return asset('default-man.png');
-    }
 
     public function channel()
     {
