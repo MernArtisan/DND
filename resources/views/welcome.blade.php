@@ -1,34 +1,41 @@
-<!-- public/stream.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>ZegoCloud Stream</title>
-  <script src="https://js.zegocloud.com/sdk/latest/zego-express-video.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Zego Live Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Local Zego SDK -->
+    <script src="{{ asset('zego-uikit-prebuilt.js') }}"></script>
 </head>
-<body>
-  <div id="video-container" style="width: 600px; height: 400px;"></div>
+<body style="margin: 0; padding: 0;">
+    <div id="zego-container" style="width: 100vw; height: 100vh;"></div>
 
-  <script>
-    async function startZegoStream() {
-      const res = await fetch('/api/stream-info');
-      const data = await res.json();
+    <script>
+        window.onload = function () {
+            const appID = 1269365093; // ✅ replace with your real appID
+            const liveID = "Live-001"; // ✅ must match host liveID
+            const userID = "viewer_" + Math.floor(Math.random() * 10000);
+            const token = `04AAAAAGg/rtwADBwIg/YLzFMTzxc0UwCt0NfiEVhPecTUqrU2HfqMmLjeOMayMp+IohBnLlSk3gQG613kuGr7rd432EI/25lRmDb52YsYEL1VBYXid+ns97WycrI27J/FFmhONiMbwOZCne1xcA4Tc6cLy7b2TZWYBx3p0GAv577QPmRKcEVTznAKbRMp4TLpd5REdZQmTUI4H/o8nOFDQmjFd11wR1WuzH/fCxZXTeQBAdM3wOT29qODiOmQojvJhjc9R6MB`;
 
-      const zg = new ZegoExpressEngine(data.appID, data.appSign);
+            const kit = window.ZegoUIKitPrebuilt.create({
+                appID: appID,
+                roomID: liveID,
+                userID: userID,
+                userName: userID,
+                token: token,
+                container: document.getElementById("zego-container"),
+                scenario: {
+                    mode: window.ZegoUIKitPrebuilt.LiveStreaming,
+                    config: {
+                        role: "Audience"
+                    }
+                }
+            });
 
-      await zg.loginRoom(data.roomID, 1, {
-        userID: data.userID,
-        userName: data.userName
-      });
-
-      const localStream = await zg.createStream();
-      const remoteContainer = document.getElementById('video-container');
-      zg.startPublishingStream('stream_001', localStream);
-      zg.startPlayingStream('stream_001', {
-        container: remoteContainer
-      });
-    }
-
-    startZegoStream();
-  </script>
+            // Show UI (auto-joins audience view)
+            kit.joinRoom();
+        };
+    </script>
 </body>
 </html>
