@@ -28,7 +28,7 @@ class AuthController extends Controller
             return response()->json(['status' => false, 'message' => 'User not found']);
         }
 
-        $otp = rand(100000, 999999);
+        $otp = rand(1000, 9999);
 
         DB::table('user_otps')->updateOrInsert(
             ['user_id' => $user->id],
@@ -37,9 +37,9 @@ class AuthController extends Controller
 
         try {
             if ($field === 'email') {
-                // Mail::raw("Your OTP is: $otp", function ($msg) use ($user) {
-                //     $msg->to($user->email)->subject('Your OTP Code');
-                // });
+                Mail::raw("Your OTP is: $otp", function ($msg) use ($user) {
+                    $msg->to($user->email)->subject('Your OTP Code');
+                });
             } else {
                 $formattedPhone = $user->phone;
                 if (!str_starts_with($formattedPhone, '+')) {
