@@ -1,47 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Zego Viewer</title>
-    <style>
-        #root {
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
-</head>
-<body>
-    <div id="root"></div>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Zego Viewer</title>
+        <style>
+            #root {
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+        <script>
+            window.onload = function () {
+                const roomID = "Live-001";
+                const userID = "viewer_" + Math.floor(Math.random() * 10000);
+                const userName = "Viewer " + userID;
+                const appID = 264105157;
+                const serverSecret = "c2400717f2436d5a83d97060e6d8a432";
 
-    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
-    <script>
-        window.onload = function () {
-            const roomID = "Live-001"; // ✅ RoomID from Flutter
-            const userID = "viewer_" + Math.floor(Math.random() * 10000);
-            const userName = "Viewer " + userID;
-            const appID = 264105157;
-            const serverSecret = "c2400717f2436d5a83d97060e6d8a432";
+                const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
+                    appID,
+                    serverSecret,
+                    roomID,
+                    userID,
+                    userName
+                );
 
-            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
-                appID,
-                serverSecret,
-                roomID,
-                userID,  
-                userName
-            );
-
-            const zp = ZegoUIKitPrebuilt.create(kitToken);
-            zp.joinRoom({
-                container: document.querySelector("#root"),
-                scenario: {
-                    mode: ZegoUIKitPrebuilt.LiveStreaming,
-                    config: {
-                        role: ZegoUIKitPrebuilt.Audience,  
+                const zp = ZegoUIKitPrebuilt.create(kitToken);
+                zp.joinRoom({
+                    container: document.querySelector("#root"),
+                    scenario: {
+                        mode: ZegoUIKitPrebuilt.LiveStreaming,
+                        config: {
+                            role: ZegoUIKitPrebuilt.Audience,
+                        },
                     },
-                },
-                sharedLinks: [],
-            });
-        };
-    </script>
-</body>
+                    sharedLinks: [],
+                });
+            };
+        </script>
+    </body>
 </html>
