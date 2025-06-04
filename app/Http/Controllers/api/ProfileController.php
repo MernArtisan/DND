@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Content;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -41,13 +42,70 @@ class ProfileController extends Controller
         ]);
     }
 
-
     public function profile()
     {
         $user = User::findOrFail(Auth::id());
         return response()->json([
             'status' => true,
             'user' => new UserResource($user),
+        ]);
+    }
+
+    public function terms()
+    {
+        $content = Content::where('name', 'terms')->first();
+        if (!$content) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terms and conditions not found',
+                'content' => null,
+            ], 404);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Terms content fetched successfully',
+            'data' => [
+                'name' => $content->name,
+                'sub_name' => $content->sub_name,
+                'description' => $content->description,
+            ],
+        ]);
+    }
+
+    public function privacy()
+    {
+        $content = Content::where('name', 'privacy')->first();
+        if (!$content) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Privacy policy not found',
+                'content' => null,
+            ], 404);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Privacy content fetched successfully',
+            'data' => [
+                'name' => $content->name,
+                'sub_name' => $content->sub_name,
+                'description' => $content->description,
+            ],
+        ]);
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not authenticated',
+            ], 401);
+        }
+        $user->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Account deleted successfully',
         ]);
     }
 
