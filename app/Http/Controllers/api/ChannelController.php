@@ -3,13 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Channel;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class ChannelController extends Controller
 {
@@ -25,20 +20,20 @@ class ChannelController extends Controller
         ]);
 
         try {
-            DB::beginTransaction();
+            \Illuminate\Support\Facades\DB::beginTransaction();
 
             $bannerPath = $request->file('banner')->store('channels', 'public');
             $logoPath = $request->file('logo')->store('channels', 'public');
 
-            $baseSlug = Str::slug($validated['name']);
+            $baseSlug = \Illuminate\Support\Str::slug($validated['name']);
             $slug = $baseSlug;
             $count = 1;
 
-            while (Channel::where('slug', $slug)->exists()) {
+            while (\App\Models\Channel::where('slug', $slug)->exists()) {
                 $slug = $baseSlug . '-' . $count++;
             }
 
-            $channel = new Channel();
+            $channel = new \App\Models\Channel();
             $channel->name = $validated['name'];
             $channel->slug = $slug;
             $channel->description = $validated['description'] ?? null;
@@ -47,15 +42,16 @@ class ChannelController extends Controller
             $channel->streamer_id = $user->id;
             $channel->save();
 
-            DB::commit();
+            \Illuminate\Support\Facades\DB::commit();
 
             return response()->json([
                 'status' => true,
                 'message' => 'Channel created successfully.',
                 'channel' => $channel
             ]);
+            
         } catch (\Exception $e) {
-            DB::rollBack();
+            \Illuminate\Support\Facades\DB::rollBack();
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to create channel.',

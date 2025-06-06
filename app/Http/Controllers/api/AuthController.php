@@ -132,7 +132,6 @@ class AuthController extends Controller
             ]);
         }
     }
-
     public function signup(Request $request)
     {
 
@@ -145,7 +144,6 @@ class AuthController extends Controller
             'user' => $user
         ]);
     }
-
     private function validateUser(Request $request)
     {
         return $request->validate([
@@ -154,7 +152,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'phone_code' => 'required|string',
             'phone' => 'required|string|unique:users',
-            'password' => 'required|confirmed',
+            // 'password' => 'required|confirmed',
             'country' => 'required|string',
             'state' => 'required|string',
             'city' => 'required|string',
