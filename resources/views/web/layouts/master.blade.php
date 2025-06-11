@@ -158,7 +158,7 @@
     }
 
     .menu-style1>ul>li {
-        margin: 0 12px;
+        margin: 21px 4px;
     }
 
     .member-img {

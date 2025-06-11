@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
-    
+
     protected $fillable = [
         'name',
         'email',
@@ -50,7 +50,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
+    protected function abcs(): array
     {
         return [
             'email_verified_at' => 'datetime',
@@ -67,4 +67,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Channel::class, 'streamer_id');
     }
+ 
 }

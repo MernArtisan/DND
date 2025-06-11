@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-@section('title', 'Home')
+@section('title', 'News Details')
 @section('content')
        <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50" data-bg-src="{{asset('web/assets//img/breadcumb/breadcumb-1.jpg')}}" data-overlay>
             <div class="container z-index-common">
@@ -7,7 +7,7 @@
                     <h1 class="breadcumb-title h1 text-white my-0">Blog Details</h1>
                     <h2 class="breadcumb-bg-title">News</h2>
                     <ul class="breadcumb-menu-style1 text-white mx-auto fs-xs">
-                        <li><a href="index.html"><i class="fal fa-home"></i>Home</a></li>
+                        <li><a href="{{route('home.index')}}"><i class="fal fa-home"></i>Home</a></li>
                         <li class="active">Blog Details</li>
                     </ul>
                 </div>

@@ -13,9 +13,9 @@
                         <h1 class="hero-title">Lorem Ipsum<br>Dolor Sit</h1>
                         <p class="hero-text">Lorem ipsum dolor sit amet consectur adipiscing elit eiusmod</p>
                         <div class="hero-btns">
-                            <a href="live-stream.php" class="vs-btn outline1 me-3">Live Stream<i
+                            <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
                                     class="fas fa-wifi"></i></a>
-                            <a href="staff.php" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
+                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
                         </div>
                     </div>
                 </div>
@@ -29,9 +29,9 @@
                         <h1 class="hero-title">Lorem Ipsum<br>Dolor Sit</h1>
                         <p class="hero-text">adipiscing Lorem ipsum dolor sit amet consectur elit eiusmod</p>
                         <div class="hero-btns">
-                            <a href="live-stream.php" class="vs-btn outline1 me-3">Live Stream<i
+                            <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
                                     class="fas fa-wifi"></i></a>
-                            <a href="staff.php" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
+                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
                         </div>
                     </div>
                 </div>
@@ -45,9 +45,9 @@
                         <h1 class="hero-title">Lorem Ipsum <br>Dolor Sit</h1>
                         <p class="hero-text">adipiscing elit Lorem ipsum dolor sit amet consectur eiusmod</p>
                         <div class="hero-btns">
-                            <a href="live-stream.php" class="vs-btn outline1 me-3">Live Stream<i
+                            <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
                                     class="fas fa-wifi"></i></a>
-                            <a href="staff.php" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
+                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
                         </div>
                     </div>
                 </div>
@@ -96,39 +96,39 @@
             <div class="text-center text-xl-end">
                 <div class="timetable-style1">
                     <div class="d-flex gap-2 justify-content-center">
-                        <a href="live-stream.php" class="timetable-box">
+                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
                             <p class="day mb-0">Monday</p>
                             <p class="name mb-0">Not Streaming</p>
                         </a>
-                        <a href="live-stream.php" class="timetable-box">
+                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Tuesday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
                     </div>
                     <div class="d-flex gap-2 justify-content-center">
-                        <a href="live-stream.php" class="timetable-box">
+                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
                             <p class="day mb-0">Wednesday</p>
                             <p class="name mb-0">Not Streaming</p>
                         </a>
-                        <a href="live-stream.php" class="timetable-box">
+                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Thursday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
-                        <a href="live-stream.php" class="timetable-box active">
+                        <a href="{{route('liveStreams.index')}}" class="timetable-box active">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Friday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
-                        <a href="live-stream.php" class="timetable-box">
+                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Saturday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
                     </div>
                     <div class="d-flex gap-2 justify-content-center">
-                        <a href="live-stream.php" class="timetable-box">
+                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Sunday</p>
                             <p class="name mb-0">Call of duty</p>
@@ -232,7 +232,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <form action="mail.php" method="POST" class="contact-form contact-form-style1 form-dark px-60 py-60 ">
+                    <form action="#" method="POST" class="contact-form contact-form-style1 form-dark px-60 py-60 ">
                         <div class="row">
                             <div class="col-lg-12 form-group">
                                 <label class="text-white" for="name">Enter Name</label>
@@ -276,64 +276,64 @@
                 data-sm-slide-show="1" data-xs-slide-show="1">
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="news.php" class="overlay"></a>
+                        <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="news.php"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
                                     alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="news.php"><i class="fal fa-calendar-alt"></i>January 22, 2025</a>
+                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>January 22, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="news.php">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="news.php" class="overlay"></a>
+                        <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="news.php"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
                                     alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="news.php"><i class="fal fa-calendar-alt"></i>February 13, 2025</a>
+                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>February 13, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="news.php">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="news.php" class="overlay"></a>
+                        <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="news.php"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
                                     alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="news.php"><i class="fal fa-calendar-alt"></i>March 18, 2025</a>
+                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>March 18, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="news.php">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="news.php" class="overlay"></a>
+                        <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="news.php"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
                                     alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="news.php"><i class="fal fa-calendar-alt"></i>Augest 19, 2025</a>
+                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>Augest 19, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="news.php">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>

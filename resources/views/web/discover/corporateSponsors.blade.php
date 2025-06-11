@@ -8,7 +8,7 @@
             <div class="breadcumb-content text-center">
                 <h1 class="breadcumb-title h1 text-white my-0">Corporate Sponsor</h1>
                 <ul class="breadcumb-menu-style1 text-white mx-auto fs-xs">
-                    <li><a href="index.php"><i class="fal fa-home"></i>Home</a></li>
+                    <li><a href="{{route('home.index')}}"><i class="fal fa-home"></i>Home</a></li>
                     <li class="active">Corporate Sponsor</li>
                 </ul>
             </div>

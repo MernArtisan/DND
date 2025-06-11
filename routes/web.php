@@ -12,6 +12,11 @@ Route::get('/viewer', function () {
 
 
 Route::get('/', [App\Http\Controllers\web\HomeController::class, 'index'])->name('home.index');
+Route::get('/login', [App\Http\Controllers\web\AuthController::class, 'login'])->name('login.index');
+Route::get('/signup', [App\Http\Controllers\web\AuthController::class, 'signup'])->name('signup.index');
+Route::get('/verify-otp', [App\Http\Controllers\web\AuthController::class, 'verifyOtp'])->name('verifyOtp.index');
+Route::get('/channels', [App\Http\Controllers\web\ChannelController::class, 'Channels'])->name('Channels.index');
+Route::get('/pricing', [App\Http\Controllers\web\PricingController::class, 'Pricing'])->name('Pricing.index');
 Route::get('/news', [App\Http\Controllers\web\NewsController::class, 'index'])->name('news.index');
 Route::get('/news-details/abc', [App\Http\Controllers\web\NewsController::class, 'details'])->name('news.details');
 Route::get('/staff', [App\Http\Controllers\web\StaffController::class, 'index'])->name('staff.index');
