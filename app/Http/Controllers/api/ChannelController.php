@@ -19,7 +19,7 @@ class ChannelController extends Controller
             'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
  
-        
+
         try {
             DB::beginTransaction();
 
@@ -54,7 +54,7 @@ class ChannelController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
