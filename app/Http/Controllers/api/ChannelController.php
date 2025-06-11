@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Channel;
 use Exception;
-
 class ChannelController extends Controller
 {
     public function create(Request $request)
@@ -50,7 +49,11 @@ class ChannelController extends Controller
                 'message' => 'Channel created successfully.',
                 'channel' => $channel
             ]);
+
         } catch (Exception $e) {
+            DB::rollBack();
+            
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
