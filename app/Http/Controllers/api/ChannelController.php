@@ -33,6 +33,7 @@ class ChannelController extends Controller
             while (Channel::where('slug', $slug)->exists()) {
                 $slug = $baseSlug . '-' . $count++;
             }
+            
 
             $channel = new Channel();
             $channel->name = $validated['name'];
