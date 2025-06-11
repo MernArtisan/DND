@@ -1,118 +1,53 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8" />
         <title>Zego Viewer</title>
-        <script src="public/dist_js/ZegoExpressWebRTC-3.9.0.js"></script>
         <style>
-            #video-container {
-                width: 100%;
-                max-width: 640px;
-                height: 360px;
-                background: #333;
-                margin: 20px auto;
-            }
-            button {
-                padding: 10px 20px;
-                font-size: 16px;
-                background: #0066ff;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                display: block;
-                margin: 20px auto;
-            }
-            .status {
-                text-align: center;
-                margin: 10px;
-                font-family: Arial;
-                color: #333;
+            #root {
+                width: 100vw;
+                height: 100vh;
             }
         </style>
     </head>
     <body>
-        <h2 style="text-align: center">Zego Live Stream Viewer</h2>
-        <div id="video-container"></div>
-        <p class="status" id="status">Ready to connect to Live-001...</p>
-        <button onclick="startViewing()">Start Watching Live Stream</button>
-
+        <div id="root"></div>
+        <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
         <script>
-            // ZEGO Credentials
-            const APP_ID = 1173379578;
-            const APP_SIGN =
-                "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458";
+            window.onload = function () {
+                const roomID = "Live-001";
+                const userID = "viewer_" + Math.floor(Math.random() * 10000);
+                const userName = "Viewer " + userID;
+                const appID = 264105157;
+                const serverSecret = "c2400717f2436d5a83d97060e6d8a432";
 
-            // Stream details
-            const ROOM_ID = "Live-001";
-            const STREAM_ID = "Live-001";
+                const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
+                    appID,
+                    serverSecret,
+                    roomID,
+                    userID,
+                    userName
+                );
 
-            async function startViewing() {
-                try {
-                    // 1. Get fresh token every time
-                    const userID =
-                        "viewer_" + Math.floor(Math.random() * 10000);
-                    const tokenRes = await fetch(
-                        `/zego-token?userID=${userID}`
-                    );
-                    if (!tokenRes.ok)
-                        throw new Error("Token generation failed");
-                    const { token } = await tokenRes.json();
-
-                    // 2. Initialize SDK
-                    const zg = new ZegoExpressEngine(
-                        1173379578,
-                        "7094b1463e589f6c10d756d00a89648263426a00d725a02aadfb89dc553dc458"
-                    );
-
-                    // 3. Add error listeners BEFORE login
-                    zg.on(
-                        "roomStateUpdate",
-                        (roomID, state, errorCode, extendedData) => {
-                            if (errorCode !== 0) {
-                                console.error(
-                                    "Room error:",
-                                    errorCode,
-                                    extendedData
-                                );
-                                alert(
-                                    `Room error ${errorCode}: ${JSON.stringify(
-                                        extendedData
-                                    )}`
-                                );
-                            }
-                        }
-                    );
-
-                    // 4. Login with token
-                    await zg.loginRoom("Live-001", token, {
-                        userID,
-                        userName: "Viewer_" + userID,
+                const zp = ZegoUIKitPrebuilt.create(kitToken);
+                zp.joinRoom({
+                    container: document.querySelector("#root"),
+                    scenario: {
+                        mode: ZegoUIKitPrebuilt.LiveStreaming,
                         config: {
-                            maxRetryCount: 3,
-                            retryDelay: 2000,
+                            role: ZegoUIKitPrebuilt.Audience,
                         },
-                    });
-
-                    // 5. Play stream
-                    await zg.startPlayingStream("Live-001", {
-                        container: document.getElementById("video-container"),
-                        video: true,
-                        audio: true,
-                    });
-                } catch (error) {
-                    console.error("Full error:", error);
-                    if (error.code === 1102016) {
-                        alert(
-                            "Authentication failed. Please check:\n1. Server time is correct\n2. App credentials are valid\n3. Token generation works"
-                        );
-                    } else {
-                        alert(
-                            "Error: " +
-                                (error.message || error.code || "Unknown error")
-                        );
-                    }
-                }
-            }
+                    },
+                    sharedLinks: [],
+                });
+            };
         </script>
+        <style>
+            video {
+                object-fit: cover !important;
+                width: 100vw !important;
+                height: 100vh !important;
+            }
+        </style>
     </body>
 </html>
