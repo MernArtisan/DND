@@ -3,25 +3,21 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Channel;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Channel;
+use Exception;
 
 class ChannelController extends Controller
 {
     public function create(Request $request)
     {
-        $user = Auth::user();
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         try {
@@ -30,7 +26,7 @@ class ChannelController extends Controller
             $bannerPath = $request->file('banner')->store('channels', 'public');
             $logoPath = $request->file('logo')->store('channels', 'public');
 
-            $baseSlug = Str::slug($validated['name']);
+            $baseSlug = \Illuminate\Support\Str::slug($validated['name']);
             $slug = $baseSlug;
             $count = 1;
 
@@ -44,7 +40,7 @@ class ChannelController extends Controller
             $channel->description = $validated['description'] ?? null;
             $channel->banner = 'storage/' . $bannerPath;
             $channel->logo = 'storage/' . $logoPath;
-            $channel->streamer_id = $user->id;
+            $channel->streamer_id = Auth::id();
             $channel->save();
 
             DB::commit();
@@ -54,7 +50,7 @@ class ChannelController extends Controller
                 'message' => 'Channel created successfully.',
                 'channel' => $channel
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
