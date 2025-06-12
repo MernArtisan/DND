@@ -152,7 +152,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'phone_code' => 'required|string',
             'phone' => 'required|string|unique:users',
-            // 'password' => 'required|confirmed',
+            'password' => 'required|confirmed',
             'country' => 'required|string',
             'state' => 'required|string',
             'city' => 'required|string',
