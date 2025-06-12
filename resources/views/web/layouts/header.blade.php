@@ -1,4 +1,4 @@
-{{-- <div class="preloader  ">
+<div class="preloader  ">
     <button class="vs-btn preloaderCls">Cancel Preloader </button>
     <div class="preloader-inner">
         <div class="loader-logo">
@@ -8,7 +8,7 @@
             <span class="loader"></span>
         </div>
     </div>
-</div> --}}
+</div>
 <!--========================
     Sticky Header
     ========================-->

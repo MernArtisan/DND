@@ -25,3 +25,6 @@ Route::get('/corporate-sponsors', [App\Http\Controllers\web\DiscoverController::
 Route::get('/live-streams', [App\Http\Controllers\web\DiscoverController::class, 'liveStreams'])->name('liveStreams.index');
 Route::get('/terms', [App\Http\Controllers\web\DiscoverController::class, 'terms'])->name('terms.index');
 Route::get('/privacy', [App\Http\Controllers\web\DiscoverController::class, 'privacy'])->name('privacy.index');
+
+
+require __DIR__ . '/admin.php';

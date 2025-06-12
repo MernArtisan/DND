@@ -207,7 +207,7 @@
     <script src="{{asset('web/assets/js/map.js')}}"></script>
     <script src="{{asset('web/assets/js/ajax-mail.js')}}"></script>
     <script src="{{asset('web/assets/js/main.js')}}"></script>
-    
+
 
     @yield('js')
 
