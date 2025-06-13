@@ -21,7 +21,6 @@ class StreamController extends Controller
             return [
                 'id' => $category->id,
                 'name' => $category->name,
-                'image' => asset('storage/' . $category->image),
             ];
         });
         return response()->json([
