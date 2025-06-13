@@ -12,6 +12,7 @@
     <link href="{{asset('admin/assets/css/vendor.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
     <link href="{{asset('admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -56,7 +57,29 @@
 
     <script src="{{asset('admin/assets/js/vendor.min.js')}}"></script>
     <script src="{{asset('admin/assets/js/app.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    <script>
+        @if (session('success'))
+            toastr.success('{{ session('success') }}', 'Success');
+        @endif
+
+        @if (session('error'))
+            toastr.error('{{ session('error') }}', 'Error');
+        @endif
+    </script>
+
+
+
+    <script>
+        toastr.options = {
+            "closeButton": true,  
+            "progressBar": true,  
+            "positionClass": "toast-top-right", 
+            "timeOut": "5000",  
+            "extendedTimeOut": "1000"  
+        };
+    </script>
 </body>
 
 </html>

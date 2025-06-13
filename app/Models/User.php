@@ -50,7 +50,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function abcs(): array
+    protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
@@ -67,5 +67,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Channel::class, 'streamer_id');
     }
- 
 }

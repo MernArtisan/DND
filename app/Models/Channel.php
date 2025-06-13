@@ -11,6 +11,11 @@ class Channel extends Model
     {
         return $this->belongsTo(User::class, 'streamer_id');
     }
+    public function streams()
+    {
+        return $this->hasMany(Stream::class);
+    }
+
     public function getBannerAttribute($value)
     {
         return $value ? asset($value) : null;

@@ -9,7 +9,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::group(['middleware' => ['admin.auth']], function () {
-        // Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-        // Route::get('dashboard',[])
+      Route::get('dashboard', [App\Http\Controllers\admin\DashboardControler::class, 'dashboard'])->name('dashboard');
+      Route::post('logout', [App\Http\Controllers\admin\AuthController::class, 'logout'])->name('logout');
     });
 });
