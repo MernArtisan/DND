@@ -23,4 +23,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Stream Start Routes
     Route::get('/category', [App\Http\Controllers\api\StreamController::class, 'category']);
     Route::post('/stream-add', [App\Http\Controllers\api\StreamController::class, 'addStream']);
+    Route::post('/streams/{id}/changeStatus', [App\Http\Controllers\api\StreamController::class, 'toggleStreamStatus']);
+
 });
