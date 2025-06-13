@@ -37,7 +37,7 @@ class StreamController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Stream created successfully',
-            'data'    => StreamHelper::transform($stream) 
+            'data'    => StreamHelper::transform($stream)
         ], 200);
     }
 
@@ -65,9 +65,7 @@ class StreamController extends Controller
                     'data'    => StreamHelper::transform($stream)
                 ]);
             }
-
             $stream->update(['status' => $newStatus]);
-
             return response()->json([
                 'success' => true,
                 'message' => "Stream status updated to {$newStatus}",
