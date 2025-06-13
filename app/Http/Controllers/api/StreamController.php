@@ -16,6 +16,14 @@ class StreamController extends Controller
     public function category()
     {
         $categories = Category::where('status', 'active')->get();
+
+        $categories = $categories->map(function ($category) {
+            return [
+                'id' => $category->id,
+                'name' => $category->name,
+                'image' => asset('storage/' . $category->image),
+            ];
+        });
         return response()->json([
             'success' => true,
             'message' => 'Categories fetched successfully',
