@@ -21,5 +21,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Channel Routes
     Route::post('/channel/create', [App\Http\Controllers\api\ChannelController::class, 'create']);
     // Stream Start Routes
+    Route::get('/category', [App\Http\Controllers\api\StreamController::class, 'category']);
     Route::post('/stream-add', [App\Http\Controllers\api\StreamController::class, 'addStream']);
 });
