@@ -23,6 +23,7 @@ class StoreStreamRequest extends FormRequest
     {
         return [
             'stream_id'        => 'required|unique:streams,stream_id',
+            'channel_id'       => 'required|exists:channels,id',
             'team_1'           => 'required|string',
             'team1_symbol'     => 'nullable|string',
             'team_2'           => 'required|string',

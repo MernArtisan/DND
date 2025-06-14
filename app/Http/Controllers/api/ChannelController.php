@@ -8,17 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Channel;
 use Exception;
+
 class ChannelController extends Controller
 {
     public function create(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:channels',
             'description' => 'nullable|string',
             'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
- 
 
         try {
             DB::beginTransaction();
@@ -33,7 +33,7 @@ class ChannelController extends Controller
             while (Channel::where('slug', $slug)->exists()) {
                 $slug = $baseSlug . '-' . $count++;
             }
-            
+
 
             $channel = new Channel();
             $channel->name = $validated['name'];
@@ -51,10 +51,8 @@ class ChannelController extends Controller
                 'message' => 'Channel created successfully.',
                 'channel' => $channel
             ]);
-
         } catch (Exception $e) {
             DB::rollBack();
-            
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json([
