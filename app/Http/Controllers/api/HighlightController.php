@@ -81,6 +81,8 @@ class HighlightController extends Controller
             'status' => $request->status,
         ]);
 
+        $highlight->save();
+
         return response()->json([
             'success' => true,
             'message' => 'Highlight created successfully.',
