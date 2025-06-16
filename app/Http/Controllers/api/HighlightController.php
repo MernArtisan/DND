@@ -41,7 +41,7 @@ class HighlightController extends Controller
             ->get();
 
         // Transform for Flutter
-        $data = $highlights->map(function ($highlight) {
+        $highlights = $highlights->map(function ($highlight) {
             return [
                 'id'          => $highlight->id,
                 'channel_id'  => $highlight->channel_id,
@@ -59,7 +59,7 @@ class HighlightController extends Controller
             'success' => true,
             'message' => 'Highlights fetched successfully.',
             'data'    => [
-                'highlights' => $data
+                'highlights' => $highlights
             ]
         ]);
     }
@@ -83,7 +83,7 @@ class HighlightController extends Controller
             'status' => $request->status,
         ]);
 
-        $highlight
+        // $highlight
 
         return response()->json([
             'success' => true,
