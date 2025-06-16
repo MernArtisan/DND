@@ -24,6 +24,7 @@ class HighlightController extends Controller
     // }
     public function index(Request $request)
     {
+        // dd("abc");
         $user = Auth::user();
 
         // Get all your channel IDs
@@ -47,8 +48,8 @@ class HighlightController extends Controller
                 'channel_id'  => $highlight->channel_id,
                 'channel' => $highlight->channel->name ?? null,
                 'title'       => $highlight->title,
-                'video_url'   => $highlight->video ? asset('storage/' . $highlight->video) : null,
-                'thumbnail_url' => $highlight->thumbnail ? asset('storage/' . $highlight->thumbnail) : null,
+                'video'   => $highlight->video ? asset('storage/' . $highlight->video) : null,
+                'thumbnail' => $highlight->thumbnail ? asset('storage/' . $highlight->thumbnail) : null,
                 'description' => $highlight->description,
                 'status'      => $highlight->status,
                 'created_at'  => $highlight->created_at->toDateTimeString(),
@@ -76,11 +77,11 @@ class HighlightController extends Controller
         ]);
 
         if ($request->hasFile('thumbnail')) {
-            $thumbnailPath = $request->file('thumbnail')->store('highlights', 'public');
+            $thumbnailPath = $request->file('thumbnail')->store('storage/highlights', 'public');
         }
 
         if ($request->hasFile('video')) {
-            $videoPath = $request->file('video')->store('highlights', 'public');
+            $videoPath = $request->file('video')->store('storage/highlights', 'public');
         }
 
         $highlight = Highlight::create([

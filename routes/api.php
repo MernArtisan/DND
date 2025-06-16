@@ -6,7 +6,14 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 // Authenticate apis
-Route::post('/signup', [App\Http\Controllers\api\AuthController::class, 'signup']);
+// Route::post('/signup', [App\Http\Controllers\api\AuthController::class, 'signup']);
+Route::post('/signup', function(){
+    return response()->json([
+        'status' => 'error',
+        'message' => 'Signup not allowed'
+    ], 401);
+});
+
 Route::post('/signin', [App\Http\Controllers\api\AuthController::class, 'signin']);
 Route::post('/verify-otp', [App\Http\Controllers\api\AuthController::class, 'verifyOtp']);
 // Middleware To Protect Over Auth Routes
