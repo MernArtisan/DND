@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Highlight extends Model
 {
     protected $fillable = [
-        'stream_id',
+        'channel_id',
         'title',
         'video',
         'thumbnail',

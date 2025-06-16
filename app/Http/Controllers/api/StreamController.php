@@ -31,18 +31,7 @@ class StreamController extends Controller
         ]);
     }
 
-    public function GetMyChannels()
-    {
-        $user = Auth::user()->id;
-
-        $channels = \App\Models\Channel::where('streamer_id', $user)->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Channels fetched successfully',
-            'data' => $channels
-        ]);
-    }
+    
     public function addStream(StoreStreamRequest $request)
     {
         $stream = $this->streamService->create($request->validated(), $request->file('image'));

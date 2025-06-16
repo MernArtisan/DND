@@ -19,11 +19,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/privacy', [App\Http\Controllers\api\ProfileController::class, 'privacy']);
     Route::delete('/delete-account', [App\Http\Controllers\api\ProfileController::class, 'deleteAccount']);
     // Channel Routes
+    Route::get('/my-channels', [App\Http\Controllers\api\ChannelController::class, 'index']);
     Route::post('/channel/create', [App\Http\Controllers\api\ChannelController::class, 'create']);
+    Route::post('/channel/{id}/update', [App\Http\Controllers\api\ChannelController::class, 'update']);
+    Route::delete('/channel/{id}/delete', [App\Http\Controllers\api\ChannelController::class, 'delete']);
+
+    // Highlight Routes
+    Route::apiResource('/highlights', App\Http\Controllers\api\HighlightController::class);
     // Stream Start Routes
     Route::get('/category', [App\Http\Controllers\api\StreamController::class, 'category']);
-    Route::get('/my-channels', [App\Http\Controllers\api\StreamController::class, 'GetMyChannels']);
     Route::post('/stream-add', [App\Http\Controllers\api\StreamController::class, 'addStream']);
     Route::post('/streams/{id}/changeStatus', [App\Http\Controllers\api\StreamController::class, 'toggleStreamStatus']);
-
 });
