@@ -23,9 +23,7 @@ class ChannelController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Channels fetched successfully',
-            'data' => [
-                'channels' => $channels
-            ]
+            'data' => $channels
         ]);
     }
     public function create(Request $request)

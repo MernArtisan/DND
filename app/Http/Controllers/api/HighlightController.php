@@ -58,7 +58,9 @@ class HighlightController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Highlights fetched successfully.',
-            'data'    => $data,
+            'data'    => [
+                'highlights' => $data
+            ]
         ]);
     }
 
@@ -81,7 +83,7 @@ class HighlightController extends Controller
             'status' => $request->status,
         ]);
 
-        $highlight->save();
+        $highlight
 
         return response()->json([
             'success' => true,
