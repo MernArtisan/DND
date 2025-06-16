@@ -12,15 +12,20 @@ class StreamService
     {
         $user = Auth::user();
 
-        $channel = Channel::where('streamer_id', $user->id)->firstOrFail();
 
-        $data['channel_id'] = $channel->id;
+        $channel = Channel::where('id', $data['channel_id'])
+            ->where('streamer_id', $user->id)
+            ->first();
+
+        if (!$channel) {
+            throw new \Exception("Channel not found or doesn't belong to this user.");
+        }
+
         $data['status'] = $data['status'] ?? 'pending';
-
         if ($imageFile) {
             $data['image'] = $imageFile->store('streams', 'public');
         }
-
+        
         return Stream::create($data);
     }
 }

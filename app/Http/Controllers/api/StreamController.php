@@ -31,10 +31,11 @@ class StreamController extends Controller
         ]);
     }
 
-    public function GetMyChannels(){
+    public function GetMyChannels()
+    {
         $user = Auth::user()->id;
 
-        $channels = \App\Models\Channel::where('streamer_id', $user)->select('id', 'name','streamer_id')->get();
+        $channels = \App\Models\Channel::where('streamer_id', $user)->get();
 
         return response()->json([
             'success' => true,
