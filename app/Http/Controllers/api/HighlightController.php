@@ -64,31 +64,44 @@ class HighlightController extends Controller
         ]);
     }
 
-    public function store(Request   $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'channel_id' => 'required|exists:channels,id',
-            'title' => 'required|string',
-            'video' => 'required|string|MP4',
-            'thumbnail' => 'required|string|',
+            'title'      => 'required|string',
+            'video'      => 'required|mimes:mp4,webm,ogg|max:51200',
+            'thumbnail'  => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required|string',
-            'status' => 'required|boolean',
+            // 'status' => 'required',
         ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('highlights', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            $videoPath = $request->file('video')->store('highlights', 'public');
+        }
 
         $highlight = Highlight::create([
             'channel_id' => $request->channel_id,
             'title' => $request->title,
-            'video' => $request->video,
-            'thumbnail' => $request->thumbnail,
+            'video' => $videoPath,
+            'thumbnail' => $thumbnailPath,
             'description' => $request->description,
-            'status' => $request->status,
+            // 'status' => $request->status,
         ]);
 
-        // $highlight
+        $highlight->save();
+
+
 
         return response()->json([
             'success' => true,
             'message' => 'Highlight created successfully.',
-            'data'    => $highlight,
+            'data'    => [
+                'highlight' => $highlight
+            ]
         ]);
     }
     // public function update
