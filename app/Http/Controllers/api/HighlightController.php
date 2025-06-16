@@ -71,6 +71,21 @@ class HighlightController extends Controller
             'description' => 'required|string',
             'status' => 'required|boolean',
         ]);
+
+        $highlight = Highlight::create([
+            'channel_id' => $request->channel_id,
+            'title' => $request->title,
+            'video' => $request->video,
+            'thumbnail' => $request->thumbnail,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Highlight created successfully.',
+            'data'    => $highlight,
+        ]);
     }
     // public function update
 

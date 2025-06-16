@@ -136,8 +136,8 @@ class ChannelController extends Controller
                     'name'        => $channel->name,
                     'slug'        => $channel->slug,
                     'description' => $channel->description,
-                    'banner'      => asset('storage/' . $channel->banner),
-                    'logo'        => asset('storage/' . $channel->logo),
+                    'banner'      => $channel->banner,
+                    'logo'        => $channel->logo,
                 ]
             ]);
         } catch (Exception $e) {
