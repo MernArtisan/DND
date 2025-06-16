@@ -62,7 +62,16 @@ class HighlightController extends Controller
         ]);
     }
 
-    // public function store
+    public function store(Request   $request){
+        $request->validate([
+            'channel_id' => 'required|exists:channels,id',
+            'title' => 'required|string',
+            'video' => 'required|string|MP4',
+            'thumbnail' => 'required|string|',
+            'description' => 'required|string',
+            'status' => 'required|boolean',
+        ]);
+    }
     // public function update
 
     // public function destroy

@@ -29,7 +29,7 @@ class ChannelController extends Controller
     public function create(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:channels',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'banner' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
@@ -85,10 +85,10 @@ class ChannelController extends Controller
         $channel = Channel::where('streamer_id', $userId)->where('id', $id)->firstOrFail();
 
         $validated = $request->validate([
-            'name'        => 'required|string|max:255|unique:channels,name,' . $id,
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'banner'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'logo'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'banner'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'logo'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         try {
