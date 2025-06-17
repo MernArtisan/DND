@@ -125,13 +125,12 @@ class StreamController extends Controller
         $channels = Channel::where('streamer_id', '!=', $userId)->get();
 
         // dd($channelIds);
-        $randomStream = Stream::with('channel')
-            ->where('status', 'live')
+        $stream = Stream::where('status', 'live')
             ->inRandomOrder()
-            ->first();
+            ->take(3)->get();
 
         return ApiResponse::success('My streams fetched successfully.', [
-            'stream' => $randomStream->map([ApiResponse::class, 'transform'])
+            'stream' => $stream->map([ApiResponse::class, 'transform'])
         ]);
     }
 }
