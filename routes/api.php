@@ -7,13 +7,7 @@ use Illuminate\Support\Str;
 
 // Authenticate apis
 // Route::post('/signup', [App\Http\Controllers\api\AuthController::class, 'signup']);
-Route::post('/signup', function(){
-    return response()->json([
-        'status' => 'error',
-        'message' => 'Signup not allowed'
-    ], 401);
-});
-
+Route::post('/signup',[App\Http\Controllers\api\AuthController::class, 'signup']);
 Route::post('/signin', [App\Http\Controllers\api\AuthController::class, 'signin']);
 Route::post('/verify-otp', [App\Http\Controllers\api\AuthController::class, 'verifyOtp']);
 // Middleware To Protect Over Auth Routes
@@ -38,4 +32,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/category', [App\Http\Controllers\api\StreamController::class, 'category']);
     Route::post('/stream-add', [App\Http\Controllers\api\StreamController::class, 'addStream']);
     Route::post('/streams/{id}/changeStatus', [App\Http\Controllers\api\StreamController::class, 'toggleStreamStatus']);
+    Route::get('/streams/top', [App\Http\Controllers\api\StreamController::class, 'topStreams']);
+
 });

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Stream;
 use App\Models\Category;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Helpers\StreamHelper;
 use App\Services\StreamService;
@@ -31,7 +33,7 @@ class StreamController extends Controller
         ]);
     }
 
-    
+
     public function addStream(StoreStreamRequest $request)
     {
         $stream = $this->streamService->create($request->validated(), $request->file('image'));
@@ -80,5 +82,16 @@ class StreamController extends Controller
                 'data'    => null
             ]);
         }
+    }
+
+    public function topStreams()
+    {
+        $topStreams = Stream::orderByDesc('viewer_count')
+            ->take(5)
+            ->get();
+
+        return ApiResponse::success('Top 5 streams fetched successfully.', [
+            'streams' => $topStreams
+        ]);
     }
 }
