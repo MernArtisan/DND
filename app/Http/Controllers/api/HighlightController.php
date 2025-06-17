@@ -77,13 +77,15 @@ class HighlightController extends Controller
         $request->validate([
             'channel_id'   => 'nullable|exists:channels,id',
             'title'        => 'nullable|string|max:255',
-            'video'        => 'nullable',
-            'thumbnail'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'video'        => 'nullable|mimes:mp4,webm,ogg|max:51200',
+            'thumbnail'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description'  => 'nullable|string|max:1000',
         ]);
 
         $highlight = Highlight::findOrFail($id);
+
         DB::beginTransaction();
+
         try {
             if ($request->has('title')) {
                 $highlight->title = $request->input('title');
@@ -107,10 +109,6 @@ class HighlightController extends Controller
                 $highlight->video = $request->file('video')->store('highlights', 'public');
             }
 
-            $highlight->channel_id = $request->channel_id ?? $highlight->channel_id;
-            $highlight->title      = $request->title ?? $highlight->title;
-            $highlight->description = $request->description ?? $highlight->description;
-
             $highlight->save();
 
             DB::commit();
@@ -123,6 +121,7 @@ class HighlightController extends Controller
             return ApiResponse::error('Failed to update highlight.', $e->getMessage());
         }
     }
+
 
 
     public function destroy($id)
