@@ -55,7 +55,7 @@ class ApiResponse
             'end_time'          => $stream->end_time,
             'location'          => $stream->location,
             'location_symbol'   => $stream->location_symbol,
-            'image'         => $stream->image ? asset('storage/' . $stream->image) : null, // 👈 full url
+            'image'             => $stream->image ? asset('storage/' . $stream->image) : null, // 👈 full url
             'description'       => $stream->description,
             'status'            => $stream->status,
             'channel_id'        => $stream->channel_id,
