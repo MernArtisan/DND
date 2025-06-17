@@ -129,10 +129,11 @@ class StreamController extends Controller
             ->where('status', 'live')
             ->inRandomOrder()
             ->first();
-        // return $randomStream;
-        return ApiResponse::success('Random live stream and related channels.', [
-            'streams' => $randomStream->map([ApiResponse::class, 'transform']),
-            'channels' => $channels
-        ]);
+        
+            return response()->json([
+                'success' => true,
+                'message' => 'Streams fetched successfully',
+                'data'    => ApiResponse::transform($randomStream)
+            ]);
     }
 }
