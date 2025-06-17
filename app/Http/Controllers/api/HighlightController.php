@@ -73,18 +73,18 @@ class HighlightController extends Controller
         ]);
 
         if ($request->hasFile('thumbnail')) {
-            $thumbnailPath = $request->file('thumbnail')->store('storage/highlights', 'public');
+            $thumbnailPath = $request->file('thumbnail')->store('highlights', 'public');
         }
 
         if ($request->hasFile('video')) {
-            $videoPath = $request->file('video')->store('storage/highlights', 'public');
+            $videoPath = $request->file('video')->store('highlights', 'public');
         }
 
         $highlight = Highlight::create([
             'channel_id' => $request->channel_id,
             'title' => $request->title,
-            'video' => $videoPath,
-            'thumbnail' => $thumbnailPath,
+            'video' => 'storage/'.$videoPath,
+            'thumbnail' => 'storage/'.$thumbnailPath,
             'description' => $request->description,
             // 'status' => $request->status,
         ]);
