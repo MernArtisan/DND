@@ -126,13 +126,13 @@ class StreamController extends Controller
  
         $channelIds = $channels->pluck('id')->toArray();
 
-        dd($channelIds);
+        // dd($channelIds);
         $randomStream = Stream::with('channel:id,name,channel_id')
             ->whereIn('channel_id', $channelIds)
             ->where('status', 'live')
             ->inRandomOrder()
             ->first();
-
+return $randomStream;
         return ApiResponse::success('Random live stream and related channels.', [
             'stream'   => $randomStream ? ApiResponse::transform($randomStream) : null,
             'channels' => $channels->map(function ($channel) {
