@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use Exception;
 use App\Models\Stream;
 use App\Models\Category;
 use App\Helpers\ApiResponse;
@@ -67,24 +68,17 @@ class StreamController extends Controller
             } elseif ($currentStatus === 'live') {
                 $newStatus = 'ended';
             } elseif ($currentStatus === 'ended') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Stream is already ended. No further status change allowed.',
-                    'data'    => StreamHelper::transform($stream)
+                return ApiResponse::error('Stream is already ended. No further status change allowed.', [
+                    'stream' => ApiResponse::transform($stream)
                 ]);
             }
             $stream->update(['status' => $newStatus]);
-            return response()->json([
-                'success' => true,
-                'message' => "Stream status updated to {$newStatus}",
-                'data'    => StreamHelper::transform($stream)
+
+            return ApiResponse::success("Stream status updated to {$newStatus}", [
+                'stream' => ApiResponse::transform($stream)
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'data'    => null
-            ]);
+        } catch (Exception $e) {
+            return ApiResponse::error('Something went wrong', $e->getMessage());
         }
     }
 
