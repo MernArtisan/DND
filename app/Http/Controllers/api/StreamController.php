@@ -130,7 +130,8 @@ class StreamController extends Controller
             ->take(3)->get();
 
         return ApiResponse::success('My streams fetched successfully.', [
-            'stream' => $stream->map([ApiResponse::class, 'transform'])
+            'stream' => $stream->map([ApiResponse::class, 'transform']),
+            'channels' => $channels
         ]);
     }
 }
