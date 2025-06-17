@@ -48,7 +48,7 @@ class StreamController extends Controller
     public function toggleStreamStatus($id)
     {
         try {
-            $stream = \App\Models\Stream::findOrFail($id);
+            $stream = Stream::findOrFail($id);
 
             $user = Auth::user();
             if ($stream->channel->streamer_id !== $user->id) {
