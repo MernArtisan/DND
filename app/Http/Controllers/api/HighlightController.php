@@ -62,9 +62,11 @@ class HighlightController extends Controller
         //         'highlights' => $highlights
         //     ]
         // ]);
-        return ApiResponse::success('Highlight created successfully.', [
-            'highlight' => ApiResponse::highlightResource($highlight)
-        ], 201);
+        return ApiResponse::success('Highlights fetched successfully.', [
+            'highlights' => $highlight->map(function ($item) {
+                return ApiResponse::highlightResource($item);
+            })
+        ]);
     }
 
     public function store(Request $request)
