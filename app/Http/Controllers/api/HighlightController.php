@@ -14,18 +14,6 @@ use Illuminate\Support\Facades\Storage;
 
 class HighlightController extends Controller
 {
-    // public function index()
-    // {
-    //     $user = Auth::user();
-    //     $channelsIds = Channel::where('streamer_id', $user->id)->pluck('id');
-    //     $highlights = \App\Models\Highlight::whereIn('channel_id', $channelsIds)->get()->latest()
-    //         ->get();
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'Your highlights fetched successfully.',
-    //         'data'    => $highlights
-    //     ]);
-    // }
     public function index(Request $request)
     {
         $user = Auth::user();
@@ -97,6 +85,18 @@ class HighlightController extends Controller
         $highlight = Highlight::findOrFail($id);
         DB::beginTransaction();
         try {
+            if ($request->has('title')) {
+                $highlight->title = $request->input('title');
+            }
+
+            if ($request->has('description')) {
+                $highlight->description = $request->input('description');
+            }
+
+            if ($request->has('channel_id')) {
+                $highlight->channel_id = $request->input('channel_id');
+            }
+
             if ($request->hasFile('thumbnail')) {
                 Storage::disk('public')->delete($highlight->thumbnail);
                 $highlight->thumbnail = $request->file('thumbnail')->store('highlights', 'public');
