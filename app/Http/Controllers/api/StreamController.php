@@ -111,10 +111,10 @@ class StreamController extends Controller
     {
         $user = Auth::user();
 
-        // Get all channel IDs owned by this user
+        // Get all channel IDs for the logged-in streamer
         $channelIds = Channel::where('streamer_id', $user->id)->pluck('id');
 
-        // Get all streams under these channels
+        // Fetch all streams that belong to these channels
         $streams = Stream::whereIn('channel_id', $channelIds)->get();
 
         return ApiResponse::success('My streams fetched successfully.', [
