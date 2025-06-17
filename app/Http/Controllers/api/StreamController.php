@@ -112,7 +112,7 @@ class StreamController extends Controller
         $user = Auth::user();
 
         $channels = Channel::where('streamer_id', $user->id)->get();
-        $streams = Stream::where('channel_id', $channels->pluck('id'))->get();
+        $streams = Stream::where('channel_id', $channels->id)->get();
 
         return ApiResponse::success('My streams fetched successfully.', [
             'streams' => $streams
