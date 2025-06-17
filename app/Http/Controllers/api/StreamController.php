@@ -127,8 +127,7 @@ class StreamController extends Controller
         $channelIds = $channels->pluck('id')->toArray();
 
         // dd($channelIds);
-        $randomStream = Stream::with('channel:id,name,channel_id')
-            ->whereIn('channel_id', $channelIds)
+        $randomStream = Stream::with('channel:id,name,channel_id') 
             ->where('status', 'live')
             ->inRandomOrder()
             ->first();
