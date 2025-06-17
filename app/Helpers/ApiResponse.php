@@ -59,6 +59,7 @@ class ApiResponse
             'description'       => $stream->description,
             'status'            => $stream->status,
             'channel_id'        => $stream->channel_id,
+            'channel_name'      => optional($stream->channel)->name,
             'created_at'        => $stream->created_at,
             'updated_at'        => $stream->updated_at,
         ];

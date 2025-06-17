@@ -114,7 +114,7 @@ class StreamController extends Controller
         $stream = Stream::whereIn('channel_id', $channelIds)->get();
 
         return ApiResponse::success('My streams fetched successfully.', [
-            'stream' => ApiResponse::transform($stream)
+            'stream' => $stream->map([ApiResponse::class, 'transform'])
         ]);
     }
 }
