@@ -129,13 +129,9 @@ class StreamController extends Controller
             ->where('status', 'live')
             ->inRandomOrder()
             ->first();
-        
-            return response()->json([
-                'success' => true,
-                'message' => 'Streams fetched successfully',
-                'data'    => [
-                    'stream' => $randomStream,
-                ]
-            ]);
+
+        return ApiResponse::success('My streams fetched successfully.', [
+            'stream' => $randomStream->map([ApiResponse::class, 'transform'])
+        ]);
     }
 }
