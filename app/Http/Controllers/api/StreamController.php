@@ -123,7 +123,7 @@ class StreamController extends Controller
         $userId = Auth::id();
 
         // Get other channels (not owned by user)
-        $channels = Channel::where('streamer_id', '!=', $userId)->inRandomOrder()->get();
+        $channels = Channel::where('streamer_id', '!=', $userId)->get();
 
         // Get random live stream from other channels
         $channelIds = $channels->pluck('id')->toArray();
