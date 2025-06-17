@@ -31,7 +31,7 @@ class HighlightController extends Controller
 
         $channelIds = Channel::where('streamer_id', $user->id)->pluck('id');
 
-        $highlights = Highlight::with('channel:id,name')
+        $highlight = Highlight::with('channel:id,name')
             ->when($request->channel_id, function ($query) use ($request, $channelIds) {
                 if ($channelIds->contains($request->channel_id)) {
                     $query->where('channel_id', $request->channel_id);
@@ -63,7 +63,7 @@ class HighlightController extends Controller
         //     ]
         // ]);
         return ApiResponse::success('Highlight created successfully.', [
-            'highlight' => ApiResponse::highlightResource($highlights)
+            'highlight' => ApiResponse::highlightResource($highlight)
         ], 201);
     }
 
