@@ -108,14 +108,13 @@ class StreamController extends Controller
 
 
     public function myStreams()
-    { 
+    {
         $channelIds = Channel::where('streamer_id', Auth::id())->pluck('id');
 
-        // Fetch all streams that belong to these channels
-        $streams = Stream::whereIn('channel_id', $channelIds)->get();
+        $stream = Stream::whereIn('channel_id', $channelIds)->get();
 
         return ApiResponse::success('My streams fetched successfully.', [
-            'streams' => $streams
+            'stream' => ApiResponse::transform($stream)
         ]);
     }
 }
