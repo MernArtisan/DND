@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HighlightController extends Controller
 {
@@ -41,27 +42,6 @@ class HighlightController extends Controller
             ->latest()
             ->get();
 
-        // $highlights = $highlights->map(function ($highlight) {
-        //     return [
-        //         'id'          => $highlight->id,
-        //         'channel_id'  => $highlight->channel_id,
-        //         'channel' => $highlight->channel->name ?? null,
-        //         'title'       => $highlight->title,
-        //         'video'   => $highlight->video ? asset('storage/' . $highlight->video) : null,
-        //         'thumbnail' => $highlight->thumbnail ? asset('storage/' . $highlight->thumbnail) : null,
-        //         'description' => $highlight->description,
-        //         'status'      => $highlight->status,
-        //         'created_at'  => $highlight->created_at->toDateTimeString(),
-        //     ];
-        // });
-
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Highlights fetched successfully.',
-        //     'data'    => [
-        //         'highlights' => $highlights
-        //     ]
-        // ]);
         return ApiResponse::success('Highlights fetched successfully.', [
             'highlights' => $highlight->map(function ($item) {
                 return ApiResponse::highlightResource($item);
@@ -104,7 +84,45 @@ class HighlightController extends Controller
         }
     }
 
-    // public function update
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'channel_id'   => 'nullable|exists:channels,id',
+            'title'        => 'nullable|string|max:255',
+            'video'        => 'nullable',
+            'thumbnail'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'description'  => 'nullable|string|max:1000',
+        ]);
 
+        $highlight = Highlight::findOrFail($id);
+        DB::beginTransaction();
+        try {
+            if ($request->hasFile('thumbnail')) {
+                Storage::disk('public')->delete($highlight->thumbnail);
+                $highlight->thumbnail = $request->file('thumbnail')->store('highlights', 'public');
+            }
+
+            if ($request->hasFile('video')) {
+                Storage::disk('public')->delete($highlight->video);
+                $highlight->video = $request->file('video')->store('highlights', 'public');
+            }
+
+            $highlight->channel_id = $request->channel_id ?? $highlight->channel_id;
+            $highlight->title      = $request->title ?? $highlight->title;
+            $highlight->description = $request->description ?? $highlight->description;
+
+            $highlight->save();
+
+            DB::commit();
+
+            return ApiResponse::success('Highlight updated successfully.', [
+                'highlight' => ApiResponse::highlightResource($highlight)
+            ]);
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return ApiResponse::error('Failed to update highlight.', $e->getMessage());
+        }
+    }
+ 
     // public function destroy
 }
