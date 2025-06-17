@@ -38,11 +38,15 @@ class StreamController extends Controller
     {
         $stream = $this->streamService->create($request->validated(), $request->file('image'));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Stream created successfully',
-            'data'    => ApiResponse::transform($stream)
-        ], 200);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Stream created successfully',
+        //     'data'    => ApiResponse::transform($stream)
+        // ], 200);
+
+        return ApiResponse::success('Stream created successfully.', [
+            'stream' => ApiResponse::transform($stream)
+        ]);
     }
 
     public function toggleStreamStatus($id)
