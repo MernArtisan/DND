@@ -131,7 +131,7 @@ class StreamController extends Controller
             ->first();
 // return $randomStream;
         return ApiResponse::success('Random live stream and related channels.', [
-            'stream' => $randomStream->map([ApiResponse::class, 'transform']),
+            'stream' => ApiResponse::transform($randomStream),
             'channels' => $channels
         ]);
     }
