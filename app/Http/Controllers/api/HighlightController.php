@@ -88,7 +88,7 @@ class HighlightController extends Controller
     {
         $request->validate([
             'channel_id'   => 'nullable|exists:channels,id',
-            'title'        => 'nullable|string|max:255',
+            'title'        => 'required|string|max:255',
             'video'        => 'nullable',
             'thumbnail'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'description'  => 'nullable|string|max:1000',
