@@ -108,11 +108,8 @@ class StreamController extends Controller
 
 
     public function myStreams()
-    {
-        $user = Auth::user();
-
-        // Get all channel IDs for the logged-in streamer
-        $channelIds = Channel::where('streamer_id', $user->id)->pluck('id');
+    { 
+        $channelIds = Channel::where('streamer_id', Auth::id())->pluck('id');
 
         // Fetch all streams that belong to these channels
         $streams = Stream::whereIn('channel_id', $channelIds)->get();
