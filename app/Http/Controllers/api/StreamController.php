@@ -129,7 +129,7 @@ class StreamController extends Controller
         // dd($channelIds);
         $randomStream = Stream::with('channel') 
             ->where('status', 'live')
-            ->take(2)
+            ->take(1)
             ->first();
 // return $randomStream;
         return ApiResponse::success('Random live stream and related channels.', [
