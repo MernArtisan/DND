@@ -123,9 +123,7 @@ class StreamController extends Controller
         $userId = Auth::id();
  
         $channels = Channel::where('streamer_id', '!=', $userId)->get();
- 
-        $channelIds = $channels->pluck('id')->toArray();
-
+  
         // dd($channelIds);
         $randomStream = Stream::with('channel') 
             ->where('status', 'live')
