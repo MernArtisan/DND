@@ -117,4 +117,27 @@ class StreamController extends Controller
             'stream' => $stream->map([ApiResponse::class, 'transform'])
         ]);
     }
+
+    public function discoverStreamWithChannels()
+    {
+        $userId = Auth::id();
+        $channels = Channel::whereNotIn('streamer_id', $userId)->get();
+        $channelIds = $channels->pluck('id');
+
+        $randomStream = Stream::with('channel:id,name')
+            ->whereIn('channel_id', $channelIds)
+            ->where('status', 'live')
+            ->inRandomOrder()
+            ->first();
+            
+        return ApiResponse::success('Random live stream and related channels.', [
+            'stream'   => $randomStream ? ApiResponse::transform($randomStream) : null,
+            'channels' => $channels->map(function ($channel) {
+                return [
+                    'id'   => $channel->id,
+                    'name' => $channel->name,
+                ];
+            })
+        ]);
+    }
 }
