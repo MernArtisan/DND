@@ -41,7 +41,7 @@ class StreamController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Stream created successfully',
-            'data'    => StreamHelper::transform($stream)
+            'data'    => ApiResponse::transform($stream)
         ], 200);
     }
 
@@ -88,11 +88,22 @@ class StreamController extends Controller
     {
         $topStreams = Stream::orderByDesc('viewer_count')
             ->take(5)
-            ->select('id','stream_id', 'title', 'viewer_count', 'status')
+            ->select('id', 'stream_id', 'title', 'viewer_count', 'status')
             ->get();
 
         return ApiResponse::success('Top 5 streams fetched successfully.', [
             'streams' => $topStreams
+        ]);
+    }
+
+    public function incrementViewer($id)
+    {
+        $stream = Stream::findOrFail($id);
+        $stream->increment('viewer_count');
+
+        return ApiResponse::success('Viewer count updated.', [
+            'stream_id'     => $stream->id,
+            'viewer_count'  => $stream->viewer_count,
         ]);
     }
 }
