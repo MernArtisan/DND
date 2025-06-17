@@ -12,6 +12,7 @@ use App\Services\StreamService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStreamRequest;
+use App\Models\Channel;
 
 class StreamController extends Controller
 {
@@ -102,6 +103,19 @@ class StreamController extends Controller
         return ApiResponse::success('Viewer count updated.', [
             'stream_id'     => $stream->id,
             'viewer_count'  => $stream->viewer_count,
+        ]);
+    }
+
+
+    public function myStreams()
+    {
+        $user = Auth::user();
+
+        $channels = Channel::where('streamer_id', $user->id)->get();
+        $streams = Stream::where('channel_id', $channels->pluck('id'))->get();
+
+        return ApiResponse::success('My streams fetched successfully.', [
+            'streams' => $streams
         ]);
     }
 }

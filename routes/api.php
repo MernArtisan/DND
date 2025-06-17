@@ -34,4 +34,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/streams/{id}/changeStatus', [App\Http\Controllers\api\StreamController::class, 'toggleStreamStatus']);
     Route::get('/streams-top', [App\Http\Controllers\api\StreamController::class, 'topStreams']);
     Route::post('/streams/{id}/join', [App\Http\Controllers\api\StreamController::class, 'incrementViewer']);
+    Route::get('/my-streams', [App\Http\Controllers\api\StreamController::class, 'myStreams']);
 });
