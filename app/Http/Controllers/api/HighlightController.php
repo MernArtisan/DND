@@ -24,14 +24,11 @@ class HighlightController extends Controller
     // }
     public function index(Request $request)
     {
-        // dd("abc");
         $user = Auth::user();
 
-        // Get all your channel IDs
         $channelIds = Channel::where('streamer_id', $user->id)->pluck('id');
 
-        // Get highlights of user's channels, optionally filter by channel_id
-        $highlights = Highlight::with('channel:id,name') // only fetch channel name + id
+        $highlights = Highlight::with('channel:id,name')
             ->when($request->channel_id, function ($query) use ($request, $channelIds) {
                 if ($channelIds->contains($request->channel_id)) {
                     $query->where('channel_id', $request->channel_id);
@@ -41,7 +38,6 @@ class HighlightController extends Controller
             ->latest()
             ->get();
 
-        // Transform for Flutter
         $highlights = $highlights->map(function ($highlight) {
             return [
                 'id'          => $highlight->id,
@@ -101,7 +97,16 @@ class HighlightController extends Controller
             'success' => true,
             'message' => 'Highlight created successfully.',
             'data'    => [
-                'highlight' => $highlight
+                'highlight' => [
+                    'id'          => $highlight->id,
+                    'channel_id'  => $highlight->channel_id,
+                    'title'       => $highlight->title,
+                    'video'       => asset('storage/' . str_replace('storage/', '', $highlight->video)),
+                    'thumbnail'   => asset('storage/' . str_replace('storage/', '', $highlight->thumbnail)),
+                    'description' => $highlight->description,
+                    'created_at'  => $highlight->created_at,
+                    'updated_at'  => $highlight->updated_at,
+                ]
             ]
         ]);
     }
