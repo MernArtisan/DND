@@ -121,7 +121,11 @@ class StreamController extends Controller
     public function discoverStreamWithChannels()
     {
         $userId = Auth::id();
-        $channels = Channel::whereNotIn('streamer_id', $userId)->get();
+
+        // Get other channels (not owned by user)
+        $channels = Channel::where('streamer_id', '!=', $userId)->inRandomOrder()->get();
+
+        // Get random live stream from other channels
         $channelIds = $channels->pluck('id');
 
         $randomStream = Stream::with('channel:id,name')
@@ -129,7 +133,7 @@ class StreamController extends Controller
             ->where('status', 'live')
             ->inRandomOrder()
             ->first();
-            
+
         return ApiResponse::success('Random live stream and related channels.', [
             'stream'   => $randomStream ? ApiResponse::transform($randomStream) : null,
             'channels' => $channels->map(function ($channel) {
