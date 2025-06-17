@@ -33,6 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Highlight Routes
     Route::apiResource('/highlights', App\Http\Controllers\api\HighlightController::class);
+    Route::post('/highlight/{id}/update', [App\Http\Controllers\api\HighlightController::class, 'update']);
     // Stream Start Routes
     Route::get('/category', [App\Http\Controllers\api\StreamController::class, 'category']);
     Route::post('/stream-add', [App\Http\Controllers\api\StreamController::class, 'addStream']);
