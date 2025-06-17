@@ -127,7 +127,7 @@ class StreamController extends Controller
 
         // Get random live stream from other channels
         $channelIds = $channels->pluck('id')->toArray();
-        $randomStream = Stream::with('channel:id,name')
+        $randomStream = Stream::with('channel:id,name,channel_id')
             ->whereIn('channel_id', $channelIds)
             ->where('status', 'live')
             ->inRandomOrder()
