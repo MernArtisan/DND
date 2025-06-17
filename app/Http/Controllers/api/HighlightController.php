@@ -123,6 +123,34 @@ class HighlightController extends Controller
             return ApiResponse::error('Failed to update highlight.', $e->getMessage());
         }
     }
- 
+
+
+    public function destroy($id)
+    {
+        $highlight = Highlight::findOrFail($id);
+
+        DB::beginTransaction();
+
+        try {
+            if ($highlight->thumbnail) {
+                Storage::disk('public')->delete($highlight->thumbnail);
+            }
+
+            if ($highlight->video) {
+                Storage::disk('public')->delete($highlight->video);
+            }
+
+            $highlight->delete();
+
+            DB::commit();
+
+            return ApiResponse::success('Highlight deleted successfully.');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return ApiResponse::error('Failed to delete highlight.', $e->getMessage());
+        }
+    }
+
+
     // public function destroy
 }
