@@ -133,7 +133,9 @@ class StreamController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Streams fetched successfully',
-                'data'    => ApiResponse::transform($randomStream)
+                'data'    => [
+                    'stream' => ApiResponse::transform($randomStream),
+                ]
             ]);
     }
 }
