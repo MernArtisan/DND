@@ -121,17 +121,17 @@ class StreamController extends Controller
     public function discoverStreamWithChannels()
     {
         $userId = Auth::id();
- 
+
         $channels = Channel::where('streamer_id', '!=', $userId)->get();
-  
+
         // dd($channelIds);
-        $randomStream = Stream::with('channel') 
+        $randomStream = Stream::with('channel')
             ->where('status', 'live')
             ->inRandomOrder()
             ->first();
-// return $randomStream;
+        // return $randomStream;
         return ApiResponse::success('Random live stream and related channels.', [
-            'stream' => ApiResponse::transform($randomStream),
+            'streams' => $randomStream->map([ApiResponse::class, 'transform']),
             'channels' => $channels
         ]);
     }
