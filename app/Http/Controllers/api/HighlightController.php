@@ -41,27 +41,30 @@ class HighlightController extends Controller
             ->latest()
             ->get();
 
-        $highlights = $highlights->map(function ($highlight) {
-            return [
-                'id'          => $highlight->id,
-                'channel_id'  => $highlight->channel_id,
-                'channel' => $highlight->channel->name ?? null,
-                'title'       => $highlight->title,
-                'video'   => $highlight->video ? asset('storage/' . $highlight->video) : null,
-                'thumbnail' => $highlight->thumbnail ? asset('storage/' . $highlight->thumbnail) : null,
-                'description' => $highlight->description,
-                'status'      => $highlight->status,
-                'created_at'  => $highlight->created_at->toDateTimeString(),
-            ];
-        });
+        // $highlights = $highlights->map(function ($highlight) {
+        //     return [
+        //         'id'          => $highlight->id,
+        //         'channel_id'  => $highlight->channel_id,
+        //         'channel' => $highlight->channel->name ?? null,
+        //         'title'       => $highlight->title,
+        //         'video'   => $highlight->video ? asset('storage/' . $highlight->video) : null,
+        //         'thumbnail' => $highlight->thumbnail ? asset('storage/' . $highlight->thumbnail) : null,
+        //         'description' => $highlight->description,
+        //         'status'      => $highlight->status,
+        //         'created_at'  => $highlight->created_at->toDateTimeString(),
+        //     ];
+        // });
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Highlights fetched successfully.',
-            'data'    => [
-                'highlights' => $highlights
-            ]
-        ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Highlights fetched successfully.',
+        //     'data'    => [
+        //         'highlights' => $highlights
+        //     ]
+        // ]);
+        return ApiResponse::success('Highlight created successfully.', [
+            'highlight' => ApiResponse::highlightResource($highlights)
+        ], 201);
     }
 
     public function store(Request $request)
@@ -69,8 +72,8 @@ class HighlightController extends Controller
         $request->validate([
             'channel_id'   => 'required|exists:channels,id',
             'title'        => 'required|string|max:255',
-            'video'        => 'required|mimes:mp4,webm,ogg|max:51200',
-            'thumbnail'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'video'        => 'required',
+            'thumbnail'    => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'description'  => 'required|string|max:1000',
         ]);
 
@@ -98,7 +101,7 @@ class HighlightController extends Controller
             return ApiResponse::error('Failed to create highlight.', $e->getMessage());
         }
     }
-    
+
     // public function update
 
     // public function destroy
