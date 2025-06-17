@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Helpers\ApiResponse;
 use App\Models\Channel;
 use App\Models\Highlight;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HighlightController extends Controller
 {
@@ -64,52 +66,38 @@ class HighlightController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'channel_id' => 'required|exists:channels,id',
-            'title'      => 'required|string',
-            'video'      => 'required|mimes:mp4,webm,ogg|max:51200',
-            'thumbnail'  => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'required|string',
-            // 'status' => 'required',
+            'channel_id'   => 'required|exists:channels,id',
+            'title'        => 'required|string|max:255',
+            'video'        => 'required|mimes:mp4,webm,ogg|max:51200',
+            'thumbnail'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description'  => 'required|string|max:1000',
         ]);
 
-        if ($request->hasFile('thumbnail')) {
-            $thumbnailPath = $request->file('thumbnail')->store('highlights', 'public');
+        DB::beginTransaction();
+
+        try {
+            $thumbnailPath = $request->file('thumbnail')?->store('highlights', 'public');
+            $videoPath = $request->file('video')?->store('highlights', 'public');
+
+            $highlight = Highlight::create([
+                'channel_id' => $request->channel_id,
+                'title'      => $request->title,
+                'video'      => $videoPath,
+                'thumbnail'  => $thumbnailPath,
+                'description' => $request->description,
+            ]);
+
+            DB::commit();
+
+            return ApiResponse::success('Highlight created successfully.', [
+                'highlight' => ApiResponse::highlightResource($highlight)
+            ], 201);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return ApiResponse::error('Failed to create highlight.', $e->getMessage());
         }
-
-        if ($request->hasFile('video')) {
-            $videoPath = $request->file('video')->store('highlights', 'public');
-        }
-
-        $highlight = Highlight::create([
-            'channel_id' => $request->channel_id,
-            'title' => $request->title,
-            'video' => 'storage/'.$videoPath,
-            'thumbnail' => 'storage/'.$thumbnailPath,
-            'description' => $request->description,
-            // 'status' => $request->status,
-        ]);
-
-        $highlight->save();
-
-
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Highlight created successfully.',
-            'data'    => [
-                'highlight' => [
-                    'id'          => $highlight->id,
-                    'channel_id'  => $highlight->channel_id,
-                    'title'       => $highlight->title,
-                    'video'       => asset('storage/' . str_replace('storage/', '', $highlight->video)),
-                    'thumbnail'   => asset('storage/' . str_replace('storage/', '', $highlight->thumbnail)),
-                    'description' => $highlight->description,
-                    'created_at'  => $highlight->created_at,
-                    'updated_at'  => $highlight->updated_at,
-                ]
-            ]
-        ]);
     }
+    
     // public function update
 
     // public function destroy
