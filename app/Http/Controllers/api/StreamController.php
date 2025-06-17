@@ -121,12 +121,12 @@ class StreamController extends Controller
     public function discoverStreamWithChannels()
     {
         $userId = Auth::id();
-
-        // Get other channels (not owned by user)
+ 
         $channels = Channel::where('streamer_id', '!=', $userId)->get();
-
-        // Get random live stream from other channels
+ 
         $channelIds = $channels->pluck('id')->toArray();
+
+        dd($channelIds);
         $randomStream = Stream::with('channel:id,name,channel_id')
             ->whereIn('channel_id', $channelIds)
             ->where('status', 'live')
