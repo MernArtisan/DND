@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Helpers\ApiResponse;
+use Throwable;
 use App\Models\Channel;
 use App\Models\Highlight;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class HighlightController extends Controller
 {
@@ -92,7 +93,7 @@ class HighlightController extends Controller
             return ApiResponse::success('Highlight created successfully.', [
                 'highlight' => ApiResponse::highlightResource($highlight)
             ], 201);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             DB::rollBack();
             return ApiResponse::error('Failed to create highlight.', $e->getMessage());
         }
