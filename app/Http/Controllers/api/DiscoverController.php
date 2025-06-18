@@ -60,4 +60,13 @@ class DiscoverController extends Controller
             'streams' => $LiveStreams
         ]);
     }
+
+    public function channelsAll()
+    {
+        $channels = Channel::where('is_active', 1)->get();
+
+        return ApiResponse::success(message: 'Channels fetched successfully.', data: [
+            'channels' => $channels
+        ]);
+    }
 }
