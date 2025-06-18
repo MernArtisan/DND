@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Helpers\ApiResponse;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\TwilioService;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-   public function signin(Request $request)
+    public function signin(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
@@ -60,7 +62,7 @@ class AuthController extends Controller
     }
     public function verifyOtp(Request $request)
     {
-        $request->validate([ 
+        $request->validate([
             'email' => 'required|string',
             'otp' => 'required|string',
         ]);
@@ -157,5 +159,80 @@ class AuthController extends Controller
     {
         $data['password'] = bcrypt($data['password']);
         return User::create($data);
+    }
+
+    public function sendPasswordResetOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        $otp = rand(1000, 9999);
+        $resetToken = Str::uuid();
+
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->email],
+            [
+                'token' => $otp,
+                'email' => $user->email,
+                'created_at' => now(),
+            ]
+        );
+
+        Mail::raw("Your password reset OTP is: $otp", function ($msg) use ($user) {
+            $msg->to($user->email)->subject('Reset Password OTP');
+        });
+
+        return ApiResponse::success('OTP sent successfully.', [
+            'otp' => $otp
+        ]);
+    }
+
+    public function verifyResetOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|string',
+        ]);
+
+        $otpCheck = DB::table('password_reset_tokens')->where([
+            'email' => $request->email,
+            'token' => $request->otp,
+        ])->first();
+        if (!$otpCheck) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid OTP'
+            ], 401);
+        }
+
+        return ApiResponse::success('OTP verified successfully!', []);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'error' => 'User not found with this email.'
+            ]);
+        }
+
+        $user->update([
+            'password' => bcrypt($request->password),
+        ]);
+
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Password reset successfully!',
+        ], 200);
     }
 }

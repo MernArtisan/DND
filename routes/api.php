@@ -6,10 +6,16 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 // Authenticate apis
-// Route::post('/signup', [App\Http\Controllers\api\AuthController::class, 'signup']);
+// register
 Route::post('/signup', [App\Http\Controllers\api\AuthController::class, 'signup']);
+// login or  verifyIOTP
 Route::post('/signin', [App\Http\Controllers\api\AuthController::class, 'signin']);
 Route::post('/verify-otp', [App\Http\Controllers\api\AuthController::class, 'verifyOtp']);
+// forgot password
+Route::post('/forgot-password', [App\Http\Controllers\api\AuthController::class, 'sendPasswordResetOtp']);
+Route::post('/verify-password-reset-otp', [App\Http\Controllers\api\AuthController::class, 'verifyResetOtp']);
+Route::post('/reset-password', [App\Http\Controllers\api\AuthController::class, 'resetPassword']);
+
 // Middleware To Protect Over Auth Routes
 Route::middleware(['auth:sanctum'])->group(function () {
     // Profile Routes
@@ -36,5 +42,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/streams/{id}/join', [App\Http\Controllers\api\StreamController::class, 'incrementViewer']);
     Route::get('/my-streams', [App\Http\Controllers\api\StreamController::class, 'myStreams']);
     Route::get('/stream-discover', [App\Http\Controllers\api\StreamController::class, 'discoverStreamWithChannels']);
-
 });
