@@ -44,8 +44,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/stream-discover', [App\Http\Controllers\api\StreamController::class, 'discoverStreamWithChannels']);
     // Viewers Routes Here
     Route::get('/banners', [App\Http\Controllers\api\DiscoverController::class, 'banners']);
-    Route::get('/highlights-channels',[App\Http\Controllers\api\DiscoverController::class, 'highlightsChannels']);
-    Route::get('/hightlights-all',[App\Http\Controllers\api\DiscoverController::class, 'hightlightsAll']);
+    Route::get('/highlights-channels', [App\Http\Controllers\api\DiscoverController::class, 'highlightsChannels']);
+    Route::get('/hightlights-all', [App\Http\Controllers\api\DiscoverController::class, 'hightlightsAll']);
     Route::get('/live-streams', [App\Http\Controllers\api\DiscoverController::class, 'liveStreams']);
     Route::get('/channels-all', [App\Http\Controllers\api\DiscoverController::class, 'channelsAll']);
+    Route::post('/save-video', [App\Http\Controllers\api\DiscoverController::class, 'saveVideo']);
+    Route::get('/saved-videos', [App\Http\Controllers\api\DiscoverController::class, 'getMySavedVideos']);
 });

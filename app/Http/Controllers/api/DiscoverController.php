@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use App\Models\Highlight;
 use App\Models\Stream;
+use Illuminate\Support\Facades\DB;
 
 class DiscoverController extends Controller
 {
@@ -37,7 +38,7 @@ class DiscoverController extends Controller
 
         $topChannels = $channels->take(3);
         return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
-            'highlights' => $highlights,
+            ApiResponse::highlightResource('highlights', $highlights),
             'channels' => $topChannels
         ]);
     }
@@ -68,5 +69,15 @@ class DiscoverController extends Controller
         return ApiResponse::success(message: 'Channels fetched successfully.', data: [
             'channels' => $channels
         ]);
+    }
+
+
+    public function saveVideo(Request $req) {
+        $req->validate([
+            'highlight_id' => 'required|exists:highlights,id',
+        ]);
+
+        $alreadySaved = DB::table('saved_highlights')
+
     }
 }

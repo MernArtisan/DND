@@ -19,4 +19,10 @@ class Highlight extends Model
     {
         return $this->belongsTo(Channel::class);
     }
+
+
+    public function savedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'saved_highlights')->withTimestamps()->withPivot('saved_at');
+    }
 }

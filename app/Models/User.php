@@ -67,4 +67,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Channel::class, 'streamer_id');
     }
+
+    public function savedHighLights()
+    {
+        return $this->belongsToMany(Highlight::class, 'saved_highlights')
+            ->withTimestamps()
+            ->withPivot('saved_at');
+    }
 }
