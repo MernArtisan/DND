@@ -77,7 +77,7 @@ class DiscoverController extends Controller
             'highlight_id' => 'required|exists:highlights,id',
         ]);
 
-        $alreadySaved = DB::table('saved_highlights')
+        // $alreadySaved = DB::table('saved_highlights')
 
     }
 }
