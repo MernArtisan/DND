@@ -49,7 +49,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'OTP sent successfully to your email.',
                 'user_id' => $user->id,
-                'otp' => $otp // Optional: only for testing
+                'otp' => $otp
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -63,15 +63,14 @@ class AuthController extends Controller
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'email' => 'required|string',
+            'email' => 'required|string|email',
             'otp' => 'required|string',
         ]);
 
         try {
-            $field = $request->login_type;
-            $value = $request->value;
+            $email = $request->email;
 
-            $user = User::where($field, $value)->first();
+            $user = User::where('email', $email)->first();
 
             if (!$user) {
                 return response()->json(['status' => false, 'message' => 'User not found']);
@@ -93,6 +92,7 @@ class AuthController extends Controller
 
             $user->last_login_at = now();
             $user->save();
+
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
@@ -127,6 +127,7 @@ class AuthController extends Controller
             ]);
         }
     }
+
     public function signup(Request $request)
     {
 

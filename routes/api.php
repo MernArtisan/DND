@@ -42,4 +42,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/streams/{id}/join', [App\Http\Controllers\api\StreamController::class, 'incrementViewer']);
     Route::get('/my-streams', [App\Http\Controllers\api\StreamController::class, 'myStreams']);
     Route::get('/stream-discover', [App\Http\Controllers\api\StreamController::class, 'discoverStreamWithChannels']);
+    // Viewers Routes Here
+    Route::get('/banners', [App\Http\Controllers\api\DiscoverController::class, 'banners']);
 });

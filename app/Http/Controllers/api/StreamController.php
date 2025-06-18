@@ -86,7 +86,6 @@ class StreamController extends Controller
     {
         $topStreams = Stream::orderByDesc('viewer_count')
             ->take(5)
-            ->select('id', 'stream_id', 'title', 'viewer_count', 'status')
             ->get();
 
         return ApiResponse::success('Top 5 streams fetched successfully.', [
