@@ -25,7 +25,7 @@ class DiscoverController extends Controller
         $highlights = Highlight::orderByDesc('view_count')->inRandomOrder()->take(4)->get();
         $channels = Channel::whereHas('streams', function ($query) {
             $query->where('viewer_count', '>', 0);
-        })
+        })->take(6)
             ->get()
             ->sortByDesc(function ($channel) {
                 return $channel->streams()->sum('viewer_count'); // direct query, not loaded relation
