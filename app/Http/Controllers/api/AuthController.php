@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use App\Services\TwilioService;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    public function signin(Request $request, TwilioService $twilio)
+    public function signin(Request $request)
     {
         $request->validate([
-            'login_type' => 'required|in:email,phone',
-            'value' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
         ]);
 
-        $field = $request->login_type;
-        $value = $request->value;
+        $user = User::where('email', $request->email)->first();
 
-        $user = User::where($field, $value)->first();
-
-        if (!$user) {
-            return response()->json(['status' => false, 'message' => 'User not found']);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid email or password.',
+            ]);
         }
 
+        // Generate OTP
         $otp = rand(1000, 9999);
 
         DB::table('user_otps')->updateOrInsert(
@@ -35,25 +36,17 @@ class AuthController extends Controller
             ['otp' => $otp, 'created_at' => now()]
         );
 
+        // Send OTP via email
         try {
-            if ($field === 'email') {
-                Mail::raw("Your OTP is: $otp", function ($msg) use ($user) {
-                    $msg->to($user->email)->subject('Your OTP Code');
-                });
-            } else {
-                $formattedPhone = $user->phone;
-                if (!str_starts_with($formattedPhone, '+')) {
-                    $formattedPhone = '+1' . ltrim($formattedPhone, '0'); // default to US code
-                }
-
-                $twilio->sendSMS($formattedPhone, "Your OTP is: $otp");
-            }
+            Mail::raw("Your login OTP is: $otp", function ($msg) use ($user) {
+                $msg->to($user->email)->subject('Your OTP Code');
+            });
 
             return response()->json([
                 'status' => true,
-                'message' => 'OTP sent successfully.',
-                'medium' => $field,
-                'otp' => $otp
+                'message' => 'OTP sent successfully to your email.',
+                'user_id' => $user->id,
+                // 'otp' => $otp // Optional: only for testing
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -64,23 +57,16 @@ class AuthController extends Controller
             ]);
         }
     }
+
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'login_type' => 'required|in:email,phone',
-            'value' => 'required|string',
+            'user_id' => 'required|exists:users,id',
             'otp' => 'required|string',
         ]);
 
         try {
-            $field = $request->login_type;
-            $value = $request->value;
-
-            $user = User::where($field, $value)->first();
-
-            if (!$user) {
-                return response()->json(['status' => false, 'message' => 'User not found']);
-            }
+            $user = User::findOrFail($request->user_id);
 
             $record = DB::table('user_otps')->where('user_id', $user->id)->first();
 
@@ -88,21 +74,23 @@ class AuthController extends Controller
                 return response()->json(['status' => false, 'message' => 'Invalid OTP']);
             }
 
+            // OTP expiry check (1 minute)
             $otpCreated = \Carbon\Carbon::parse($record->created_at);
             if ($otpCreated->diffInSeconds(now()) > 60) {
                 DB::table('user_otps')->where('user_id', $user->id)->delete();
                 return response()->json(['status' => false, 'message' => 'OTP expired']);
             }
 
+            // OTP verified: delete and login
             DB::table('user_otps')->where('user_id', $user->id)->delete();
-
             $user->last_login_at = now();
             $user->save();
+
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
                 'status' => true,
-                'message' => $user->name . ' Login successful',
+                'message' => $user->name . ' login successful',
                 'token' => $token,
                 'user' => [
                     'id' => $user->id,
@@ -132,6 +120,8 @@ class AuthController extends Controller
             ]);
         }
     }
+
+
     public function signup(Request $request)
     {
 

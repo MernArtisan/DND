@@ -7,13 +7,12 @@ use App\Models\Stream;
 use App\Models\Category;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
-use App\Helpers\StreamHelper;
+// use App\Helpers\StreamHelper;
 use App\Services\StreamService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStreamRequest;
-use App\Models\Channel;
-
+use App\Models\Channel; 
 class StreamController extends Controller
 {
     public function __construct(protected StreamService $streamService) {}
@@ -118,7 +117,7 @@ class StreamController extends Controller
         ]);
     }
 
-    public function discoverStreamWithChannels()
+    public function discoverStreamWithChannels() 
     {
         $userId = Auth::id();
 
