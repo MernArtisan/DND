@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use App\Models\Highlight;
+use App\Models\Stream;
 
 class DiscoverController extends Controller
 {
@@ -23,7 +24,7 @@ class DiscoverController extends Controller
     public function highlightsChannels()
     {
         $highlights = Highlight::orderByDesc('view_count')->inRandomOrder()->take(4)->get();
-        $channels = Channel::where('is_active',1)->whereHas('streams', function ($query) {
+        $channels = Channel::where('is_active', 1)->whereHas('streams', function ($query) {
             $query->where('viewer_count', '>', 0);
         })
             ->get()
@@ -42,12 +43,21 @@ class DiscoverController extends Controller
     }
 
 
-    public function hightlightsAll(){
-        $highlights = Highlight::orderBy('created_at','desc')->get();
+    public function hightlightsAll()
+    {
+        $highlights = Highlight::orderBy('created_at', 'desc')->get();
 
         return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
             'highlights' => $highlights
         ]);
+    }
 
+    public function liveStreams()
+    {
+        $LiveStreams = Stream::where('status', 'live')->get();
+
+        return ApiResponse::success(message: 'Live Streams fetched successfully.', data: [
+            'streams' => $LiveStreams
+        ]);
     }
 }
