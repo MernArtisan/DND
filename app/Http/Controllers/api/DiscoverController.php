@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\Banner;
-use App\Helpers\ApiResponse;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\Stream;
 use App\Models\Channel;
 use App\Models\Highlight;
-use App\Models\Stream;
+use App\Helpers\ApiResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DiscoverController extends Controller
 {
@@ -81,7 +82,28 @@ class DiscoverController extends Controller
             'highlight_id' => 'required|exists:highlights,id',
         ]);
 
-        // $alreadySaved = DB::table('saved_highlights')
+        $alreadySaved = DB::table('saved_highlights')
+            ->where('user_id', Auth::id())
+            ->where('highlight_id', $req->highlight_id)
+            ->first();
 
+        if ($alreadySaved) {
+            DB::table('saved_highlights')
+                ->where('user_id', Auth::id())
+                ->where('highlight_id', $req->highlight_id)
+                ->delete();
+
+            return ApiResponse::success('Highlight removed successfully.');
+        }
+
+        DB::table('saved_highlights')->insert([
+            'user_id' => Auth::id(),
+            'highlight_id' => $req->highlight_id,
+            'saved_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return ApiResponse::success('Highlight saved successfully.');
     }
 }
