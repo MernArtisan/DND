@@ -46,7 +46,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'OTP sent successfully to your email.',
                 'user_id' => $user->id,
-                // 'otp' => $otp // Optional: only for testing
+                'otp' => $otp // Optional: only for testing
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
