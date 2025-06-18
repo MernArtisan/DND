@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Services\TwilioService;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    public function signin(Request $request)
+   public function signin(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
@@ -57,16 +57,22 @@ class AuthController extends Controller
             ]);
         }
     }
-
     public function verifyOtp(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
+        $request->validate([ 
+            'email' => 'required|string',
             'otp' => 'required|string',
         ]);
 
         try {
-            $user = User::findOrFail($request->user_id);
+            $field = $request->login_type;
+            $value = $request->value;
+
+            $user = User::where($field, $value)->first();
+
+            if (!$user) {
+                return response()->json(['status' => false, 'message' => 'User not found']);
+            }
 
             $record = DB::table('user_otps')->where('user_id', $user->id)->first();
 
@@ -74,23 +80,21 @@ class AuthController extends Controller
                 return response()->json(['status' => false, 'message' => 'Invalid OTP']);
             }
 
-            // OTP expiry check (1 minute)
             $otpCreated = \Carbon\Carbon::parse($record->created_at);
             if ($otpCreated->diffInSeconds(now()) > 60) {
                 DB::table('user_otps')->where('user_id', $user->id)->delete();
                 return response()->json(['status' => false, 'message' => 'OTP expired']);
             }
 
-            // OTP verified: delete and login
             DB::table('user_otps')->where('user_id', $user->id)->delete();
+
             $user->last_login_at = now();
             $user->save();
-
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
                 'status' => true,
-                'message' => $user->name . ' login successful',
+                'message' => $user->name . ' Login successful',
                 'token' => $token,
                 'user' => [
                     'id' => $user->id,
@@ -120,8 +124,6 @@ class AuthController extends Controller
             ]);
         }
     }
-
-
     public function signup(Request $request)
     {
 
