@@ -113,10 +113,24 @@ class DiscoverController extends Controller
 
         $savedHighlights = $user->savedHighlights()->latest('saved_at')->get();
 
-        return ApiResponse::success('Highlights fetched successfully.', [
-            'highlights' => $savedHighlights->map(function ($item) {
+        return ApiResponse::success('My saved videos fetched successfully.', [
+            'savedVideos' => $savedHighlights->map(function ($item) {
                 return ApiResponse::highlightResource($item);
             })
         ]);
+    }
+
+
+    public function incrementHighlightView(Request $request)
+    {
+        $request->validate([
+            'highlight_id' => 'required|exists:highlights,id',
+        ]);
+
+        $highlight = Highlight::find($request->highlight_id);
+
+        $highlight->increment('view_count');
+
+        return ApiResponse::success('Highlight view count incremented successfully.');
     }
 }
