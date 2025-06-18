@@ -23,13 +23,15 @@ class DiscoverController extends Controller
     public function highlightsChannels()
     {
         $highlights = Highlight::orderByDesc('view_count')->inRandomOrder()->take(4)->get();
-        $channels = Channel::with('streams')
-            ->whereHas('streams', function ($query) {
-                $query->orderByDesc('viewer_count');
-            })->get()
+        $channels = Channel::whereHas('streams', function ($query) {
+            $query->where('viewer_count', '>', 0);
+        })
+            ->get()
             ->sortByDesc(function ($channel) {
-                return $channel->streams->sum('viewer_count');
-            })->values();
+                return $channel->streams()->sum('viewer_count'); // direct query, not loaded relation
+            })
+            ->values();
+
 
         $topChannels = $channels->take(3);
         return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
