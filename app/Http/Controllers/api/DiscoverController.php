@@ -106,4 +106,17 @@ class DiscoverController extends Controller
 
         return ApiResponse::success('Highlight saved successfully.');
     }
+
+    public function getMySavedVideos()
+    {
+        $user = auth()->user();
+
+        $savedHighlights = $user->savedHighlights()->latest('saved_at')->get();
+
+        return ApiResponse::success('Highlights fetched successfully.', [
+            'highlights' => $savedHighlights->map(function ($item) {
+                return ApiResponse::highlightResource($item);
+            })
+        ]);
+    }
 }
