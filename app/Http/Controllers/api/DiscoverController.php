@@ -25,31 +25,34 @@ class DiscoverController extends Controller
     public function highlightsChannels()
     {
         $highlight = Highlight::orderByDesc('view_count')->inRandomOrder()->take(4)->get();
-        $channels = Channel::where('is_active', 1)->whereHas('streams', function ($query) {
-            $query->where('viewer_count', '>', 0);
-        })
+
+        $channels = Channel::where('is_active', 1)
+            ->whereHas('streams', function ($query) {
+                $query->where('viewer_count', '>', 0);
+            })
             ->get()
             ->sortByDesc(function ($channel) {
-                return $channel->streams()->sum('viewer_count'); // direct query, not loaded relation
+                return $channel->streams()->sum('viewer_count');
             })
-            ->take(5) // ✅ after sorting
+            ->take(5)
             ->values();
 
-
         $topChannels = $channels->take(3);
+
         return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
-            ApiResponse::highlightResource('highlight', $highlight),
+            'highlight' => $highlight->map(fn($h) => ApiResponse::highlightResource($h)),
             'channels' => $topChannels
         ]);
     }
 
 
+
     public function hightlightsAll()
     {
-        $highlights = Highlight::orderBy('created_at', 'desc')->get();
+        $highlight = Highlight::orderBy('created_at', 'desc')->get();
 
         return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
-            'highlights' => $highlights
+            'highlight' => $highlight->map(fn($h) => ApiResponse::highlightResource($h)),
         ]);
     }
 
@@ -58,7 +61,7 @@ class DiscoverController extends Controller
         $LiveStreams = Stream::where('status', 'live')->get();
 
         return ApiResponse::success(message: 'Live Streams fetched successfully.', data: [
-            'streams' => $LiveStreams
+            'streams' => $LiveStreams->map(fn($h) => ApiResponse::transform($h)),
         ]);
     }
 
@@ -72,7 +75,8 @@ class DiscoverController extends Controller
     }
 
 
-    public function saveVideo(Request $req) {
+    public function saveVideo(Request $req)
+    {
         $req->validate([
             'highlight_id' => 'required|exists:highlights,id',
         ]);
