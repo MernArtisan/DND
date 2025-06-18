@@ -40,4 +40,14 @@ class DiscoverController extends Controller
             'channels' => $topChannels
         ]);
     }
+
+
+    public function hightlightsAll(){
+        $highlights = Highlight::orderBy('created_at','desc')->get();
+
+        return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
+            'highlights' => $highlights
+        ]);
+
+    }
 }

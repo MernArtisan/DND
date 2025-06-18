@@ -45,4 +45,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Viewers Routes Here
     Route::get('/banners', [App\Http\Controllers\api\DiscoverController::class, 'banners']);
     Route::get('/highlights-channels',[App\Http\Controllers\api\DiscoverController::class, 'highlightsChannels']);
+    Route::get('/hightlights-all',[App\Http\Controllers\api\DiscoverController::class, 'hightlightsAll']);
 });
