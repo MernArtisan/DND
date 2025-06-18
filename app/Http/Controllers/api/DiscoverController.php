@@ -23,7 +23,7 @@ class DiscoverController extends Controller
     public function highlightsChannels()
     {
         $highlights = Highlight::orderByDesc('view_count')->inRandomOrder()->take(4)->get();
-        $channels = Channel::whereHas('streams', function ($query) {
+        $channels = Channel::where('is_active',1)->whereHas('streams', function ($query) {
             $query->where('viewer_count', '>', 0);
         })
             ->get()
