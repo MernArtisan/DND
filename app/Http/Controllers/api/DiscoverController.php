@@ -6,6 +6,8 @@ use App\Models\Banner;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Channel;
+use App\Models\Highlight;
 
 class DiscoverController extends Controller
 {
@@ -15,6 +17,24 @@ class DiscoverController extends Controller
 
         return ApiResponse::success(message: 'Banners fetched successfully.', data: [
             'banners' => $banners
+        ]);
+    }
+
+    public function highlightsChannels()
+    {
+        $highlights = Highlight::orderByDesc('view_count')->inRandomOrder()->take(4)->get();
+        $channels = Channel::with('streams')
+            ->whereHas('streams', function ($query) {
+                $query->orderByDesc('viewer_count');
+            })->get()
+            ->sortByDesc(function ($channel) {
+                return $channel->streams->sum('viewer_count');
+            })->values();
+
+        $topChannels = $channels->take(3);
+        return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
+            'highlights' => $highlights,
+            'channels' => $topChannels
         ]);
     }
 }

@@ -44,4 +44,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/stream-discover', [App\Http\Controllers\api\StreamController::class, 'discoverStreamWithChannels']);
     // Viewers Routes Here
     Route::get('/banners', [App\Http\Controllers\api\DiscoverController::class, 'banners']);
+    Route::get('/highlights-channels',[App\Http\Controllers\api\DiscoverController::class, 'highlightsChannels']);
 });
