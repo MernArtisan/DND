@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Like;
 use App\Models\Banner;
 use App\Models\Stream;
 use App\Models\Channel;
@@ -216,5 +217,40 @@ class DiscoverController extends Controller
         ]);
 
         return ApiResponse::success('Comment added successfully.');
+    }
+
+    public function likeHighlight($id, Request $request)
+    {
+        // Validate the reaction type input
+        $validated = $request->validate([
+            'type' => 'required|string|in:like,love,haha,wow,sad,angry', // Reaction types: like, love, etc.
+        ]);
+
+        // Find the highlight
+        $highlight = Highlight::find($id);
+
+        if (!$highlight) {
+            return ApiResponse::error('Highlight not found.', [], 404);
+        }
+
+        // Check if the user has already liked this highlight
+        $existingLike = Like::where('highlight_id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if ($existingLike) {
+            return ApiResponse::error('You have already liked this highlight.', [], 400);
+        }
+
+        // If the user hasn't liked yet, like the highlight and add a reaction type in the `likes` table
+        $like = new Like();
+        $like->highlight_id = $id;
+        $like->user_id = Auth::id();  // Get the logged-in user's ID
+        $like->type = $validated['type'];  // Save the reaction type (like, love, etc.)
+        $like->save();
+
+        return ApiResponse::success('You have liked the highlight.', [
+            'type' => $validated['type'],  // Returning the reaction type for the like
+        ]);
     }
 }
