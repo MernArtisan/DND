@@ -219,11 +219,11 @@ class DiscoverController extends Controller
         return ApiResponse::success('Comment added successfully.');
     }
 
-    public function likeHighlight($id, Request $request)
+    public function likeUnlikeHighlight($id, Request $request)
     {
-        // Validate the reaction type input
+        // Validate the reaction type input (for liking)
         $validated = $request->validate([
-            'type' => 'required|string|in:like,love,haha,wow,sad,angry', // Reaction types: like, love, etc.
+            'type' => 'nullable|string|in:like,love,haha,wow,sad,angry', // Reaction types (for liking)
         ]);
 
         // Find the highlight
@@ -239,27 +239,21 @@ class DiscoverController extends Controller
             ->first();
 
         if ($existingLike) {
-
-            // If the user has already liked, unlike the highlight and remove the reaction type from the `likes` table
+            // If the user has already liked, remove the like (delete the like record)
             $existingLike->delete();
+
+            return ApiResponse::success('You have unliked the highlight.');
+        } else {
+            // If the user hasn't liked yet, like the highlight and save the reaction type in the `likes` table
             $like = new Like();
             $like->highlight_id = $id;
             $like->user_id = Auth::id();  // Get the logged-in user's ID
             $like->type = $validated['type'];  // Save the reaction type (like, love, etc.)
             $like->save();
 
-            
+            return ApiResponse::success('You have liked the highlight.', [
+                'reaction_type' => $validated['type'],  // Returning the reaction type for the like
+            ]);
         }
-
-        // If the user hasn't liked yet, like the highlight and add a reaction type in the `likes` table
-        $like = new Like();
-        $like->highlight_id = $id;
-        $like->user_id = Auth::id();  // Get the logged-in user's ID
-        $like->type = $validated['type'];  // Save the reaction type (like, love, etc.)
-        $like->save();
-
-        return ApiResponse::success('You have liked the highlight.', [
-            'type' => $validated['type'],  // Returning the reaction type for the like
-        ]);
     }
 }
