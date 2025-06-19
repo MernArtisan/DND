@@ -192,6 +192,7 @@ class DiscoverController extends Controller
                 'created_at' => $highlight->created_at,
                 'commentCount' => $highlight->comments->count(),
                 'likeCount' => $highlight->likes->count(),
+                'unlikeCount' => $highlight->unlike->count(),
                 'shareCount' => $highlight->share_count,
                 'viewCount' => $highlight->view_count,
                 'liked' => $likesData['liked'],  // liked status (true/false)
