@@ -293,4 +293,17 @@ class DiscoverController extends Controller
             }
         }
     }
+
+    public function shareHighlight(Request $request)
+    {
+        $request->validate([
+            'highlight_id' => 'required|exists:highlights,id',
+        ]);
+
+        $highlight = Highlight::find($request->highlight_id);
+
+        $highlight->increment('share_count');
+
+        return ApiResponse::success('Highlight shared successfully.');
+    }
 }
