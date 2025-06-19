@@ -183,8 +183,9 @@ class DiscoverController extends Controller
                 'id' => $highlight->id,
                 'channel_id' => $highlight->channel_id,
                 'title' => $highlight->title,
-                'video' => asset($highlight->video),
-                'thumbnail' => $highlight->thumbnail,
+                'video' => asset('storage/' . $highlight->video),  // Assuming the video is stored in the 'storage' folder
+                'thumbnail' => asset('storage/' . $highlight->thumbnail),  // Assuming the thumbnail is stored in the 'storage' folder
+
                 'description' => $highlight->description,
                 'created_at' => $highlight->created_at,
                 'commentCount' => $highlight->comments->count(),
