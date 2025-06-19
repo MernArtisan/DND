@@ -8,6 +8,8 @@ class HighlightComment extends Model
 {
     protected $table = 'highlight_comments';
 
+    protected $fillable = ['highlight_id', 'user_id', 'comment'];
+
     public function highlight()
     {
         return $this->belongsTo(Highlight::class);
