@@ -133,4 +133,70 @@ class DiscoverController extends Controller
 
         return ApiResponse::success('Highlight view count incremented successfully.');
     }
+
+    public function hightlightsSpecific($id)
+    {
+        // Retrieve the highlight by its ID along with comments and likes
+        $highlight = Highlight::with(['comments.user', 'likes.user'])->find($id);
+
+        // Check if the highlight exists
+        if (!$highlight) {
+            return ApiResponse::error('Highlight not found.', [], 404);
+        }
+
+        // Check if the current user has liked this highlight
+        $liked = $highlight->likes->where('user_id', Auth::id())->first();
+        $liked = $liked ? true : false;  // Check if the current user has liked this highlight and set it to true/false
+
+        $unliked = $highlight->unlike->where('user_id', Auth::id())->first();
+        $unliked = $unliked ? true : false;
+
+        // Prepare the comments data
+        $comments = $highlight->comments->map(function ($comment) {
+            return [
+                'id' => $comment->user->id,
+                'user' => $comment->user->name,  // User name who commented
+                'role' => $comment->user->role,  // User's role who commented
+                'image' => $comment->user->image,  // User's image who commented
+                'comment' => $comment->comment,  // The content of the comment
+                'created_at' => $comment->created_at, // Date of the comment
+            ];
+        });
+
+        // Check if the current user has saved this highlight
+        $saved = DB::table('saved_highlights')
+            ->where('user_id', Auth::id())
+            ->where('highlight_id', $id)
+            ->exists();
+
+        // Prepare the likes data, if the user liked this highlight, include the type
+        $likesData = ['liked' => $liked]; // Basic liked status
+
+        if ($liked) {
+            // If the user liked, include the type of the like
+            $likesData['type'] = $highlight->likes->where('user_id', Auth::id())->first()->type;
+        }
+
+        // Return the response with the simplified structure
+        return ApiResponse::success('Highlights fetched successfully.', [
+            'highlight' => [
+                'id' => $highlight->id,
+                'channel_id' => $highlight->channel_id,
+                'title' => $highlight->title,
+                'video' => $highlight->video,
+                'thumbnail' => $highlight->thumbnail,
+                'description' => $highlight->description,
+                'created_at' => $highlight->created_at,
+                'commentCount' => $highlight->comments->count(),
+                'likeCount' => $highlight->likes->count(),
+                'shareCount' => $highlight->share_count,
+                'viewCount' => $highlight->view_count,
+                'liked' => $likesData['liked'],  // liked status (true/false)
+                'unliked' => $unliked,
+                'type' => $likesData['type'] ?? null,  // The type of like if liked is true, otherwise null
+                'saved' => $saved,  // saved status (true/false)
+            ],
+            'comments' => $comments,  // Return the comments
+        ]);
+    }
 }

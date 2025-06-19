@@ -52,4 +52,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/saved-videos', [App\Http\Controllers\api\DiscoverController::class, 'getMySavedVideos']);
     Route::post('/highlight-count-increment', [App\Http\Controllers\api\DiscoverController::class, 'incrementHighlightView']);
 
+    Route::get('/hightlights-specific/{id}', [App\Http\Controllers\api\DiscoverController::class, 'hightlightsSpecific']);
+
 });

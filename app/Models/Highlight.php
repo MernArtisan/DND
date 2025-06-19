@@ -25,4 +25,21 @@ class Highlight extends Model
     {
         return $this->belongsToMany(User::class, 'saved_highlights')->withTimestamps()->withPivot('saved_at');
     }
+
+
+    public function comments()
+    {
+        return $this->hasMany(HighlightComment::class, 'highlight_id');
+    }
+
+    // A highlight has many likes
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'highlight_id');
+    }
+
+    public function unlike()
+    {
+        return $this->hasMany(Unlike::class, 'highlight_id');
+    }
 }
