@@ -59,7 +59,7 @@ class User extends Authenticatable
     }
     public function getImageAttribute($value)
     {
-        return $value ? asset($value) : asset('public/default-man.png');
+        return $value ? asset($value) : asset('default-man.png');
     }
 
 
