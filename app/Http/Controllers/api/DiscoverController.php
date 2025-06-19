@@ -239,13 +239,16 @@ class DiscoverController extends Controller
             ->first();
 
         if ($existingLike) {
+
+            // If the user has already liked, unlike the highlight and remove the reaction type from the `likes` table
+            $existingLike->delete();
             $like = new Like();
             $like->highlight_id = $id;
             $like->user_id = Auth::id();  // Get the logged-in user's ID
             $like->type = $validated['type'];  // Save the reaction type (like, love, etc.)
             $like->save();
 
-            $existingLike->delete();
+            
         }
 
         // If the user hasn't liked yet, like the highlight and add a reaction type in the `likes` table
