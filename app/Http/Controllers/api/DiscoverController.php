@@ -260,47 +260,34 @@ class DiscoverController extends Controller
 
 
     public function unlikeHighlight($id)
-    {
-        // Find the highlight
+    { 
         $highlight = Highlight::find($id);
 
         if (!$highlight) {
             return ApiResponse::error('Highlight not found.', [], 404);
         }
-
-        // Check if the user has liked this highlight
+ 
         $existingLike = Like::where('highlight_id', $id)
             ->where('user_id', Auth::id())
             ->first();
 
-        if ($existingLike) {
-            // User has liked the highlight, let's remove the like and insert into the unlikes table
+        if ($existingLike) { 
             $existingLike->delete();
-
-            // Insert the unlike record in the unlikes table
+ 
             $unlike = new Unlike();
             $unlike->highlight_id = $id;
             $unlike->user_id = Auth::id();
             $unlike->save();
 
             return ApiResponse::success('You have unliked the highlight.');
-        } else {
-            // User has already unliked the highlight, so we need to remove the unlike and restore the like
+        } else { 
             $existingUnlike = Unlike::where('highlight_id', $id)
                 ->where('user_id', Auth::id())
                 ->first();
 
-            if ($existingUnlike) {
-                // Remove the unlike entry
+            if ($existingUnlike) { 
                 $existingUnlike->delete();
-
-                // Restore the like by adding it back to the likes table
-                $like = new Like();
-                $like->highlight_id = $id;
-                $like->user_id = Auth::id();
-                $like->save();
-
-                return ApiResponse::success('You have restored the like.');
+                return ApiResponse::success('unlike removed successfully.');
             } else {
                 return ApiResponse::error('No action taken. You must like or unlike first.');
             }
