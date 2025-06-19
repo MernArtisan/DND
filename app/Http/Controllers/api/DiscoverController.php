@@ -200,4 +200,21 @@ class DiscoverController extends Controller
             'comments' => $comments,  // Return the comments
         ]);
     }
+
+
+    public function addComment(Request $request, $id)
+    {
+        $request->validate([
+            'comment'      => 'required|string',
+        ]);
+
+        $highlight = Highlight::find($id);
+
+        $highlight->comments()->create([
+            'user_id' => Auth::id(),
+            'comment' => $request->comment,
+        ]);
+
+        return ApiResponse::success('Comment added successfully.');
+    }
 }
