@@ -261,35 +261,42 @@ class DiscoverController extends Controller
 
 
     public function unlikeHighlight($id)
-    { 
+    {
         $highlight = Highlight::find($id);
 
         if (!$highlight) {
             return ApiResponse::error('Highlight not found.', [], 404);
         }
- 
+
         $existingLike = Like::where('highlight_id', $id)
             ->where('user_id', Auth::id())
             ->first();
 
-        if ($existingLike) { 
+        if ($existingLike) {
             $existingLike->delete();
- 
+
             $unlike = new Unlike();
             $unlike->highlight_id = $id;
             $unlike->user_id = Auth::id();
             $unlike->save();
 
             return ApiResponse::success('You have unliked the highlight.');
-        } else { 
+        } else {
             $existingUnlike = Unlike::where('highlight_id', $id)
                 ->where('user_id', Auth::id())
                 ->first();
 
-            if ($existingUnlike) { 
+            if ($existingUnlike) {
                 $existingUnlike->delete();
                 return ApiResponse::success('unlike removed successfully.');
-            } 
+            } else {
+                $unlike = new Unlike();
+                $unlike->highlight_id = $id;
+                $unlike->user_id = Auth::id();
+                $unlike->save();
+
+                return ApiResponse::success('You have unliked the highlight.');
+            }
         }
     }
 
