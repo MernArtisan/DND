@@ -289,9 +289,7 @@ class DiscoverController extends Controller
             if ($existingUnlike) { 
                 $existingUnlike->delete();
                 return ApiResponse::success('unlike removed successfully.');
-            } else {
-                return ApiResponse::error('No action taken. You must like or unlike first.');
-            }
+            } 
         }
     }
 
