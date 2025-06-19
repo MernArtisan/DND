@@ -117,4 +117,16 @@ class ProfileController extends Controller
             'message' => 'Logged out successfully'
         ]);
     }
+
+
+    public function updateFcmToken(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
+        $user->fcm_token = $request->fcm_token;
+        $user->save();
+        return response()->json([
+            'status' => true,
+            'message' => 'FCM token updated successfully',
+        ]);
+    }
 }

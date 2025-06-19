@@ -25,6 +25,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/terms', [App\Http\Controllers\api\ProfileController::class, 'terms']);
     Route::get('/privacy', [App\Http\Controllers\api\ProfileController::class, 'privacy']);
     Route::delete('/delete-account', [App\Http\Controllers\api\ProfileController::class, 'deleteAccount']);
+    Route::post('/update-fcm-token', [App\Http\Controllers\api\ProfileController::class, 'updateFcmToken']);
+
     // Channel Routes
     Route::get('/my-channels', [App\Http\Controllers\api\ChannelController::class, 'index']);
     Route::post('/channel/create', [App\Http\Controllers\api\ChannelController::class, 'create']);
@@ -57,5 +59,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/highlights-specific/{id}/like', [App\Http\Controllers\api\DiscoverController::class, 'likeUnlikeHighlight']);
     Route::post('/highlights-specific/{id}/unlike', [App\Http\Controllers\api\DiscoverController::class, 'unlikeHighlight']);
     Route::post('/highlight-share', [App\Http\Controllers\api\DiscoverController::class, 'shareHighlight']);
-
 });
