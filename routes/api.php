@@ -53,6 +53,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/highlight-count-increment', [App\Http\Controllers\api\DiscoverController::class, 'incrementHighlightView']);
 
     Route::get('/hightlights-specific/{id}', [App\Http\Controllers\api\DiscoverController::class, 'hightlightsSpecific']);
-    Route::post('/hightlights-specific/{id}/comment', [App\Http\Controllers\api\DiscoverController::class, 'addComment']);
+    Route::post('/highlights-specific/{id}/comment', [App\Http\Controllers\api\DiscoverController::class, 'addComment']);
     Route::post('/highlights-specific/{id}/like-unlike', [App\Http\Controllers\api\DiscoverController::class, 'likeUnlikeHighlight']);
 });
