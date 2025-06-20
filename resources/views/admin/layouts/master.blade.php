@@ -7,11 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
-    <link rel="shortcut icon" href="{{asset('admin/assets/images/favicon.ico')}}">
-    <link href="{{asset('admin/assets/css/vendor.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
-    <link href="{{asset('admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="{{ asset('admin/assets/images/favicon.ico') }}">
+    <link href="{{ asset('admin/assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="{{ asset('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/gridjs/theme/mermaid.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+
     @yield('styles')
 </head>
 
@@ -22,12 +25,16 @@
         @yield('content')
     </div>
 
-    <script src="{{asset('admin/assets/js/vendor.min.js')}}"></script>
-    <script src="{{asset('admin/assets/js/app.js')}}"></script>
-    <script src="{{asset('admin/assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
-    <script src="{{asset('admin/assets/js/pages/dashboard-sales.js')}}"></script>
-    <script src="{{asset('admin/assets/js/config.js')}}"></script>
+    <script src="{{ asset('admin/assets/js/vendor.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/app.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/pages/dashboard-sales.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/config.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{{ asset('admin/assets/vendor/gridjs/gridjs.umd.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/pages/table-gridjs.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
     @yield('scripts')
     <script>
         @if (session('success'))
@@ -37,6 +44,51 @@
             toastr.error('{{ session('error') }}', 'Error');
         @endif
     </script>
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to undo this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector("#img").setAttribute("src", e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('#description').summernote({
+            height: 200,
+            placeholder: 'Enter description...',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['fontsize', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview']]
+            ]
+        });
+    });
+</script>
+
 </body>
 
 </html>

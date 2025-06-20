@@ -1,15 +1,15 @@
 <div class="sidenav-menu">
 
     <!-- Brand Logo -->
-    <a href="{{route('admin.dashboard')}}" class="logo">
+    <a href="{{ route('admin.dashboard') }}" class="logo">
         <span class="logo-light">
-            <span class="logo-lg"><img src="{{asset('web/assets/img/main-logo-1.png')}}" width="150" height="100"
+            <span class="logo-lg"><img src="{{ asset('web/assets/img/main-logo-1.png') }}" width="150" height="100"
                     alt="logo"
                     style="height: 66px;padding: -4px;text-align: center;margin-left: 16px;margin-top: -5px;">
             </span>
-            <span class="logo-sm text-center"><img src="{{asset('admin/assets/images/small.png')}}"
+            <span class="logo-sm text-center"><img src="{{ asset('admin/assets/images/small.png') }}"
                     alt="small logo"></span>
-        </span> 
+        </span>
     </a>
 
     <!-- Sidebar Hover Menu Toggle Button -->
@@ -38,9 +38,9 @@
             <li class="side-nav-title mt-2">Apps & Pages</li>
 
             <li class="side-nav-item">
-                <a href="apps-chat.html" class="side-nav-link">
+                <a href="{{ route('admin.banner.index') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-message-filled"></i></span>
-                    <span class="menu-text"> Chat </span>
+                    <span class="menu-text"> Banners </span>
                 </a>
             </li>
 
@@ -123,7 +123,7 @@
                 </div>
             </li>
 
-            <li class="side-nav-item">
+            <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-file-invoice"></i></span>
@@ -197,9 +197,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
-            <li class="side-nav-item">
+            <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false"
                     aria-controls="sidebarPagesAuth" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-lock-filled"></i></span>
@@ -260,9 +260,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
-            <li class="side-nav-item">
+            <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesError" aria-expanded="false"
                     aria-controls="sidebarPagesError" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-server-2"></i></span>
@@ -776,9 +776,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
-            <li class="side-nav-item">
+            <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarMultiLevel" aria-expanded="false"
                     aria-controls="sidebarMultiLevel" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-box-multiple-3"></i></span>
@@ -845,7 +845,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
         </ul>
 
         <div class="clearfix"></div>
