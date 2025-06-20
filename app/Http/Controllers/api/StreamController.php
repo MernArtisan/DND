@@ -90,7 +90,28 @@ class StreamController extends Controller
             ->get();
 
         return ApiResponse::success('Top 5 streams fetched successfully.', [
-            'streams' => $topStreams->map([ApiResponse::class, 'transform'])
+            'streams' => [
+                'id' => $topStreams->id,
+                'stream_id' => $topStreams->stream_id,
+                'team_1' => $topStreams->team_1,
+                'team1_symbol' => $topStreams->team1_symbol,
+                'team_2' => $topStreams->team_2,
+                'team2_symbol' => $topStreams->team2_symbol,
+                'category_id' => $topStreams->category_id,
+                'channel_id' => $topStreams->channel_id,
+                'title' => $topStreams->title,
+                'date' => $topStreams->date,
+                'start_time' => $topStreams->start_time,
+                'end_time' => $topStreams->end_time,
+                'location' => $topStreams->location,
+                'location_symbol' => $topStreams->location_symbol,
+                'image' => $topStreams->image,
+                'description' => $topStreams->description,
+                'viewer_count' => $topStreams->viewer_count,
+                'status' => $topStreams->status,
+                'created_at' => $topStreams->created_at,
+                'updated_at' => $topStreams->updated_at
+            ]
         ]);
     }
 
