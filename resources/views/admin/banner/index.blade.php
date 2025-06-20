@@ -56,6 +56,7 @@
                                                             method="POST" class="d-none">
                                                             @csrf
                                                             @method('DELETE')
+                                                            {{--  --}}
                                                         </form>
                                                     </td>
                                                 </tr>
