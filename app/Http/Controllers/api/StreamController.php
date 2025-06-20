@@ -12,7 +12,8 @@ use App\Services\StreamService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStreamRequest;
-use App\Models\Channel; 
+use App\Models\Channel;
+
 class StreamController extends Controller
 {
     public function __construct(protected StreamService $streamService) {}
@@ -89,7 +90,8 @@ class StreamController extends Controller
             ->get();
 
         return ApiResponse::success('Top 5 streams fetched successfully.', [
-            'streams' => $topStreams
+            // 'streams' => $topStreams
+            'topStreams' => ApiResponse::transform($topStreams)
         ]);
     }
 
@@ -116,7 +118,7 @@ class StreamController extends Controller
         ]);
     }
 
-    public function discoverStreamWithChannels() 
+    public function discoverStreamWithChannels()
     {
         $userId = Auth::id();
 

@@ -312,4 +312,39 @@ class DiscoverController extends Controller
 
         return ApiResponse::success('Highlight shared successfully.');
     }
+
+    public function getFilteredData(Request $request)
+    {
+        $validated = $request->validate([
+            'channel_name' => 'nullable|string',
+            'stream_status' => 'nullable|in:live,offline',
+            'highlight_name' => 'nullable|string',
+            'category' => 'nullable|string',
+        ]);
+
+        $query = Stream::query();
+        $channelQuery = Channel::query();
+
+        if ($validated['channel_name']) {
+            // $query->whereHas('channel', function ($q) use ($validated) {
+                $channelQuery->where('name', 'like', '%' . $validated['channel_name'] . '%');
+            // });
+        }
+
+        if ($request->has('stream_status')) {
+            $query->where('status', $request->stream_status);
+        }
+
+        if ($request->has('highlight_name')) {
+            $query->where('highlight_name', 'like', '%' . $request->highlight_name . '%');
+        }
+
+        if ($request->has('category')) {
+            $query->where('category', $request->category);
+        }
+
+        $streams = $query->get();
+
+        return response()->json($streams);
+    }
 }
