@@ -6,6 +6,7 @@ use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Crypt;
 
 class BannerController extends Controller
 {
@@ -76,8 +77,9 @@ class BannerController extends Controller
     }
 
 
-    public function edit(string $id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decrypt($encryptedId);
         $banner = Banner::findOrFail($id);
         return view('admin.banner.edit', compact('banner'));
     }

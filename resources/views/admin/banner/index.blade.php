@@ -41,7 +41,7 @@
                                                     </td>
                                                     <td>{{ $item->platform }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.banner.edit', $item->id) }}"
+                                                        <a href="{{ route('admin.banner.edit', encrypt($item->id)) }}"
                                                             class="btn btn-sm btn-warning">
                                                             <i class="ti ti-pencil"></i>
                                                         </a>
@@ -52,7 +52,7 @@
                                                         </button>
 
                                                         <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('admin.banner.destroy', $item->id) }}"
+                                                            action="{{ route('admin.banner.destroy', encrypt($item->id)) }}"
                                                             method="POST" class="d-none">
                                                             @csrf
                                                             @method('DELETE')

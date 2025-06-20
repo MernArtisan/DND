@@ -28,18 +28,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($banner as $item)
+                                            @foreach ($category as $item)
                                                 <tr>
-                                                    <td>{{ $item->id }}</td>
-                                                    <td>{{ $item->title }}</td>
-                                                    <td>{{ $item->subtitle }}</td>
-                                                    <td>{{ $item->description }}</td>
+                                                    <td>{{ $item->name }}</td>
                                                     <td>
                                                         <img src="{{ asset($item->image ?: 'default-man.png') }}"
                                                             alt="Banner Image" class="avatar-sm rounded" />
-
                                                     </td>
-                                                    <td>{{ $item->platform }}</td>
+                                                    <td>{{ $item->status }}</td>
                                                     <td>
                                                         <a href="{{ route('admin.category.edit', $item->id) }}"
                                                             class="btn btn-sm btn-warning">

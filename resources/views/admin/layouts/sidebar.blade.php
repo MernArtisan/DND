@@ -45,9 +45,9 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="apps-calendar.html" class="side-nav-link">
+                <a href="{{ route('admin.category.index') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-calendar-filled"></i></span>
-                    <span class="menu-text"> Calendar </span>
+                    <span class="menu-text"> Categories </span>
                 </a>
             </li>
 
