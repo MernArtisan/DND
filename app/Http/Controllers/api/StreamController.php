@@ -89,29 +89,34 @@ class StreamController extends Controller
             ->take(5)
             ->get();
 
+        // Transform each stream in the collection
+        $formattedStreams = $topStreams->map(function ($stream) {
+            return [
+                'id' => $stream->id,
+                'stream_id' => $stream->stream_id,
+                'team_1' => $stream->team_1,
+                'team1_symbol' => $stream->team1_symbol,
+                'team_2' => $stream->team_2,
+                'team2_symbol' => $stream->team2_symbol,
+                'category_id' => $stream->category_id,
+                'channel_id' => $stream->channel_id,
+                'title' => $stream->title,
+                'date' => $stream->date,
+                'start_time' => $stream->start_time,
+                'end_time' => $stream->end_time,
+                'location' => $stream->location,
+                'location_symbol' => $stream->location_symbol,
+                'image' => $stream->image, // Uncommented
+                'description' => $stream->description,
+                'viewer_count' => $stream->viewer_count,
+                'status' => $stream->status,
+                'created_at' => $stream->created_at,
+                'updated_at' => $stream->updated_at
+            ];
+        });
+
         return ApiResponse::success('Top 5 streams fetched successfully.', [
-            'streams' => [
-                'id' => $topStreams->id,
-                'stream_id' => $topStreams->stream_id,
-                'team_1' => $topStreams->team_1,
-                'team1_symbol' => $topStreams->team1_symbol,
-                'team_2' => $topStreams->team_2,
-                'team2_symbol' => $topStreams->team2_symbol,
-                'category_id' => $topStreams->category_id,
-                'channel_id' => $topStreams->channel_id,
-                'title' => $topStreams->title,
-                'date' => $topStreams->date,
-                'start_time' => $topStreams->start_time,
-                'end_time' => $topStreams->end_time,
-                'location' => $topStreams->location,
-                'location_symbol' => $topStreams->location_symbol,
-                // 'image' => $topStreams->image,
-                'description' => $topStreams->description,
-                'viewer_count' => $topStreams->viewer_count,
-                'status' => $topStreams->status,
-                'created_at' => $topStreams->created_at,
-                'updated_at' => $topStreams->updated_at
-            ]
+            'streams' => $formattedStreams
         ]);
     }
 
