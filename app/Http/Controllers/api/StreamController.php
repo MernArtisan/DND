@@ -90,7 +90,7 @@ class StreamController extends Controller
             ->get();
 
         return ApiResponse::success('Top 5 streams fetched successfully.', [
-            'streams' => $topStreams
+            'streams' => $topStreams->map([ApiResponse::class, 'transform'])
         ]);
     }
 
