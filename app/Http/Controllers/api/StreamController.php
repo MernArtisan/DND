@@ -105,7 +105,7 @@ class StreamController extends Controller
                 'end_time' => $topStreams->end_time,
                 'location' => $topStreams->location,
                 'location_symbol' => $topStreams->location_symbol,
-                'image' => $topStreams->image,
+                // 'image' => $topStreams->image,
                 'description' => $topStreams->description,
                 'viewer_count' => $topStreams->viewer_count,
                 'status' => $topStreams->status,
