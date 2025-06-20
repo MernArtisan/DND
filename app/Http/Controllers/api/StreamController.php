@@ -106,7 +106,7 @@ class StreamController extends Controller
                 'end_time' => $stream->end_time,
                 'location' => $stream->location,
                 'location_symbol' => $stream->location_symbol,
-                'image' => $stream->image, // Uncommented
+                'image' => asset('storage/' . $stream->image), // Uncommented
                 'description' => $stream->description,
                 'viewer_count' => $stream->viewer_count,
                 'status' => $stream->status,
