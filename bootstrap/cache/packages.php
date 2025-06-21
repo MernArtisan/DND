@@ -48,15 +48,4 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
-  'vinkla/hashids' => 
-  array (
-    'aliases' => 
-    array (
-      'Hashids' => 'Vinkla\\Hashids\\Facades\\Hashids',
-    ),
-    'providers' => 
-    array (
-      0 => 'Vinkla\\Hashids\\HashidsServiceProvider',
-    ),
-  ),
 );

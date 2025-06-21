@@ -52,9 +52,9 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="apps-email.html" class="side-nav-link">
+                <a href="{{ route('admin.channel.index') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-inbox"></i></span>
-                    <span class="menu-text"> Email </span>
+                    <span class="menu-text"> Channels </span>
                 </a>
             </li>
 

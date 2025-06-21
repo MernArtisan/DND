@@ -51,8 +51,8 @@
                                                         onchange="readURL(this)" class="form-control">
                                                 </div>
 
-                                                <img src="{{ asset($banner->image ?? 'default-man.png') }}"
-                                                    alt="Banner Image" id="img" style='height:150px;'>
+                                                <img src="{{ asset('storage/' . ($banner->image ?? 'default-man.png')) }}"
+                                                    alt="Banner Image" id="img" style="height:150px;">
 
                                                 <div class="mb-3 mt-4">
                                                     <button type="submit" class="btn btn-primary">Update</button>
