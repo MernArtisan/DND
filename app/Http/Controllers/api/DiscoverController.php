@@ -322,29 +322,34 @@ class DiscoverController extends Controller
             'category' => 'nullable|string',
         ]);
 
-        $query = Stream::query();
+        $Streamquery = Stream::query();
         $channelQuery = Channel::query();
 
         if ($validated['channel_name']) {
             // $query->whereHas('channel', function ($q) use ($validated) {
-                $channelQuery->where('name', 'like', '%' . $validated['channel_name'] . '%');
+            $channelQuery->where('name', 'like', '%' . $validated['channel_name'] . '%');
             // });
         }
 
         if ($request->has('stream_status')) {
-            $query->where('status', $request->stream_status);
+            $Streamquery->where('status', $request->stream_status);
         }
 
-        if ($request->has('highlight_name')) {
-            $query->where('highlight_name', 'like', '%' . $request->highlight_name . '%');
-        }
+        // if ($request->has('highlight_name')) {
+        //     $query->where('highlight_name', 'like', '%' . $request->highlight_name . '%');
+        // }
 
-        if ($request->has('category')) {
-            $query->where('category', $request->category);
-        }
+        // if ($request->has('category')) {
+        //     $query->where('category', $request->category);
+        // }
 
-        $streams = $query->get();
 
-        return response()->json($streams);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data fetched successfully',
+            'data' => $Streamquery->get(),
+            $channelQuery->get()
+        ]);
     }
 }
