@@ -14,7 +14,8 @@ class ChannelController extends Controller
     public function index()
     {
 
-        $channels = Channel::paginate(10);
+        $channels = Channel::with('streamer')->paginate(10);
+        // return $channels;   
         return view('admin.channel.index', compact('channels'));
     }
 

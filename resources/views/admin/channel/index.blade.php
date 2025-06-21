@@ -8,10 +8,10 @@
                     <div class="col-lg-12">
                         &nbsp;
                         <div class="card">
-                            {{-- <div class="card-header border-bottom border-dashed d-flex justify-content-between">
-                                <h4 class="header-title">Channels</h4>
-                                <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-sm">Add New</a>
-                            </div> --}}
+                            <div class="card-header border-bottom border-dashed d-flex justify-content-between">
+                                <h4 class="header-title">Channels List</h4>
+                                {{-- <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-sm">Add New</a> --}}
+                            </div>
 
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -19,12 +19,12 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                {{-- <th>Streamer ID</th> --}}
-                                                <th>Name</th>
+                                                <th>Streamer Name</th>
+                                                <th>Channel Name</th>
                                                 <th>Description</th>
                                                 {{-- <th>Slug</th> --}}
-                                                <th>Banner</th>
-                                                <th>Logo</th>
+                                                {{-- <th>Banner</th>
+                                                <th>Logo</th> --}}
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -33,18 +33,18 @@
                                             @foreach ($channels as $index => $item)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    {{-- <td>{{ $item->streamer_id }}</td> --}}
+                                                    <td>{{ $item->streamer->name }}</td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ $item->description }}</td>
                                                     {{-- <td>{{ $item->slug }}</td> --}}
-                                                    <td>
+                                                    {{-- <td>
                                                         <img src="{{ $item->banner ? asset('storage/' . $item->banner) : asset('default-man.png') }}"
                                                             alt="Banner" class="avatar-sm rounded" />
                                                     </td>
                                                     <td>
                                                         <img src="{{ $item->logo ? asset('storage/' . $item->logo) : asset('default-man.png') }}"
                                                             alt="Logo" class="avatar-sm rounded" />
-                                                    </td>
+                                                    </td> --}}
                                                     <td>
                                                         <button
                                                             class="btn btn-sm toggle-status {{ $item->is_active ? 'btn-success' : 'btn-danger' }}"
@@ -53,7 +53,7 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        
+
                                                     </td>
                                                 </tr>
                                             @endforeach
