@@ -23,7 +23,7 @@
                                                 <input type="text" name="title" class="form-control"
                                                     placeholder="Enter title">
                                             </div>
-                                            
+
                                             <div class="col-lg-12">
                                                 <label class="form-label">Description</label>
                                                 <textarea id="description" name="description" class="form-control summernote" placeholder="Enter description"></textarea>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -37,23 +38,13 @@ class BannerController extends Controller
             'subtitle' => 'required|string|max:255',
             'description' => 'required|string',
             'platform' => 'required|in:web,app,both',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:10240',
         ]);
 
         $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $destination = public_path('banners');
-
-            if (!file_exists($destination)) {
-                mkdir($destination, 0755, true); // Ensure folder exists
-            }
-
-            $image->move($destination, $filename);
-
-            $imagePath = 'banners/' . $filename;
+            $imagePath = $request->file('image')->store('banners', 'public');
         }
 
         $banner = Banner::create([
@@ -67,7 +58,6 @@ class BannerController extends Controller
         return redirect()->route('admin.banner.index')->with('success', 'Banner created successfully.');
     }
 
-
     /**
      * Display the specified resource.
      */
@@ -75,7 +65,6 @@ class BannerController extends Controller
     {
         //
     }
-
 
     public function edit($encryptedId)
     {
@@ -94,50 +83,44 @@ class BannerController extends Controller
             'subtitle' => 'required|string|max:255',
             'description' => 'required|string',
             'platform' => 'required|in:web,app,both',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
         ]);
 
         $banner = Banner::findOrFail($id);
 
         // Handle new image upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($banner->image && file_exists(public_path($banner->image))) {
-                unlink(public_path($banner->image));
+            if ($banner->image && Storage::disk('public')->exists($banner->image)) {
+                Storage::disk('public')->delete($banner->image);
             }
 
-            $image = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $destination = public_path('banners');
-
-            if (!file_exists($destination)) {
-                mkdir($destination, 0755, true);
-            }
-
-            $image->move($destination, $filename);
-            $banner->image = 'banners/' . $filename;
+            $imagePath = $request->file('image')->store('banners', 'public');
+            $banner->image = $imagePath;
         }
 
         // Update other fields
-        $banner->title = $validated['title'];
-        $banner->subtitle = $validated['subtitle'];
-        $banner->description = $validated['description'];
-        $banner->platform = $validated['platform'];
-        $banner->save();
+        $banner->update([
+            'title' => $validated['title'],
+            'subtitle' => $validated['subtitle'],
+            'description' => $validated['description'],
+            'platform' => $validated['platform'],
+        ]);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner updated successfully.');
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decrypt($encryptedId);
         $banner = Banner::findOrFail($id);
 
-        // Delete image file from public/ if it exists
-        if ($banner->image && file_exists(public_path($banner->image))) {
-            unlink(public_path($banner->image));
+        // Delete image file from storage/app/public if it exists
+        if ($banner->image && Storage::disk('public')->exists($banner->image)) {
+            Storage::disk('public')->delete($banner->image);
         }
 
         // Delete the record from the database

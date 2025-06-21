@@ -35,7 +35,7 @@
                                                     <td>{{ $item->subtitle }}</td>
                                                     <td>{{ $item->description }}</td>
                                                     <td>
-                                                        <img src="{{ asset($item->image ?: 'default-man.png') }}"
+                                                        <img src="{{ $item->image ? asset('storage/' . $item->image) : asset('default-man.png') }}"
                                                             alt="Banner Image" class="avatar-sm rounded" />
 
                                                     </td>

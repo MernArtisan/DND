@@ -28,16 +28,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($category as $item)
+                                            @foreach ($categories as $index => $item)
                                                 <tr>
+                                                    <td>{{ $index + 1 }}</td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>
-                                                        <img src="{{ asset($item->image ?: 'default-man.png') }}"
+                                                        <img src="{{ $item->image ? asset('storage/' . $item->image) : asset('default-man.png') }}"
                                                             alt="Banner Image" class="avatar-sm rounded" />
                                                     </td>
                                                     <td>{{ $item->status }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.category.edit', $item->id) }}"
+                                                        <a href="{{ route('admin.category.edit', encrypt($item->id)) }}"
                                                             class="btn btn-sm btn-warning">
                                                             <i class="ti ti-pencil"></i>
                                                         </a>
@@ -48,7 +49,7 @@
                                                         </button>
 
                                                         <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('admin.category.destroy', $item->id) }}"
+                                                            action="{{ route('admin.category.destroy', encrypt($item->id)) }}"
                                                             method="POST" class="d-none">
                                                             @csrf
                                                             @method('DELETE')
