@@ -15,6 +15,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('banner', App\Http\Controllers\admin\BannerController::class);
     Route::resource('category', App\Http\Controllers\admin\CategoryController::class);
     Route::resource('channel', App\Http\Controllers\admin\ChannelController::class);
-    Route::post('admin/channel/toggle-status', [App\Http\Controllers\admin\ChannelController::class, 'toggleStatus'])->name('channel.toggleStatus');
+    Route::resource('user-streamer', App\Http\Controllers\admin\UserController::class);
+    Route::post('channel/toggle-status', [App\Http\Controllers\admin\ChannelController::class, 'toggleStatus'])->name('channel.toggleStatus');
+    Route::get('user-streamer-details', [App\Http\Controllers\admin\UserController::class, 'details'])->name('user-streamer.details');
+    Route::post('user-streamer/toggle-status', [App\Http\Controllers\admin\UserController::class, 'toggleStatus'])->name('user-streamer.toggleStatus');
   });
 });

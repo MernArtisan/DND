@@ -38,6 +38,13 @@
             <li class="side-nav-title mt-2">Apps & Pages</li>
 
             <li class="side-nav-item">
+                <a href="{{ route('admin.user-streamer.index')}}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
+                    <span class="menu-text"> Streamer </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
                 <a href="{{ route('admin.banner.index') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-message-filled"></i></span>
                     <span class="menu-text"> Banners </span>
@@ -55,13 +62,6 @@
                 <a href="{{ route('admin.channel.index') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-inbox"></i></span>
                     <span class="menu-text"> Channels </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="apps-file-manager.html" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
-                    <span class="menu-text"> File Manager </span>
                 </a>
             </li>
 

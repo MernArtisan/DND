@@ -30,21 +30,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($channels as $index => $item)
+                                            @forelse ($channels as $index => $item)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $item->streamer->name }}</td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ $item->description }}</td>
-                                                    {{-- <td>{{ $item->slug }}</td> --}}
-                                                    {{-- <td>
-                                                        <img src="{{ $item->banner ? asset('storage/' . $item->banner) : asset('default-man.png') }}"
-                                                            alt="Banner" class="avatar-sm rounded" />
-                                                    </td>
-                                                    <td>
-                                                        <img src="{{ $item->logo ? asset('storage/' . $item->logo) : asset('default-man.png') }}"
-                                                            alt="Logo" class="avatar-sm rounded" />
-                                                    </td> --}}
                                                     <td>
                                                         <button
                                                             class="btn btn-sm toggle-status {{ $item->is_active ? 'btn-success' : 'btn-danger' }}"
@@ -53,10 +44,27 @@
                                                         </button>
                                                     </td>
                                                     <td>
+                                                        <a href="{{ route('admin.channel.show', $item->id) }}"
+                                                            class="btn btn-sm btn-info">
+                                                            <i class="ti ti-eye"></i>
+                                                        </a>
 
+                                                        <form action="{{ route('admin.channel.destroy', $item->id) }}"
+                                                            method="POST" style="display:inline-block;"
+                                                            onsubmit="return confirm('Are you sure you want to delete this channel?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                                <i class="ti ti-trash"></i>
+                                                            </button>
+                                                        </form>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @empty
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No channels found.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div> <!-- end table-responsive -->

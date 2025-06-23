@@ -36,6 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
     @yield('scripts')
+   
     <script>
         @if (session('success'))
             toastr.success('{{ session('success') }}', 'Success');
@@ -74,20 +75,20 @@
         }
     </script>
     <script>
-    $(document).ready(function() {
-        $('#description').summernote({
-            height: 200,
-            placeholder: 'Enter description...',
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['fontsize', 'color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', ['link', 'picture']],
-                ['view', ['fullscreen', 'codeview']]
-            ]
+        $(document).ready(function() {
+            $('#description').summernote({
+                height: 200,
+                placeholder: 'Enter description...',
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['fontsize', 'color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 
