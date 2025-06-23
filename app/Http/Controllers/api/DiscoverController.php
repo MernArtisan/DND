@@ -421,7 +421,7 @@ class DiscoverController extends Controller
             $response[] = [
                 'id' => $highlight->id,
                 'name' => $highlight->title,
-                'image' => asset($highlight->thumbnail),
+                'image' => asset('storage/' . $highlight->thumbnail),
                 'description' => $highlight->description,
                 'type' => 'highlight',
                 'channel_id' => $highlight->channel->id,
@@ -495,13 +495,13 @@ class DiscoverController extends Controller
         if ($request->boolean('highlight')) {
             foreach (
                 Highlight::with('channel')
-                    ->orderBy('created_at', 'desc') 
+                    ->orderBy('created_at', 'desc')
                     ->get() as $highlight
             ) {
                 $response[] = [
                     'id' => $highlight->id,
                     'name' => $highlight->title,
-                    'image' => asset($highlight->thumbnail),
+                    'image' => asset('storage/' . $highlight->thumbnail),
                     'description' => $highlight->description,
                     'type' => 'highlight',
                     'channel_id' => $highlight->channel->id,
