@@ -19,10 +19,11 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
+                                                <th>Image</th>
+
                                                 <th>Title</th>
                                                 <th>Subtitle</th>
                                                 <th>Description</th>
-                                                <th>Image</th>
                                                 <th>Platform</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -31,14 +32,16 @@
                                             @foreach ($banner as $item)
                                                 <tr>
                                                     <td>{{ $item->id }}</td>
-                                                    <td>{{ $item->title }}</td>
-                                                    <td>{{ $item->subtitle }}</td>
-                                                    <td>{{ $item->description }}</td>
                                                     <td>
                                                         <img src="{{ $item->image ? asset('storage/' . $item->image) : asset('default-man.png') }}"
                                                             alt="Banner Image" class="avatar-sm rounded" />
 
                                                     </td>
+                                                    <td>{{ $item->title }}</td>
+                                                    <td>{{ $item->subtitle }}</td>
+                                                    <td>{{ Str::limit(strip_tags($item->description), 20, '...') }}</td>
+
+
                                                     <td>{{ $item->platform }}</td>
                                                     <td>
                                                         <a href="{{ route('admin.banner.edit', encrypt($item->id)) }}"
@@ -71,15 +74,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            new DataTable('#myTable');
-        });
-    </script>
 @endsection

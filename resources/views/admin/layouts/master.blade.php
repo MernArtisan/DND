@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>DND Dashboard</title>
+    <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/gridjs/theme/mermaid.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
 
     @yield('styles')
 </head>
@@ -35,8 +36,10 @@
     <script src="{{ asset('admin/assets/js/pages/table-gridjs.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+
     @yield('scripts')
-   
+
     <script>
         @if (session('success'))
             toastr.success('{{ session('success') }}', 'Success');
@@ -44,6 +47,11 @@
         @if (session('error'))
             toastr.error('{{ session('error') }}', 'Error');
         @endif
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new DataTable('#myTable');
+        });
     </script>
     <script>
         function confirmDelete(id) {

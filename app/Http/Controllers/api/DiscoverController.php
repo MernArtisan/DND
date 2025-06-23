@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Category;
 use App\Models\Like;
 use App\Models\Banner;
 use App\Models\Stream;
@@ -12,6 +13,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class DiscoverController extends Controller
@@ -313,43 +315,291 @@ class DiscoverController extends Controller
         return ApiResponse::success('Highlight shared successfully.');
     }
 
-    public function getFilteredData(Request $request)
+
+
+
+
+
+    public function SearchTerm(Request $request)
     {
-        $validated = $request->validate([
-            'channel_name' => 'nullable|string',
-            'stream_status' => 'nullable|in:live,offline',
-            'highlight_name' => 'nullable|string',
-            'category' => 'nullable|string',
+        $request->validate([
+            'query' => 'required|string',
         ]);
 
-        $Streamquery = Stream::query();
-        $channelQuery = Channel::query();
+        $query = $request->input('query');
+        $response = [];
 
-        if ($validated['channel_name']) {
-            // $query->whereHas('channel', function ($q) use ($validated) {
-            $channelQuery->where('name', 'like', '%' . $validated['channel_name'] . '%');
-            // });
+        // 1. Search Categories and get their streams & channels
+        $categories = Category::where('name', 'like', "%$query%")->get();
+        foreach ($categories as $category) {
+            // Get LIVE streams for this category
+            $streams = Stream::with('channel')
+                ->where('category_id', $category->id)
+                ->where('status', 'live')
+                ->get();
+
+            // Get unique channels from these streams
+            $channels = $streams->pluck('channel')->unique()->values();
+
+            // Add streams to response
+            foreach ($streams as $stream) {
+                $response[] = [
+                    'id' => $stream->id,
+                    'name' => $stream->title,
+                    'status' => $stream->status,
+                    'image' => asset($stream->image),
+                    'description' => $stream->description,
+                    'type' => 'stream',
+                    'channel_id' => $stream->channel->id,
+                    'channel_name' => $stream->channel->name
+                ];
+            }
+
+            // Add channels to response
+            foreach ($channels as $channel) {
+                $response[] = [
+                    'id' => $channel->id,
+                    'name' => $channel->name,
+                    'image' => asset($channel->logo),
+                    'is_active' => $channel->is_active,
+                    'description' => $channel->description,
+                    'type' => 'channel'
+                ];
+            }
         }
 
-        if ($request->has('stream_status')) {
-            $Streamquery->where('status', $request->stream_status);
+        // 2. Search Streams (excluding those from category search)
+        $streamIdsFromCategories = collect($response)
+            ->where('type', 'stream')
+            ->pluck('id')
+            ->toArray();
+
+        $streams = Stream::with('channel')
+            ->where('title', 'like', "%$query%")
+            ->whereNotIn('id', $streamIdsFromCategories)
+            ->get();
+
+        foreach ($streams as $stream) {
+            $response[] = [
+                'id' => $stream->id,
+                'name' => $stream->title,
+                'status' => $stream->status,
+                'image' => asset('storage/' . $stream->image),
+                'description' => $stream->description,
+                'type' => 'stream',
+                'channel_id' => $stream->channel->id,
+                'channel_name' => $stream->channel->name
+            ];
         }
 
-        // if ($request->has('highlight_name')) {
-        //     $query->where('highlight_name', 'like', '%' . $request->highlight_name . '%');
-        // }
+        // 3. Search Channels (excluding those from category search)
+        $channelIdsFromCategories = collect($response)
+            ->where('type', 'channel')
+            ->pluck('id')
+            ->toArray();
 
-        // if ($request->has('category')) {
-        //     $query->where('category', $request->category);
-        // }
+        $channels = Channel::where('is_active', 1)
+            ->where('name', 'like', "%$query%")
+            ->whereNotIn('id', $channelIdsFromCategories)
+            ->get();
 
+        foreach ($channels as $channel) {
+            $response[] = [
+                'id' => $channel->id,
+                'name' => $channel->name,
+                'image' => asset($channel->logo),
+                'is_active' => $channel->is_active,
+                'type' => 'channel'
+            ];
+        }
 
+        // 4. Search Highlights
+        $highlights = Highlight::with('channel')
+            ->where('title', 'like', "%$query%")
+            ->get();
+
+        foreach ($highlights as $highlight) {
+            $response[] = [
+                'id' => $highlight->id,
+                'name' => $highlight->title,
+                'image' => asset('storage/' . $highlight->thumbnail),
+                'description' => $highlight->description,
+                'type' => 'highlight',
+                'channel_id' => $highlight->channel->id,
+                'channel_name' => $highlight->channel->name
+            ];
+        }
+
+        if (!empty($response)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Search results fetched successfully',
+                'data' => $response
+            ]);
+        }
 
         return response()->json([
-            'status' => true,
-            'message' => 'Data fetched successfully',
-            'data' => $Streamquery->get(),
-            $channelQuery->get()
+            'success' => false,
+            'message' => 'No results found'
+        ], 404);
+    }
+
+
+    // public function filterData(Request $request)
+    // {
+    //     $request->validate([
+    //         'channel_id' => 'nullable|integer|exists:channels,id',
+    //         'highlight' => 'nullable|boolean',
+    //         'status' => 'nullable|in:live'
+    //     ]);
+
+    //     $response = [];
+
+    //     // 1. Get LIVE streams (filter by channel if provided)
+    //     $streamQuery = Stream::with('channel')
+    //         ->where('status', 'live')
+    //         ->orderBy('created_at', 'desc');
+
+    //     if ($request->has('channel_id')) {
+    //         $streamQuery->where('channel_id', $request->channel_id);
+    //     }
+
+    //     foreach ($streamQuery->get() as $stream) {
+    //         $response[] = [
+    //             'id' => $stream->id,
+    //             'name' => $stream->title,
+    //             'status' => $stream->status,
+    //             'image' => asset('storage/'.$stream->image),
+    //             'description' => $stream->description,
+    //             'type' => 'stream',
+    //             'channel_id' => $stream->channel->id,
+    //             'channel_name' => $stream->channel->name
+    //         ];
+    //     }
+
+    //     // 2. Get channels (filter by ID if provided)
+    //     $channelQuery = $request->has('channel_id')
+    //         ? Channel::where('id', $request->channel_id)
+    //         : Channel::query();
+
+    //     foreach ($channelQuery->where('is_active', 1)->get() as $channel) {
+    //         $response[] = [
+    //             'id' => $channel->id,
+    //             'name' => $channel->name,
+    //             'image' => asset($channel->logo),
+    //             'is_active' => $channel->is_active,
+    //             'description' => $channel->description,
+    //             'type' => 'channel'
+    //         ];
+    //     }
+
+    //     // 3. Get highlights if requested
+    //     if ($request->boolean('highlight')) {
+    //         foreach (
+    //             Highlight::with('channel')
+    //                 ->orderBy('created_at', 'desc')
+    //                 ->get() as $highlight
+    //         ) {
+    //             $response[] = [
+    //                 'id' => $highlight->id,
+    //                 'name' => $highlight->title,
+    //                 'image' => asset('storage/' . $highlight->thumbnail),
+    //                 'description' => $highlight->description,
+    //                 'type' => 'highlight',
+    //                 'channel_id' => $highlight->channel->id,
+    //                 'channel_name' => $highlight->channel->name
+    //             ];
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Filter results fetched successfully',
+    //         'data' => $response
+    //     ]);
+    // }
+
+    public function filterData(Request $request)
+    {
+        $request->validate([
+            'channel_id' => 'nullable|string', // Changed to string to accept comma-separated values
+            'highlight' => 'nullable|boolean',
+            'status' => 'nullable|in:live'
+        ]);
+
+        $response = [];
+
+        // Convert channel_id to array if provided
+        $channelIds = $request->has('channel_id')
+            ? explode(',', $request->channel_id)
+            : [];
+
+        // 1. Get LIVE streams (filter by channels if provided)
+        $streamQuery = Stream::with('channel')
+            ->where('status', 'live')
+            ->orderBy('created_at', 'desc');
+
+        if (!empty($channelIds)) {
+            $streamQuery->whereIn('channel_id', $channelIds);
+        }
+
+        foreach ($streamQuery->get() as $stream) {
+            $response[] = [
+                'id' => $stream->id,
+                'name' => $stream->title,
+                'status' => $stream->status,
+                'image' => asset('storage/' . $stream->image),
+                'description' => $stream->description,
+                'type' => 'stream',
+                'channel_id' => $stream->channel->id,
+                'channel_name' => $stream->channel->name
+            ];
+        }
+
+        // 2. Get channels (filter by IDs if provided)
+        $channelQuery = Channel::where('is_active', 1);
+
+        if (!empty($channelIds)) {
+            $channelQuery->whereIn('id', $channelIds);
+        }
+
+        foreach ($channelQuery->get() as $channel) {
+            $response[] = [
+                'id' => $channel->id,
+                'name' => $channel->name,
+                'image' => asset($channel->logo),
+                'is_active' => $channel->is_active,
+                'description' => $channel->description,
+                'type' => 'channel'
+            ];
+        }
+
+        // 3. Get highlights if requested (filter by channels if provided)
+        if ($request->boolean('highlight')) {
+            $highlightQuery = Highlight::with('channel')
+                ->orderBy('created_at', 'desc');
+
+            if (!empty($channelIds)) {
+                $highlightQuery->whereIn('channel_id', $channelIds);
+            }
+
+            foreach ($highlightQuery->get() as $highlight) {
+                $response[] = [
+                    'id' => $highlight->id,
+                    'name' => $highlight->title,
+                    'image' => asset('storage/' . $highlight->thumbnail),
+                    'description' => $highlight->description,
+                    'type' => 'highlight',
+                    'channel_id' => $highlight->channel->id,
+                    'channel_name' => $highlight->channel->name
+                ];
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Filter results fetched successfully',
+            'data' => $response
         ]);
     }
 }

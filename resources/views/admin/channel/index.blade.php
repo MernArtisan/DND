@@ -26,7 +26,7 @@
                                                 {{-- <th>Banner</th>
                                                 <th>Logo</th> --}}
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                {{-- <th>Action</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -43,7 +43,7 @@
                                                             {{ $item->is_active ? 'Active' : 'Block' }}
                                                         </button>
                                                     </td>
-                                                    <td>
+                                                    {{-- <td>
                                                         <a href="{{ route('admin.channel.show', $item->id) }}"
                                                             class="btn btn-sm btn-info">
                                                             <i class="ti ti-eye"></i>
@@ -58,7 +58,7 @@
                                                                 <i class="ti ti-trash"></i>
                                                             </button>
                                                         </form>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                             @empty
                                                 <tr>
@@ -78,8 +78,6 @@
 @endsection
 
 @section('scripts')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
     <script>
         $(document).on('click', '.toggle-status', function() {
             let button = $(this);
@@ -109,10 +107,6 @@
                     }
                 }
             });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            new DataTable('#myTable');
         });
     </script>
 @endsection

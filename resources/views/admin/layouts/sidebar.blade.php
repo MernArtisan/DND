@@ -38,7 +38,7 @@
             <li class="side-nav-title mt-2">Apps & Pages</li>
 
             <li class="side-nav-item">
-                <a href="{{ route('admin.user-streamer.index')}}" class="side-nav-link">
+                <a href="{{ route('admin.user-streamer.index') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
                     <span class="menu-text"> Streamer </span>
                 </a>
@@ -66,6 +66,27 @@
             </li>
 
             <li class="side-nav-item">
+                <a href="{{ route('admin.privacy-policy') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-shield-lock"></i></span>
+                    <span class="menu-text"> Privacy Policy </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="{{ route('admin.terms-condition') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-file-certificate"></i></span>
+                    <span class="menu-text"> Terms & Conditions </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="{{ route('admin.streams') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-video"></i></span>
+                    <span class="menu-text"> Streams </span>
+                </a>
+            </li>
+
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false"
                     aria-controls="sidebarEcommerce" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-basket-filled"></i></span>
@@ -121,7 +142,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
             <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice"

@@ -64,4 +64,15 @@ class ApiResponse
             'updated_at'        => $stream->updated_at,
         ];
     }
+
+    public function channels($channel)
+    {
+        return [
+            'id'          => $channel->id,
+            'name'        => $channel->name,
+            'streamer_id' => $channel->streamer_id,
+            'created_at'  => $channel->created_at,
+            'updated_at'  => $channel->updated_at,
+        ];
+    }
 }
