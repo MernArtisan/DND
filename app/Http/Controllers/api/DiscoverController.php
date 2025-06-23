@@ -315,6 +315,11 @@ class DiscoverController extends Controller
         return ApiResponse::success('Highlight shared successfully.');
     }
 
+
+
+
+
+
     public function SearchTerm(Request $request)
     {
         $request->validate([
@@ -322,60 +327,118 @@ class DiscoverController extends Controller
         ]);
 
         $query = $request->input('query');
+        $response = [];
 
-        $category = Category::where('name', 'like', "%$query%")->first();
-
-        if ($category) {
-            $streams = Stream::where('category_id', $category->id)
+        // 1. Search Categories and get their streams & channels
+        $categories = Category::where('name', 'like', "%$query%")->get();
+        foreach ($categories as $category) {
+            // Get LIVE streams for this category
+            $streams = Stream::with('channel')
+                ->where('category_id', $category->id)
+                ->where('status', 'live')
                 ->get();
 
+            // Get unique channels from these streams
             $channels = $streams->pluck('channel')->unique()->values();
 
-            return ApiResponse::success(message: 'Category fetched successfully.', data: [
-                'streams' => $streams->map(fn($h) => ApiResponse::transform($h)),
-                // 'channels' => $channels
-            ]);
+            // Add streams to response
+            foreach ($streams as $stream) {
+                $response[] = [
+                    'id' => $stream->id,
+                    'name' => $stream->title,
+                    'status' => $stream->status,
+                    'image' => asset($stream->image),
+                    'description' => $stream->description,
+                    'type' => 'stream',
+                    'channel_id' => $stream->channel->id,
+                    'channel_name' => $stream->channel->name
+                ];
+            }
+
+            // Add channels to response
+            foreach ($channels as $channel) {
+                $response[] = [
+                    'id' => $channel->id,
+                    'name' => $channel->name,
+                    'image' => asset($channel->logo),
+                    'is_active' => $channel->is_active,
+                    'type' => 'channel'
+                ];
+            }
         }
 
-        $streams = Stream::with(['channel', 'category'])
+        // 2. Search Streams (excluding those from category search)
+        $streamIdsFromCategories = collect($response)
+            ->where('type', 'stream')
+            ->pluck('id')
+            ->toArray();
+
+        $streams = Stream::with('channel')
+            ->where('title', 'like', "%$query%")
+            ->whereNotIn('id', $streamIdsFromCategories)
+            ->get();
+
+        foreach ($streams as $stream) {
+            $response[] = [
+                'id' => $stream->id,
+                'name' => $stream->title,
+                'status' => $stream->status,
+                'image' => asset($stream->image),
+                'description' => $stream->description,
+                'type' => 'stream',
+                'channel_id' => $stream->channel->id,
+                'channel_name' => $stream->channel->name
+            ];
+        }
+
+        // 3. Search Channels (excluding those from category search)
+        $channelIdsFromCategories = collect($response)
+            ->where('type', 'channel')
+            ->pluck('id')
+            ->toArray();
+
+        $channels = Channel::where('is_active', 1)
+            ->where('name', 'like', "%$query%")
+            ->whereNotIn('id', $channelIdsFromCategories)
+            ->get();
+
+        foreach ($channels as $channel) {
+            $response[] = [
+                'id' => $channel->id,
+                'name' => $channel->name,
+                'image' => asset($channel->logo),
+                'is_active' => $channel->is_active,
+                'type' => 'channel'
+            ];
+        }
+
+        // 4. Search Highlights
+        $highlights = Highlight::with('channel')
             ->where('title', 'like', "%$query%")
             ->get();
 
-        if ($streams->isNotEmpty()) {
-            $channels = $streams->pluck('channel')->unique()->values();
-            return ApiResponse::success(message: 'Streams fetched successfully.', data: [
-                'streams' => $streams->map(fn($h) => ApiResponse::transform($h)),
-                // 'channels' => $channels
-            ]);
+        foreach ($highlights as $highlight) {
+            $response[] = [
+                'id' => $highlight->id,
+                'name' => $highlight->title,
+                'image' => asset($highlight->thumbnail),
+                'description' => $highlight->description,
+                'type' => 'highlight',
+                'channel_id' => $highlight->channel->id,
+                'channel_name' => $highlight->channel->name
+            ];
         }
 
-
-        $channels = Channel::with('streams')->where('name', 'like', "%$query%")
-            ->get();
-
-        if ($channels->isNotEmpty()) { 
-            return ApiResponse::success(message: 'Streams fetched successfully.', data: [
-                'channels' => $channels,
-                // 'channels' => $channels
-            ]);
-        }
-
-
-
-
-        $highlights = Highlight::where('title', 'like', "%$query%")
-            ->get();
-
-        if ($highlights->isNotEmpty()) {
-            $channels = $streams->pluck('channel')->unique()->values();
-            return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
-                'highlights' => $highlights->map(fn($h) => ApiResponse::highlightResource($h)),
-                // 'channels' => $channels
+        if (!empty($response)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Search results fetched successfully',
+                'data' => $response
             ]);
         }
 
         return response()->json([
-            'status' => false,
+            'success' => false,
             'message' => 'No results found'
         ], 404);
     }
