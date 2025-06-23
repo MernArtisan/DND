@@ -495,8 +495,7 @@ class DiscoverController extends Controller
         if ($request->boolean('highlight')) {
             foreach (
                 Highlight::with('channel')
-                    ->orderBy('created_at', 'desc')
-                    ->limit(10)
+                    ->orderBy('created_at', 'desc') 
                     ->get() as $highlight
             ) {
                 $response[] = [
