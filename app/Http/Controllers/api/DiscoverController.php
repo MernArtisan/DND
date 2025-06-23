@@ -362,6 +362,7 @@ class DiscoverController extends Controller
                     'name' => $channel->name,
                     'image' => asset($channel->logo),
                     'is_active' => $channel->is_active,
+                    'description' => $channel->description,
                     'type' => 'channel'
                 ];
             }
