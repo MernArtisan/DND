@@ -60,7 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/highlights-specific/{id}/unlike', [App\Http\Controllers\api\DiscoverController::class, 'unlikeHighlight']);
     Route::post('/highlight-share', [App\Http\Controllers\api\DiscoverController::class, 'shareHighlight']);
     Route::get('/search-term', [App\Http\Controllers\api\DiscoverController::class, 'SearchTerm']);
-
+    Route::get('/filter-data', [App\Http\Controllers\api\DiscoverController::class, 'filterData']);
 
  
 });
