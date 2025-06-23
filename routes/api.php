@@ -59,9 +59,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/highlights-specific/{id}/like', [App\Http\Controllers\api\DiscoverController::class, 'likeUnlikeHighlight']);
     Route::post('/highlights-specific/{id}/unlike', [App\Http\Controllers\api\DiscoverController::class, 'unlikeHighlight']);
     Route::post('/highlight-share', [App\Http\Controllers\api\DiscoverController::class, 'shareHighlight']);
-    Route::get('/filtered-data', [App\Http\Controllers\api\DiscoverController::class, 'getFilteredData']);
+    Route::get('/search-term', [App\Http\Controllers\api\DiscoverController::class, 'SearchTerm']);
 
 
-
-    Route::get('/get-streamers', [App\Http\Controllers\api\DiscoverController::class, 'getStreamers']);
+ 
 });

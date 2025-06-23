@@ -315,7 +315,7 @@ class DiscoverController extends Controller
         return ApiResponse::success('Highlight shared successfully.');
     }
 
-    public function getFilteredData(Request $request)
+    public function SearchTerm(Request $request)
     {
         $request->validate([
             'query' => 'required|string',
