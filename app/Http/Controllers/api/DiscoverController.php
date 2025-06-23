@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Category;
 use App\Models\Like;
 use App\Models\Banner;
 use App\Models\Stream;
@@ -12,6 +13,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class DiscoverController extends Controller
@@ -315,41 +317,51 @@ class DiscoverController extends Controller
 
     public function getFilteredData(Request $request)
     {
-        $validated = $request->validate([
-            'channel_name' => 'nullable|string',
-            'stream_status' => 'nullable|in:live,offline',
-            'highlight_name' => 'nullable|string',
-            'category' => 'nullable|string',
+        $request->validate([
+            'query' => 'required|string',
         ]);
 
-        $Streamquery = Stream::query();
-        $channelQuery = Channel::query();
+        $query = $request->input('query');
 
-        if ($validated['channel_name']) {
-            // $query->whereHas('channel', function ($q) use ($validated) {
-            $channelQuery->where('name', 'like', '%' . $validated['channel_name'] . '%');
-            // });
+        $category = Category::where('name', 'like', "%$query%")->first();
+
+        if ($category) {
+            $streams = Stream::where('category_id', $category->id)
+                ->get();
+
+            $channels = $streams->pluck('channel')->unique()->values();
+
+            return ApiResponse::success(message: 'Category fetched successfully.', data: [
+                'streams' => $streams->map(fn($h) => ApiResponse::transform($h)),
+                'channels' => $channels
+            ]);
         }
 
-        if ($request->has('stream_status')) {
-            $Streamquery->where('status', $request->stream_status);
+        $streams = Stream::with(['channel', 'category'])
+            ->where('title', 'like', "%$query%")
+            ->get();
+
+        if ($streams->isNotEmpty()) {
+            $channels = $streams->pluck('channel')->unique()->values();
+            return ApiResponse::success(message: 'Streams fetched successfully.', data: [
+                'streams' => $streams->map(fn($h) => ApiResponse::transform($h)),
+                'channels' => $channels
+            ]);
         }
+        $highlights = Highlight::where('title', 'like', "%$query%")
+            ->get();
 
-        // if ($request->has('highlight_name')) {
-        //     $query->where('highlight_name', 'like', '%' . $request->highlight_name . '%');
-        // }
-
-        // if ($request->has('category')) {
-        //     $query->where('category', $request->category);
-        // }
-
-
+        if ($highlights->isNotEmpty()) {
+            $channels = $streams->pluck('channel')->unique()->values();
+            return ApiResponse::success(message: 'Highlights fetched successfully.', data: [
+                'highlights' => $highlights->map(fn($h) => ApiResponse::highlightResource($h)),
+                // 'channels' => $channels
+            ]);
+        }
 
         return response()->json([
-            'status' => true,
-            'message' => 'Data fetched successfully',
-            'data' => $Streamquery->get(),
-            $channelQuery->get()
-        ]);
+            'status' => false,
+            'message' => 'No results found'
+        ], 404);
     }
 }

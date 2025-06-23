@@ -74,4 +74,5 @@ class User extends Authenticatable
             ->withTimestamps()
             ->withPivot('saved_at');
     }
+ 
 }
