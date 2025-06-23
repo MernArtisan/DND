@@ -333,7 +333,7 @@ class DiscoverController extends Controller
 
             return ApiResponse::success(message: 'Category fetched successfully.', data: [
                 'streams' => $streams->map(fn($h) => ApiResponse::transform($h)),
-                'channels' => $channels
+                // 'channels' => $channels
             ]);
         }
 
@@ -345,7 +345,7 @@ class DiscoverController extends Controller
             $channels = $streams->pluck('channel')->unique()->values();
             return ApiResponse::success(message: 'Streams fetched successfully.', data: [
                 'streams' => $streams->map(fn($h) => ApiResponse::transform($h)),
-                'channels' => $channels
+                // 'channels' => $channels
             ]);
         }
         $highlights = Highlight::where('title', 'like', "%$query%")
