@@ -348,6 +348,21 @@ class DiscoverController extends Controller
                 // 'channels' => $channels
             ]);
         }
+
+
+        $channels = Channel::with('streams')->where('name', 'like', "%$query%")
+            ->get();
+
+        if ($channels->isNotEmpty()) { 
+            return ApiResponse::success(message: 'Streams fetched successfully.', data: [
+                'channels' => $channels,
+                // 'channels' => $channels
+            ]);
+        }
+
+
+
+
         $highlights = Highlight::where('title', 'like', "%$query%")
             ->get();
 
