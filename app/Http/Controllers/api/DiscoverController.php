@@ -601,4 +601,38 @@ class DiscoverController extends Controller
             'data' => $response
         ]);
     }
+
+
+
+    public function getSpecificChannel($id)
+    {
+        $channel = Channel::where('id', $id)->first();
+        $highlight = Highlight::where('channel_id', $id)->get();
+        $streams = Stream::where('channel_id', $id)->get();
+        if (!$channel) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Channel not found',
+            ], 404);
+        }
+        return ApiResponse::success(message: 'Channel fetched successfully.', data: [
+            'channel' => $channel,
+            'highlight' => $highlight->map(fn($h) => ApiResponse::highlightResource($h)),
+            'streams' => $streams->map(fn($h) => ApiResponse::transform($h)),
+        ]);
+    }
+
+    public function getSpecificStream($id)
+    {
+        $stream = Stream::where('id', $id)->first();
+        if (!$stream) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Stream not found',
+            ], 404);
+        }
+        return ApiResponse::success(message: 'Stream fetched successfully.', data: [
+            'stream' => ApiResponse::transform($stream),
+        ]);
+    }
 }

@@ -16,6 +16,11 @@ class Channel extends Model
         return $this->hasMany(Stream::class);
     }
 
+    public function highlights()
+    {
+        return $this->hasMany(Highlight::class);
+    }
+
     public function getBannerAttribute($value)
     {
         return $value ? asset($value) : null;
