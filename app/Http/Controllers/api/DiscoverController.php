@@ -542,7 +542,6 @@ class DiscoverController extends Controller
         if (!empty($channelIds)) {
             $streamQuery->whereIn('channel_id', $channelIds);
         }
-
         foreach ($streamQuery->get() as $stream) {
             $response[] = [
                 'id' => $stream->id,
