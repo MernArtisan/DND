@@ -14,9 +14,13 @@ class ChannelController extends Controller
     public function index()
     {
 
-        $channels = Channel::with('streamer')->paginate(10);
-        // return $channels;   
-        return view('admin.channel.index', compact('channels'));
+        try {
+            $channels = Channel::with('streamer')->paginate(10);
+            // return $channels;   
+            return view('admin.channel.index', compact('channels'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -69,15 +73,19 @@ class ChannelController extends Controller
 
     public function toggleStatus(Request $request)
     {
-        $channel = Channel::findOrFail($request->id);
-        $channel->is_active = !$channel->is_active;
-        $channel->save();
+        try {
+            $channel = Channel::findOrFail($request->id);
+            $channel->is_active = !$channel->is_active;
+            $channel->save();
 
-        return response()->json([
-            'success' => true,
-            'status' => $channel->is_active ? 'Active' : 'Block',
-            'buttonClass' => $channel->is_active ? 'btn-success' : 'btn-danger',
-            'message' => 'Status Changed  Successfully'
-        ]);
+            return response()->json([
+                'success' => true,
+                'status' => $channel->is_active ? 'Active' : 'Block',
+                'buttonClass' => $channel->is_active ? 'btn-success' : 'btn-danger',
+                'message' => 'Status Changed  Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

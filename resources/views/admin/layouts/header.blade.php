@@ -4,7 +4,7 @@
         <div class="d-flex align-items-center gap-2">
 
             <!-- Brand Logo -->
-            <a href="index.html" class="logo">
+            <a href="/" class="logo">
                 <span class="logo-light">
                     <span class="logo-lg"><img src="{{asset('admin/assets/images/logo.png')}}" alt="logo"></span>
                     <span class="logo-sm"><img src="{{asset('admin/assets/images/logo-sm.png')}}"

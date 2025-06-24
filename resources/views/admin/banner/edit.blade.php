@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-
+@section('title', 'Edit Banner')
 @section('content')
     <div class="wrapper">
         <div class="page-content">
@@ -17,6 +17,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
+
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
@@ -24,14 +25,25 @@
                                                 <input type="text" name="title" class="form-control"
                                                     placeholder="Enter title" value="{{ old('title', $banner->title) }}">
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-12">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Subtitle</label>
+                                                <input type="text" name="subtitle" class="form-control"
+                                                    placeholder="Enter subtitle"
+                                                    value="{{ old('subtitle', $banner->subtitle) }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
                                                 <label class="form-label">Description</label>
                                                 <textarea id="description" name="description" class="form-control summernote" placeholder="Enter description">{{ old('description', $banner->description) }}</textarea>
                                             </div>
+                                        </div>
 
-                                            &nbsp;
-
+                                        <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Platform</label>
                                                 <select name="platform" class="form-select">
@@ -43,31 +55,24 @@
                                                         {{ $banner->platform == 'both' ? 'selected' : '' }}>Both</option>
                                                 </select>
                                             </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Image</label>
-                                                    <input type="file" name="image" accept='image/*'
-                                                        onchange="readURL(this)" class="form-control">
-                                                </div>
-
-                                                <img src="{{ asset('storage/' . ($banner->image ?? 'default-man.png')) }}"
-                                                    alt="Banner Image" id="img" style="height:150px;">
-
-                                                <div class="mb-3 mt-4">
-                                                    <button type="submit" class="btn btn-primary">Update</button>
-                                                    <a href="{{ route('admin.banner.index') }}"
-                                                        class="btn btn-secondary">Cancel</a>
-                                                </div>
-                                            </div>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Subtitle</label>
-                                                <input type="text" name="subtitle" class="form-control"
-                                                    placeholder="Enter subtitle"
-                                                    value="{{ old('subtitle', $banner->subtitle) }}">
+                                                <label class="form-label">Image</label>
+                                                <input type="file" name="image" accept="image/*"
+                                                    onchange="readURL(this)" class="form-control">
+                                            </div>
+
+                                            <img src="{{ asset('storage/' . ($banner->image ?? 'default-man.png')) }}"
+                                                alt="Banner Image" id="img" style="height:150px;">
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <div class="mb-3 mt-4">
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                <a href="{{ route('admin.banner.index') }}"
+                                                    class="btn btn-secondary">Cancel</a>
                                             </div>
                                         </div>
                                     </div> <!-- end row -->

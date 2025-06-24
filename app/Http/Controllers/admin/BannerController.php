@@ -16,8 +16,12 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $banner = Banner::paginate(10);
-        return view('admin.banner.index', compact('banner'));
+        try {
+            $banner = Banner::paginate(10);
+            return view('admin.banner.index', compact('banner'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -33,29 +37,33 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'required|string|max:255',
-            'description' => 'required|string',
-            'platform' => 'required|in:web,app,both',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:10240',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'subtitle' => 'required|string|max:255',
+                'description' => 'required|string',
+                'platform' => 'required|in:web,app,both',
+                'image' => 'required|image|mimes:jpg,jpeg,png|max:10240',
+            ]);
 
-        $imagePath = null;
+            $imagePath = null;
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('banners', 'public');
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('banners', 'public');
+            }
+
+            $banner = Banner::create([
+                'title' => $validated['title'],
+                'subtitle' => $validated['subtitle'],
+                'description' => $validated['description'],
+                'platform' => $validated['platform'],
+                'image' => $imagePath,
+            ]);
+
+            return redirect()->route('admin.banner.index')->with('success', 'Banner created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $banner = Banner::create([
-            'title' => $validated['title'],
-            'subtitle' => $validated['subtitle'],
-            'description' => $validated['description'],
-            'platform' => $validated['platform'],
-            'image' => $imagePath,
-        ]);
-
-        return redirect()->route('admin.banner.index')->with('success', 'Banner created successfully.');
     }
 
     /**

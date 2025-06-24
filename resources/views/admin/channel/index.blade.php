@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-
+@section('title', 'Channels')
 @section('content')
     <div class="wrapper">
         <div class="page-content">
@@ -26,25 +26,16 @@
                                                 {{-- <th>Banner</th>
                                                 <th>Logo</th> --}}
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                {{-- <th>Action</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($channels as $index => $item)
+                                            @forelse ($channels as $index => $item)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $item->streamer->name }}</td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ $item->description }}</td>
-                                                    {{-- <td>{{ $item->slug }}</td> --}}
-                                                    {{-- <td>
-                                                        <img src="{{ $item->banner ? asset('storage/' . $item->banner) : asset('default-man.png') }}"
-                                                            alt="Banner" class="avatar-sm rounded" />
-                                                    </td>
-                                                    <td>
-                                                        <img src="{{ $item->logo ? asset('storage/' . $item->logo) : asset('default-man.png') }}"
-                                                            alt="Logo" class="avatar-sm rounded" />
-                                                    </td> --}}
                                                     <td>
                                                         <button
                                                             class="btn btn-sm toggle-status {{ $item->is_active ? 'btn-success' : 'btn-danger' }}"
@@ -52,11 +43,28 @@
                                                             {{ $item->is_active ? 'Active' : 'Block' }}
                                                         </button>
                                                     </td>
-                                                    <td>
+                                                    {{-- <td>
+                                                        <a href="{{ route('admin.channel.show', $item->id) }}"
+                                                            class="btn btn-sm btn-info">
+                                                            <i class="ti ti-eye"></i>
+                                                        </a>
 
-                                                    </td>
+                                                        <form action="{{ route('admin.channel.destroy', $item->id) }}"
+                                                            method="POST" style="display:inline-block;"
+                                                            onsubmit="return confirm('Are you sure you want to delete this channel?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                                <i class="ti ti-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td> --}}
                                                 </tr>
-                                            @endforeach
+                                            @empty
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No channels found.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div> <!-- end table-responsive -->
@@ -70,8 +78,6 @@
 @endsection
 
 @section('scripts')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
     <script>
         $(document).on('click', '.toggle-status', function() {
             let button = $(this);
@@ -101,10 +107,6 @@
                     }
                 }
             });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            new DataTable('#myTable');
         });
     </script>
 @endsection
