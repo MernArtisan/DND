@@ -98,6 +98,6 @@ class ContentController extends Controller
         $content = Content::find(2);
 
         $content->update($request->all());
-        return redirect()->route('admin.terms-condition')->with('success', 'Term & Conditon Updated');
+        return redirect()->route('admin.terms-condition')->with('success', 'Term & Conditions Updated');
     }
 }
