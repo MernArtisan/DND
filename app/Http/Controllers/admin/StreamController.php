@@ -10,7 +10,7 @@ class StreamController extends Controller
 {
     public function Stream()
     {
-        $streams = Stream::all();
+        $streams = Stream::orderBy('id', 'desc')->get();
         return view('admin.stream.streams', compact('streams'));
     }
 }
