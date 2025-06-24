@@ -5,7 +5,7 @@
     <div class="wrapper">
         <div class="page-content">
             <div class="page-container">
-                        &nbsp;
+                &nbsp;
 
                 <div class="row">
                     <div class="col-lg-12">

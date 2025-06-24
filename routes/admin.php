@@ -26,5 +26,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/terms-condition', [App\Http\Controllers\admin\ContentController::class, 'Terms'])->name('terms-condition');
     Route::put('/terms-condition-update', [App\Http\Controllers\admin\ContentController::class, 'updateTerms'])->name('terms-condition-update');
     Route::get('/streams', [App\Http\Controllers\admin\StreamController::class, 'Stream'])->name('streams');
+    Route::resource('/subscription' , App\Http\Controllers\admin\SubscriptionController::class);
   });
 });

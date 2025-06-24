@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" />
 
     @yield('styles')
 </head>
@@ -37,6 +38,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
 
     @yield('scripts')
 
@@ -50,7 +53,11 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            new DataTable('#myTable');
+            new DataTable('#myTable', {
+                language: {
+                    emptyTable: "No subscriptions found"
+                }
+            });
         });
     </script>
     <script>
@@ -97,7 +104,16 @@
             });
         });
     </script>
+    <script>
+        const input = document.querySelector('#featuresInput');
+        const tagify = new Tagify(input);
 
+        // Convert array of tag objects to comma-separated string before submit
+        tagify.on('change', function() {
+            const raw = tagify.value.map(item => item.value).join(',');
+            input.value = raw;
+        });
+    </script>
 
 </body>
 

@@ -31,143 +31,70 @@
                 <a href="{{ route('admin.dashboard') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
                     <span class="menu-text"> Dashboard </span>
-                    <span class="badge bg-success rounded-pill">5</span>
-                </a>
-            </li>
-
-            <li class="side-nav-title mt-2">Apps & Pages</li>
-
-            <li class="side-nav-item">
-                <a href="{{ route('admin.user-streamer.index') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
-                    <span class="menu-text"> Streamer </span>
+                    <span class="badge bg-success rounded-pill"></span>
                 </a>
             </li>
 
             <li class="side-nav-item">
-                <a href="{{ route('admin.banner.index') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-message-filled"></i></span>
-                    <span class="menu-text"> Banners </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="{{ route('admin.category.index') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-calendar-filled"></i></span>
-                    <span class="menu-text"> Categories </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="{{ route('admin.channel.index') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-inbox"></i></span>
-                    <span class="menu-text"> Channels </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="{{ route('admin.privacy-policy') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-shield-lock"></i></span>
-                    <span class="menu-text"> Privacy Policy </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="{{ route('admin.terms-condition') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-file-certificate"></i></span>
-                    <span class="menu-text"> Terms & Conditions </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="{{ route('admin.streams') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-video"></i></span>
-                    <span class="menu-text"> Streams </span>
-                </a>
-            </li>
-
-            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false"
                     aria-controls="sidebarEcommerce" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-basket-filled"></i></span>
-                    <span class="menu-text"> Ecommerce </span>
+                    <span class="menu-text">CMS<br>Management</span>
+
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarEcommerce">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a href="apps-ecommerce-products.html" class="side-nav-link">
-                                <span class="menu-text">Products</span>
+                            <a href="{{ route('admin.banner.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-message-filled"></i></span>
+                                <span class="menu-text"> Banners </span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="apps-ecommerce-products-grid.html" class="side-nav-link">
-                                <span class="menu-text">Products Grid</span>
+                            <a href="{{ route('admin.privacy-policy') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-shield-lock"></i></span>
+                                <span class="menu-text"> Privacy Policy </span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="apps-ecommerce-product-details.html" class="side-nav-link">
-                                <span class="menu-text">Product Details</span>
+                            <a href="{{ route('admin.terms-condition') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-file-certificate"></i></span>
+                                <span class="menu-text"> Terms & Conditions </span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="apps-ecommerce-products-add.html" class="side-nav-link">
-                                <span class="menu-text">Add Products</span>
+                            <a href="#" class="side-nav-link">
+                                <span class="menu-text">Content</span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="apps-ecommerce-categories.html" class="side-nav-link">
-                                <span class="menu-text">Categories</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="apps-ecommerce-orders.html" class="side-nav-link">
-                                <span class="menu-text">Orders</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="apps-ecommerce-order-details.html" class="side-nav-link">
-                                <span class="menu-text">Order Details</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="apps-ecommerce-customers.html" class="side-nav-link">
-                                <span class="menu-text">Customers</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="apps-ecommerce-sellers.html" class="side-nav-link">
-                                <span class="menu-text">Sellers</span>
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
-            </li> --}}
+            </li>
 
-            <!-- <li class="side-nav-item">
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-file-invoice"></i></span>
-                    <span class="menu-text"> Invoice</span>
+                    <span class="menu-text">Category<br> Managemenet</span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarInvoice">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a href="apps-invoices.html" class="side-nav-link">
-                                <span class="menu-text">Invoices</span>
+                            <a href="{{ route('admin.category.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-calendar-filled"></i></span>
+                                <span class="menu-text"> Categories List </span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="apps-invoice-details.html" class="side-nav-link">
-                                <span class="menu-text">View Invoice</span>
+                            <a href="{{ route('admin.category.create') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-folder-plus"></i></span>
+                                <span class="menu-text"> Categories Add </span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="apps-invoice-create.html" class="side-nav-link">
-                                <span class="menu-text">Create Invoice</span>
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
             </li>
@@ -176,112 +103,53 @@
                 <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-files"></i></span>
-                    <span class="menu-text"> Pages </span>
+                    <span class="menu-text">Streamer<br> Managemenet</span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarPages">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a href="pages-starter.html" class="side-nav-link">
-                                <span class="menu-text">Starter Page</span>
+                            <a href="{{ route('admin.streams') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-video"></i></span>
+                                <span class="menu-text"> Streams </span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="pages-faq.html" class="side-nav-link">
-                                <span class="menu-text">FAQ</span>
+                            <a href="{{ route('admin.user-streamer.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
+                                <span class="menu-text"> Streamer </span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="pages-maintenance.html" class="side-nav-link">
-                                <span class="menu-text">Maintenance</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="pages-timeline.html" class="side-nav-link">
-                                <span class="menu-text">Timeline</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="pages-coming-soon.html" class="side-nav-link">
-                                <span class="menu-text">Coming Soon</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="pages-pricing.html" class="side-nav-link">
-                                <span class="menu-text">Pricing</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="pages-terms-conditions.html" class="side-nav-link">
-                                <span class="menu-text">Terms & Conditions</span>
-                            </a>
-                        </li>
+
+
                     </ul>
                 </div>
-            </li> -->
+            </li>
 
-            <!-- <li class="side-nav-item">
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesAuth" aria-expanded="false"
                     aria-controls="sidebarPagesAuth" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-lock-filled"></i></span>
-                    <span class="menu-text"> Auth Pages </span>
+                    <span class="menu-text">Other</span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarPagesAuth">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a href="auth-login.html" class="side-nav-link">
-                                <span class="menu-text">Login</span>
+                            <a href="{{ route('admin.channel.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-inbox"></i></span>
+                                <span class="menu-text"> Channels </span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="auth-register.html" class="side-nav-link">
-                                <span class="menu-text">Register</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-logout.html" class="side-nav-link">
-                                <span class="menu-text">Logout</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-recoverpw.html" class="side-nav-link">
-                                <span class="menu-text">Recover Password</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-createpw.html" class="side-nav-link">
-                                <span class="menu-text">Create Password</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-lock-screen.html" class="side-nav-link">
-                                <span class="menu-text">Lock Screen</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-confirm-mail.html" class="side-nav-link">
-                                <span class="menu-text">Confirm Mail</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-login-pin.html" class="side-nav-link">
-                                <span class="menu-text">Login with PIN</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-2fa.html" class="side-nav-link">
-                                <span class="menu-text">2FA</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="auth-account-deactivation.html" class="side-nav-link">
-                                <span class="menu-text">Account Deactivation</span>
+                            <a href="{{ route('admin.subscription.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-video"></i></span>
+                                <span class="menu-text"> Subscription </span>
                             </a>
                         </li>
                     </ul>
                 </div>
-            </li> -->
+            </li>
 
             <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesError" aria-expanded="false"
