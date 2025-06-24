@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-
+@section('title', 'Channels')
 @section('content')
     <div class="wrapper">
         <div class="page-content">

@@ -84,7 +84,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#description').summernote({
+            $('#description , #description_1').summernote({
                 height: 200,
                 placeholder: 'Enter description...',
                 toolbar: [
@@ -97,6 +97,7 @@
             });
         });
     </script>
+
 
 </body>
 

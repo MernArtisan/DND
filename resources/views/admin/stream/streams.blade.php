@@ -69,6 +69,8 @@
                                                                 </p>
                                                                 <p class="mb-0"><strong>Status:</strong>
                                                                     {{ ucfirst($stream->status) }}</p>
+                                                                <p class="mb-0"><strong>View Count:</strong>
+                                                                    {{ ucfirst($stream->viewer_count) }}</p>
                                                             </div>
                                                         </div>
                                                     </div>
