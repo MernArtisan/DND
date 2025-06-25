@@ -7,4 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ArticleImages extends Model
 {
     protected $table = "article_images";
+
+    protected $guarded =[];
+
+    public function article(){
+        return $this->belongsTo(Article::class);
+    }
 }
