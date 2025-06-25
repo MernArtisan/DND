@@ -11,8 +11,8 @@
                         <div class="card">
                             <div class="card-header border-bottom border-dashed d-flex justify-content-between">
                                 <h4 class="header-title">Subscription List</h4>
-                                {{-- <a href="{{ route('admin.subscription.create') }}" class="btn btn-primary btn-sm">Add
-                                    New</a> --}}
+                                <a href="{{ route('admin.subscription.create') }}" class="btn btn-primary btn-sm">Add
+                                    New</a>
                             </div>
 
                             <div class="card-body">
