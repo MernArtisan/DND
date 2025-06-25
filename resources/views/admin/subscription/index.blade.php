@@ -11,7 +11,8 @@
                         <div class="card">
                             <div class="card-header border-bottom border-dashed d-flex justify-content-between">
                                 <h4 class="header-title">Subscription List</h4>
-                                <a href="{{ route('admin.subscription.create') }}" class="btn btn-primary btn-sm">Add New</a>
+                                {{-- <a href="{{ route('admin.subscription.create') }}" class="btn btn-primary btn-sm">Add
+                                    New</a> --}}
                             </div>
 
                             <div class="card-body">
@@ -37,8 +38,8 @@
                                                     <td>{{ $item->description }}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-sm btn-info view-details"
-                                                            data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                                                            {{-- data-slug="{{ $item->slug }}"  --}} data-price="{{ $item->price }}"
+                                                            data-id="{{ $item->id }}" data-name="{{ $item->name }}" {{--
+                                                            data-slug="{{ $item->slug }}" --}} data-price="{{ $item->price }}"
                                                             data-billing_cycle="{{ $item->billing_cycle }}"
                                                             data-duration_unit="{{ $item->duration_unit }}"
                                                             data-duration_value="{{ $item->duration_value }}"
@@ -53,7 +54,7 @@
                                                             <i class="ti ti-pencil"></i>
                                                         </a>
 
-                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                        {{-- <button type="button" class="btn btn-sm btn-danger"
                                                             onclick="confirmDelete({{ $item->id }})">
                                                             <i class="ti ti-trash"></i>
                                                         </button>
@@ -63,7 +64,7 @@
                                                             method="POST" class="d-none">
                                                             @csrf
                                                             @method('DELETE')
-                                                        </form>
+                                                        </form> --}}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -113,7 +114,7 @@
         // document.addEventListener('DOMContentLoaded', function () {
         //     new DataTable('#myTable');
 
-        $(document).on('click', '.view-details', function() {
+        $(document).on('click', '.view-details', function () {
             $('#modal-name').text($(this).data('name'));
             $('#modal-price').text($(this).data('price'));
             $('#modal-billing-cycle').text($(this).data('billing_cycle'));

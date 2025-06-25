@@ -31,30 +31,35 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'billing_cycle' => 'required|in:one-time,annual',
-            'duration_unit' => 'required|in:hours,days,months,years',
-            'duration_value' => 'required|integer|min:1',
-            'description' => 'required|string',
-            'features' => 'required|string',
-        ]);
+        // dd($request->all());
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
+                'billing_cycle' => 'required|in:day,month,annual',
+                'duration_unit' => 'nullable|integer|min:3',
+                'duration_value' => 'nullable|integer|min:1',
+                'description' => 'required|string',
+                'features' => 'required|string',
+            ]);
 
-        SubscriptionPlan::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name), // Slug handled here
-            'price' => $request->price,
-            'billing_cycle' => $request->billing_cycle,
-            'duration_unit' => $request->duration_unit,
-            'duration_value' => $request->duration_value,
-            'description' => $request->description,
-            'features' => json_encode(
-                collect(json_decode($request->features))->pluck('value')->map('trim')->toArray()
-            ),
-        ]);
+            SubscriptionPlan::create([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'price' => $request->price,
+                'billing_cycle' => $request->billing_cycle,
+                'duration_unit' => $request->duration_unit,
+                'duration_value' => $request->duration_value,
+                'description' => $request->description,
+                'features' => json_encode(
+                    collect(json_decode($request->features))->pluck('value')->map('trim')->toArray()
+                ),
+            ]);
 
-        return redirect()->route('admin.subscription.index')->with('success', 'Subscription created successfully.');
+            return redirect()->route('admin.subscription.index')->with('success', 'Subscription created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
 
@@ -85,9 +90,9 @@ class SubscriptionController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
-            'billing_cycle' => 'required|in:one-time,annual',
-            'duration_unit' => 'required|in:hours,days,months,years',
-            'duration_value' => 'required|integer|min:1',
+            'billing_cycle' => 'required|in:day,month,annual',
+            'duration_unit' => 'nullable|integer|min:3',
+            'duration_value' => 'nullable|integer|min:1',
             'description' => 'required|string',
             'features' => 'required|string',
         ]);

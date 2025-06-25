@@ -31,32 +31,30 @@
 
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Billing Cycle</label>
-                                            <select name="billing_cycle" class="form-control" required>
+                                            <select name="billing_cycle" id="billingCycle" class="form-control" required>
                                                 <option value="">Select cycle</option>
-                                                <option value="one-time">One-Time</option>
+                                                <option value="day">Day</option>
+                                                <option value="month">Month</option>
                                                 <option value="annual">Annual</option>
                                             </select>
                                         </div>
 
-                                        <div class="col-md-3 mb-3">
-                                            <label class="form-label">Duration Unit</label>
-                                            <select name="duration_unit" class="form-control" required>
-                                                <option value="hours">Hours</option>
-                                                <option value="days">Days</option>
-                                                <option value="months">Months</option>
-                                                <option value="years">Years</option>
-                                            </select>
+                                        <div class="col-md-6 mb-3" id="durationUnitContainer" style="display: none;">
+                                            <label class="form-label">Duration (Hours)</label>
+                                            <input type="number" name="duration_unit" class="form-control"
+                                                placeholder="e.g. 24" min="2" pattern="\d{2,}"
+                                                title="Please enter at least 2 digits">
                                         </div>
-
-                                        <div class="col-md-3 mb-3">
+                                        {{-- <div class="col-md-3 mb-3">
                                             <label class="form-label">Duration Value</label>
                                             <input type="number" name="duration_value" class="form-control"
                                                 placeholder="e.g. 1, 12" required>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="col-12 mb-3">
                                             <label class="form-label">Description</label>
-                                            <textarea name="description" class="form-control" rows="3" placeholder="Short description..." required></textarea>
+                                            <textarea name="description" class="form-control" rows="3"
+                                                placeholder="Short description..." required></textarea>
                                         </div>
 
                                         <div class="col-12 mb-3">
@@ -72,11 +70,40 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div> <!-- end card-body -->
-                        </div> <!-- end card -->
-                    </div> <!-- end col -->
-                </div> <!-- end row -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        document.getElementById('billingCycle').addEventListener('change', function () {
+            const durationField = document.querySelector('[name="duration_unit"]');
+            const container = document.getElementById('durationUnitContainer');
+
+            if (this.value === 'day') {
+                container.style.display = 'block';
+                durationField.required = true;
+            } else {
+                container.style.display = 'none';
+                durationField.value = '';
+                durationField.required = false;
+            }
+        });
+
+        // Validate minimum 2 digits on form submission
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const billingCycle = document.getElementById('billingCycle').value;
+            const durationField = document.querySelector('[name="duration_unit"]');
+
+            if (billingCycle === 'day' && (durationField.value.length < 2 || parseInt(durationField.value) < 2)) {
+                e.preventDefault();
+                alert('Duration must be at least 2 digits and minimum value of 2');
+                durationField.focus();
+            }
+        });
+    </script>
 @endsection
