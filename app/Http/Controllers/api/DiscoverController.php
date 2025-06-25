@@ -13,7 +13,8 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\User; 
+// 
 use Illuminate\Support\Facades\Auth;
 
 class DiscoverController extends Controller
