@@ -65,10 +65,10 @@
                         </li>
                         <li class="side-nav-item">
                             <a href="#" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-file-text"></i></span>
                                 <span class="menu-text">Content</span>
                             </a>
                         </li>
-
                     </ul>
                 </div>
             </li>
@@ -147,6 +147,13 @@
                                 <span class="menu-text"> Subscription </span>
                             </a>
                         </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.articles.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-article"></i></span>
+                                <span class="menu-text"> Articles </span>
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </li>

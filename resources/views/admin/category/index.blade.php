@@ -19,10 +19,11 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
+                                                <th>Image</th>
+
                                                 <th>Name</th>
                                                 {{-- <th>Subtitle</th>
                                                 <th>Description</th> --}}
-                                                <th>Image</th>
                                                 <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -31,11 +32,12 @@
                                             @foreach ($categories as $index => $item)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $item->name }}</td>
                                                     <td>
                                                         <img src="{{ $item->image ? asset('storage/' . $item->image) : asset('default-man.png') }}"
                                                             alt="Banner Image" class="avatar-sm rounded" />
                                                     </td>
+                                                    <td>{{ $item->name }}</td>
+
                                                     <td>{{ $item->status }}</td>
                                                     <td>
                                                         <a href="{{ route('admin.category.edit', encrypt($item->id)) }}"
@@ -68,5 +70,3 @@
         </div>
     </div>
 @endsection
-
-

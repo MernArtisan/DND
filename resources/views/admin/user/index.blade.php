@@ -172,7 +172,6 @@
                     <div class="border rounded p-3 mb-3">
                         <p><strong>Name:</strong> ${c.name}</p>
                         <p><strong>Description:</strong> ${c.description ?? '-'}</p>
-                        <p><strong>Slug:</strong> ${c.slug ?? '-'}</p>
                         <p><strong>Banner:</strong><br>
                             <img src="${c.banner ? c.banner : '/default-man.png'}" width="150">
 
