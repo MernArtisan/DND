@@ -4,57 +4,28 @@
     <div class="hero-layout2">
         <div class="row vs-carousel arrow-style3" data-arrows="true" data-dots="false" data-dots-lg-show="true"
             data-fade="true">
-            <div class="hero-inner">
-                <div class="hero-bg" data-bg-src="{{asset('web/assets/img/hero/banner-slider-2.jpg')}}">
-                </div>
-                <div class="container">
-                    <div class="hero-content">
-                        <span class="hero-subtitle">Lorem Ipsum Dolar Sit Amet</span>
-                        <h1 class="hero-title">Lorem Ipsum<br>Dolor Sit</h1>
-                        <p class="hero-text">Lorem ipsum dolor sit amet consectur adipiscing elit eiusmod</p>
-                        <div class="hero-btns">
-                            <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
-                                    class="fas fa-wifi"></i></a>
-                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our
-                                Staff</a>
+            @foreach($banners as $banner)
+                <div class="hero-inner">
+                    <div class="hero-bg" data-bg-src="{{ asset('storage/' . $banner->image) }}"></div>
+                    <div class="container">
+                        <div class="hero-content">
+                            @if($banner->title)
+                                <span class="hero-subtitle">{{ $banner->title }}</span>
+                            @endif
+                            @if($banner->subtitle)
+                                <h1 class="hero-title">{!! nl2br(e($banner->subtitle)) !!}</h1>
+                            @endif
+                            @if($banner->description)
+                                <p class="hero-text">{!! $banner->description !!}</p>
+                            @endif
+                            <div class="hero-btns">
+                                <a href="#" class="vs-btn outline1 me-3">asd <i class="fas fa-wifi"></i></a>
+                                <a href="#" class="vs-btn outline3">gytry<i class="fas fa-users"></i> </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="hero-inner">
-                <div class="hero-bg" data-bg-src="{{asset('web/assets/img/hero/banner-slider-5.jpg')}}">
-                </div>
-                <div class="container">
-                    <div class="hero-content">
-                        <span class="hero-subtitle">Lorem Ipsum Dolar Sit Amet</span>
-                        <h1 class="hero-title">Lorem Ipsum<br>Dolor Sit</h1>
-                        <p class="hero-text">adipiscing Lorem ipsum dolor sit amet consectur elit eiusmod</p>
-                        <div class="hero-btns">
-                            <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
-                                    class="fas fa-wifi"></i></a>
-                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our
-                                Staff</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-inner">
-                <div class="hero-bg" data-bg-src="{{asset('web/assets/img/hero/banner-slider-3.jpg')}}">
-                </div>
-                <div class="container">
-                    <div class="hero-content">
-                        <span class="hero-subtitle">Lorem Ipsum Dolar Sit Amet</span>
-                        <h1 class="hero-title">Lorem Ipsum <br>Dolor Sit</h1>
-                        <p class="hero-text">adipiscing elit Lorem ipsum dolor sit amet consectur eiusmod</p>
-                        <div class="hero-btns">
-                            <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
-                                    class="fas fa-wifi"></i></a>
-                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our
-                                Staff</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
