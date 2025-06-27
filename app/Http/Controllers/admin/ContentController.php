@@ -43,7 +43,10 @@ class ContentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {}
+    public function edit($encryptedId)
+    {
+        return view('admin.content.edit');
+    }
 
     /**
      * Update the specified resource in storage.

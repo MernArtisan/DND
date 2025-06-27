@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Banner')
+@section('title', 'Content')
 @section('content')
     <div class="wrapper">
         <div class="page-content">
@@ -10,7 +10,8 @@
                         <div class="card">
                             <div class="card-header border-bottom border-dashed d-flex justify-content-between">
                                 <h4 class="header-title"> Content </h4>
-                                {{-- <a href="{{ route('admin.banner.create') }}" class="btn btn-primary btn-sm">Add New</a> --}}
+                                {{-- <a href="{{ route('admin.banner.create') }}" class="btn btn-primary btn-sm">Add New</a>
+                                --}}
                             </div>
 
                             <div class="card-body">
@@ -37,16 +38,7 @@
                                                             <i class="ti ti-pencil"></i>
                                                         </a>
 
-                                                        {{-- <button type="button" class="btn btn-sm btn-danger"
-                                                            onclick="confirmDelete({{ $item->id }})">
-                                                            <i class="ti ti-trash"></i>
-                                                        </button>
 
-                                                        <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('admin.banner.destroy', encrypt($item->id)) }}"
-                                                            method="POST" class="d-none">
-                                                            @csrf
-                                                            @method('DELETE') --}}
                                                         </form>
                                                     </td>
                                                 </tr>
