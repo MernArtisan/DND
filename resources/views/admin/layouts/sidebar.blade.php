@@ -158,72 +158,49 @@
                 </div>
             </li>
 
-            <!-- <li class="side-nav-item">
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesError" aria-expanded="false"
                     aria-controls="sidebarPagesError" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-server-2"></i></span>
-                    <span class="menu-text"> Error Pages </span>
+                    <span class="menu-text"> Profile Management</span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarPagesError">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a href="error-401.html" class="side-nav-link">
-                                <span class="menu-text">401 Unauthorized</span>
+                            <a href="{{ route('admin.showProfile') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-user-circle"></i></span>
+                                <span class="menu-text"> View Profile</span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="error-400.html" class="side-nav-link">
-                                <span class="menu-text">400 Bad Request</span>
+                            <a href="{{ route('admin.editProfile') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-user-edit"></i></span>
+                                <span class="menu-text"> Edit Profile</span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="error-403.html" class="side-nav-link">
-                                <span class="menu-text">403 Forbidden</span>
+                            <a href="javascript:void(0);" class="side-nav-link text-danger"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <span class="menu-icon"><i class="ti ti-logout"></i></span>
+                                <span class="menu-text"> Logout</span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="error-404.html" class="side-nav-link">
-                                <span class="menu-text">404 Not Found</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="error-408.html" class="side-nav-link">
-                                <span class="menu-text">408 Request Timeout</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="error-500.html" class="side-nav-link">
-                                <span class="menu-text">500 Internal Server</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="error-501.html" class="side-nav-link">
-                                <span class="menu-text">501 Not Implemented</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="error-502.html" class="side-nav-link">
-                                <span class="menu-text">502 Service Overloaded</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="error-service-unavailable.html" class="side-nav-link">
-                                <span class="menu-text">Service Unavailable</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="error-404-alt.html" class="side-nav-link">
-                                <span class="menu-text">Error 404 Alt</span>
-                            </a>
-                        </li>
+
+                        <!-- Hidden logout form -->
+                        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST"
+                            style="display: none;">
+                            @csrf
+                        </form>
+
                     </ul>
                 </div>
             </li>
 
-            <li class="side-nav-title mt-2">Components</li>
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-title mt-2">Components</li> --}}
+
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-brightness-filled"></i></span>
@@ -369,9 +346,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false"
                     aria-controls="sidebarExtendedUI" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-alien-filled"></i></span>
@@ -402,9 +379,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarIcons" aria-expanded="false" aria-controls="sidebarIcons"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-leaf"></i></span>
@@ -425,9 +402,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarCharts" aria-expanded="false" aria-controls="sidebarCharts"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-chart-arcs"></i></span>
@@ -523,9 +500,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarForms" aria-expanded="false" aria-controls="sidebarForms"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-forms"></i></span>
@@ -586,8 +563,8 @@
                         </li>
                     </ul>
                 </div>
-            </li>
-
+            </li> --}}
+            {{-- 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarTables" aria-expanded="false" aria-controls="sidebarTables"
                     class="side-nav-link">
@@ -609,8 +586,8 @@
                         </li>
                     </ul>
                 </div>
-            </li>
-
+            </li> --}}
+            {{-- 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarMaps" aria-expanded="false" aria-controls="sidebarMaps"
                     class="side-nav-link">
@@ -637,13 +614,13 @@
                         </li>
                     </ul>
                 </div>
-            </li>
-
+            </li> --}}
+            {{-- 
             <li class="side-nav-title mt-2">
                 More
-            </li>
+            </li> --}}
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-layout-filled"></i></span>
@@ -672,7 +649,7 @@
                         </li>
                     </ul>
                 </div>
-            </li> -->
+            </li>  --}}
 
             <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarMultiLevel" aria-expanded="false"
