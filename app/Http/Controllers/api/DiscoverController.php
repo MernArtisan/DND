@@ -637,7 +637,4 @@ class DiscoverController extends Controller
             'stream' => ApiResponse::transform($stream),
         ]);
     }
-
-
-    
 }
