@@ -65,6 +65,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/specific-channel/{id}', [App\Http\Controllers\api\DiscoverController::class, 'getSpecificChannel']);
     Route::get('/specific-stream/{id}', [App\Http\Controllers\api\DiscoverController::class, 'getSpecificStream']);
 
-    Route::get('/subscriptions-plans', [App\Http\Controllers\api\DiscoverController::class, 'subscriptionsPlans']);
-    // Route::post('subscribe', [App\Http\Controllers\api\SubscriptionController::class, 'subscribe']);
+    Route::get('/subscriptions-plans', [App\Http\Controllers\api\SubscriptionControler::class, 'subscriptionsPlans']);
+    Route::post('/subscribe/{id}', [App\Http\Controllers\api\SubscriptionControler::class, 'subscriptionPlan']);
 });

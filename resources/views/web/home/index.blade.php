@@ -15,7 +15,8 @@
                         <div class="hero-btns">
                             <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
                                     class="fas fa-wifi"></i></a>
-                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
+                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our
+                                Staff</a>
                         </div>
                     </div>
                 </div>
@@ -31,7 +32,8 @@
                         <div class="hero-btns">
                             <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
                                     class="fas fa-wifi"></i></a>
-                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
+                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our
+                                Staff</a>
                         </div>
                     </div>
                 </div>
@@ -47,7 +49,8 @@
                         <div class="hero-btns">
                             <a href="{{route('liveStreams.index')}}" class="vs-btn outline1 me-3">Live Stream<i
                                     class="fas fa-wifi"></i></a>
-                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our Staff</a>
+                            <a href="{{route('staff.index')}}" class="vs-btn outline3"><i class="fas fa-users"></i>Meet Our
+                                Staff</a>
                         </div>
                     </div>
                 </div>
@@ -278,14 +281,15 @@
                     <div class="vs-blog image-scale-hover">
                         <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
-                                    alt="Blog Image"></a>
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                                    class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
                                 <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>January 22, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                                    ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>
@@ -294,14 +298,15 @@
                     <div class="vs-blog image-scale-hover">
                         <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
-                                    alt="Blog Image"></a>
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                                    class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
                                 <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>February 13, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                                    ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>
@@ -310,14 +315,15 @@
                     <div class="vs-blog image-scale-hover">
                         <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
-                                    alt="Blog Image"></a>
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                                    class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
                                 <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>March 18, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                                    ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>
@@ -326,14 +332,15 @@
                     <div class="vs-blog image-scale-hover">
                         <a href="{{route('news.index')}}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}" class="w-100"
-                                    alt="Blog Image"></a>
+                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                                    class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
                                 <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>Augest 19, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem ipsum is
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                                    ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
                     </div>
