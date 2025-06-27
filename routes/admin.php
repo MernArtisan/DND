@@ -22,10 +22,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/privacy-policy', [App\Http\Controllers\admin\ContentController::class, 'Privacy'])->name('privacy-policy');
     Route::put('/privacy-policy-update', [App\Http\Controllers\admin\ContentController::class, 'updatePrivacy'])->name('privacy-policy-update');
 
-
     Route::get('/terms-condition', [App\Http\Controllers\admin\ContentController::class, 'Terms'])->name('terms-condition');
     Route::put('/terms-condition-update', [App\Http\Controllers\admin\ContentController::class, 'updateTerms'])->name('terms-condition-update');
     Route::get('/streams', [App\Http\Controllers\admin\StreamController::class, 'Stream'])->name('streams');
     Route::resource('/subscription', App\Http\Controllers\admin\SubscriptionController::class);
+    Route::resource('/articles', App\Http\Controllers\admin\ArticleController::class);
+    Route::post('articles/delete-image', [App\Http\Controllers\admin\ArticleController::class, 'deleteImage'])->name('articles.deleteImage');
+
+    Route::get('/admin-profile', [App\Http\Controllers\admin\UserController::class, 'showProfile'])->name('showProfile');
+    Route::get('/edit-admin-profile', [App\Http\Controllers\admin\UserController::class, 'editProfile'])->name('editProfile');
+    Route::put('/update-admin-profile', [App\Http\Controllers\admin\UserController::class, 'updateProfile'])->name('updateProfile');
   });
 });

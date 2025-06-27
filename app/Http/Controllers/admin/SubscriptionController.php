@@ -87,32 +87,36 @@ class SubscriptionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'billing_cycle' => 'required|in:day,month,annual',
-            'duration_unit' => 'nullable|integer|min:3',
-            'duration_value' => 'nullable|integer|min:1',
-            'description' => 'required|string',
-            'features' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
+                'billing_cycle' => 'required|in:day,month,annual',
+                'duration_unit' => 'nullable|integer|min:3',
+                'duration_value' => 'nullable|integer|min:1',
+                'description' => 'required|string',
+                'features' => 'required|string',
+            ]);
 
-        $subscription = SubscriptionPlan::findOrFail($id);
+            $subscription = SubscriptionPlan::findOrFail($id);
 
-        $subscription->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name), // Update slug if name changes
-            'price' => $request->price,
-            'billing_cycle' => $request->billing_cycle,
-            'duration_unit' => $request->duration_unit,
-            'duration_value' => $request->duration_value,
-            'description' => $request->description,
-            'features' => json_encode(
-                collect(json_decode($request->features))->pluck('value')->map('trim')->toArray()
-            ),
-        ]);
+            $subscription->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name), // Update slug if name changes
+                'price' => $request->price,
+                'billing_cycle' => $request->billing_cycle,
+                'duration_unit' => $request->duration_unit,
+                'duration_value' => $request->duration_value,
+                'description' => $request->description,
+                'features' => json_encode(
+                    collect(json_decode($request->features))->pluck('value')->map('trim')->toArray()
+                ),
+            ]);
 
-        return redirect()->route('admin.subscription.index')->with('success', 'Subscription updated successfully.');
+            return redirect()->route('admin.subscription.index')->with('success', 'Subscription updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back('')->with('error', $e->getMessage());
+        }
     }
 
 
@@ -121,10 +125,14 @@ class SubscriptionController extends Controller
      */
     public function destroy($encryptedId)
     {
-        $id = decrypt($encryptedId);
-        $subscription = SubscriptionPlan::findOrFail($id);
-        $subscription->delete();
+        try {
+            $id = decrypt($encryptedId);
+            $subscription = SubscriptionPlan::findOrFail($id);
+            $subscription->delete();
 
-        return redirect()->route('admin.subscription.index')->with('success', 'Subscription deleted successfully.');
+            return redirect()->route('admin.subscription.index')->with('success', 'Subscription deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }
