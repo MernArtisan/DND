@@ -13,7 +13,7 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::all();
+        $contents = Content::whereNotIn('id' , [1,2])->get();
         return view('admin.content.index', compact('contents'));
     }
 

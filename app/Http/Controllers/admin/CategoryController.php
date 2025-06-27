@@ -41,7 +41,7 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'status' => 'required|in:active,inactive',
-                'image' => 'required|image|mimes:jpg,jpeg,png|max:10240',
+                'image' => 'required|image|mimes:jpg,jpeg,png',
             ]);
 
             $imagePath = null;
@@ -98,7 +98,7 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'status' => 'required|in:active,inactive',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png',
             ]);
 
             if ($request->hasFile('image')) {

@@ -43,7 +43,7 @@ class BannerController extends Controller
                 'subtitle' => 'required|string|max:255',
                 'description' => 'required|string',
                 'platform' => 'required|in:web,app,both',
-                'image' => 'required|image|mimes:jpg,jpeg,png|max:10240',
+                'image' => 'required|image|mimes:jpg,jpeg,png',
             ]);
 
             $imagePath = null;
@@ -91,7 +91,7 @@ class BannerController extends Controller
             'subtitle' => 'required|string|max:255',
             'description' => 'required|string',
             'platform' => 'required|in:web,app,both',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
         $banner = Banner::findOrFail($id);
