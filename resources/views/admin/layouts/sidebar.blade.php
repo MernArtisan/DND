@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href=" {{ route('admin.content.index') }}" class="side-nav-link">
+                            <a href="{{ route('admin.content.index')}}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-file-text"></i></span>
                                 <span class="menu-text">Content</span>
                             </a>

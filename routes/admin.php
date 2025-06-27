@@ -38,5 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Route::put('/update-admin-profile', [App\Http\Controllers\admin\UserController::class, 'updateProfile'])->name('updateProfile');
 
+    Route::resource('/content', App\Http\Controllers\admin\ContentController::class);
+    
   });
 });

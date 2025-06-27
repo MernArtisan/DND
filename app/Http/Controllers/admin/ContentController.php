@@ -13,8 +13,7 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::whereNotIn('id' , [1,2])->get();
-        return view('admin.content.index', compact('contents'));
+        return view('admin.content.index');
     }
 
     /**
@@ -51,7 +50,7 @@ class ContentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       //
+        //
     }
 
     /**
