@@ -6,15 +6,15 @@
             <!-- Brand Logo -->
             <a href="/" class="logo">
                 <span class="logo-light">
-                    <span class="logo-lg"><img src="{{asset('admin/assets/images/logo.png')}}" alt="logo"></span>
-                    <span class="logo-sm"><img src="{{asset('admin/assets/images/logo-sm.png')}}"
+                    <span class="logo-lg"><img src="{{ asset('admin/assets/images/logo.png') }}" alt="logo"></span>
+                    <span class="logo-sm"><img src="{{ asset('admin/assets/images/logo-sm.png') }}"
                             alt="small logo"></span>
                 </span>
 
                 <span class="logo-dark">
-                    <span class="logo-lg"><img src="{{asset('admin/assets/images/logo-dark.png')}}"
+                    <span class="logo-lg"><img src="{{ asset('admin/assets/images/logo-dark.png') }}"
                             alt="dark logo"></span>
-                    <span class="logo-sm"><img src="{{asset('admin/assets/images/logo-sm.png')}}"
+                    <span class="logo-sm"><img src="{{ asset('admin/assets/images/logo-sm.png') }}"
                             alt="small logo"></span>
                 </span>
             </a>
@@ -235,21 +235,21 @@
                     <a class="topbar-link btn btn-outline-primary dropdown-toggle drop-arrow-none"
                         data-bs-toggle="dropdown" data-bs-offset="0,22" type="button" aria-haspopup="false"
                         aria-expanded="false">
-                        <img src="{{Auth::user()->image}}" width="24" class="rounded-circle me-lg-2 d-flex"
+                        <img src="{{ Auth::user()->image }}" width="24" class="rounded-circle me-lg-2 d-flex"
                             alt="user-image">
                         <span class="d-lg-flex flex-column gap-1 d-none">
-                            {{Auth::user()->name}}
+                            {{ Auth::user()->name }}
                         </span>
                         <i class="ti ti-chevron-down d-none d-lg-block align-middle ms-2"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome ! {{Auth::user()->name}}</h6>
+                            <h6 class="text-overflow m-0">Welcome ! {{ Auth::user()->name }}</h6>
                         </div>
 
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
+                        <a href="{{ route('admin.showProfile') }}" class="dropdown-item">
                             <i class="ti ti-user-hexagon me-1 fs-17 align-middle"></i>
                             <span class="align-middle">My Account</span>
                         </a>
