@@ -49,7 +49,7 @@
 
                                         <div class="col-12 mb-3">
                                             <label class="form-label">Description</label>
-                                            <textarea name="description" class="form-control" rows="3" required>{{ $subscription->description }}</textarea>
+                                            <textarea id="description" name="description" class="form-control-summernote" rows="3" required>{{ $subscription->description }}</textarea>
                                         </div>
 
                                         <div class="col-12 mb-3">

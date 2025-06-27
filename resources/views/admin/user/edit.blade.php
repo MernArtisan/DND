@@ -85,7 +85,7 @@
 
                                     <h5 class="text-muted mb-3"><i class="ti ti-file-description me-1"></i> Bio</h5>
                                     <div class="mb-4">
-                                        <textarea name="bio" class="form-control" rows="3" placeholder="Tell us something about yourself">{{ $user->bio }}</textarea>
+                                        <textarea id="description" name="bio" class="form-control-summernote" rows="3" placeholder="Tell us something about yourself">{{ $user->bio }}</textarea>
                                     </div>
 
                                     <h5 class="text-muted mb-3"><i class="ti ti-link me-1"></i> Social Links</h5>
