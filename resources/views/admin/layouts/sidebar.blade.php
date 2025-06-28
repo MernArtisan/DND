@@ -63,16 +63,14 @@
                                 <span class="menu-text"> Terms & Conditions </span>
                             </a>
                         </li>
-<<<<<<< HEAD
+ 
                         <li class="side-nav-item">
                             <a href="{{ route('admin.content.index') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-file-text"></i></span>
                                 <span class="menu-text">Content</span>
                             </a>
                         </li>
-=======
-
->>>>>>> f9aae70e59b5d7e390a1d8b33b4508b0ef8e7f0e
+ 
                     </ul>
                 </div>
             </li>
