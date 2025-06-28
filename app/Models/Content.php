@@ -24,4 +24,8 @@ class Content extends Model
         'item_4',
         'description_4',
     ];
+
+    protected $casts = [
+        'value' => 'array', // Laravel will automatically cast it from JSON string to PHP array
+    ];
 }

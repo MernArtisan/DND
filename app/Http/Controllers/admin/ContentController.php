@@ -43,15 +43,31 @@ class ContentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {}
+    public function edit($encryptedId)
+    { {
+            $id = decrypt($encryptedId);
+            $cms_content = Content::findOrFail($id); // ✅ Single model, not a collection
+            return view('admin.content.edit', compact('cms_content'));
+        }
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $encryptedId)
     {
-        //
+        $id = decrypt($encryptedId);
+        $cms_content = Content::findOrFail($id);
+
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+        $cms_content->update($request->except('_token', '_method'));
+
+        return redirect()->route('admin.content.index')->with('success', 'Content updated successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
