@@ -63,14 +63,14 @@
                                 <span class="menu-text"> Terms & Conditions </span>
                             </a>
                         </li>
- 
+
                         <li class="side-nav-item">
                             <a href="{{ route('admin.content.index') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-file-text"></i></span>
                                 <span class="menu-text">Content</span>
                             </a>
                         </li>
- 
+
                     </ul>
                 </div>
             </li>
@@ -176,6 +176,13 @@
                             </a>
                         </li>
 
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.testimonials.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-article"></i></span>
+                                <span class="menu-text"> Testimonials </span>
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </li>
@@ -183,8 +190,8 @@
             {{-- <li class="side-nav-title mt-2">Components</li> --}}
 
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI"
-                    class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false"
+                    aria-controls="sidebarBaseUI" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-settings"></i></span>
                     <span class="menu-text"> Settings </span>
                     <span class="menu-arrow"></span>
@@ -192,12 +199,6 @@
 
                 <div class="collapse" id="sidebarBaseUI">
                     <ul class="sub-menu">
-                        <li class="side-nav-item">
-                            <a href="{{ route('admin.content.index')}}" class="side-nav-link">
-                                <span class="menu-icon"><i class="ti ti-file-text"></i></span>
-                                <span class="menu-text">Content</span>
-                            </a>
-                        </li>
                         <li class="side-nav-item">
                             <a href="{{ route('admin.subscription.index') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-video"></i></span>
@@ -222,7 +223,7 @@
             </li>
 
 
-          
+
         </ul>
 
         <div class="clearfix"></div>
