@@ -178,10 +178,11 @@
 
                         <li class="side-nav-item">
                             <a href="{{ route('admin.testimonials.index') }}" class="side-nav-link">
-                                <span class="menu-icon"><i class="ti ti-article"></i></span>
+                                <span class="menu-icon"><i class="ti ti-quote"></i></span> {{-- 👈 Different icon --}}
                                 <span class="menu-text"> Testimonials </span>
                             </a>
                         </li>
+
 
                     </ul>
                 </div>
