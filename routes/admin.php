@@ -41,6 +41,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('/content', App\Http\Controllers\admin\ContentController::class);
 
 
-    Route::resource('/testimonials', \App\Http\Controllers\Admin\TestimoniController::class);
+    Route::resource('/testimonials', \App\Http\Controllers\admin\TestimoniController::class);
   });
 });
