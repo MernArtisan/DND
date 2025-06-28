@@ -12,7 +12,7 @@ class TestimoniController extends Controller
 {
     public function index()
     {
-        $testimonials = Testimonial::where('status', 1)->orderBy('created_at', 'desc')->get();
+        $testimonials = Testimonial::all();
         return view("admin.testimonials.index", [
             "testimonials" => $testimonials
         ]);
