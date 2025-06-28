@@ -33,12 +33,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/admin-profile', [App\Http\Controllers\admin\UserController::class, 'showProfile'])->name('showProfile');
     Route::get('/edit-admin-profile', [App\Http\Controllers\admin\UserController::class, 'editProfile'])->name('editProfile');
-   
+
     Route::put('/update-admin-profile', [App\Http\Controllers\admin\UserController::class, 'updateProfile'])->name('updateProfile');
 
     // Route::put('/update-admin-profile', [App\Http\Controllers\admin\UserController::class, 'updateProfile'])->name('updateProfile');
 
     Route::resource('/content', App\Http\Controllers\admin\ContentController::class);
-    
+
+
+    Route::resource('/testimonials', \App\Http\Controllers\Admin\TestimoniController::class);
   });
 });
