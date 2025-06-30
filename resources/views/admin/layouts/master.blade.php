@@ -33,7 +33,7 @@
     <script src="{{ asset('admin/assets/js/pages/dashboard-sales.js') }}"></script>
     <script src="{{ asset('admin/assets/js/config.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="{{ asset('admin/assets/vendor/gridjs/gridjs.umd.js') }}"></script>
+    {{-- <script src="{{ asset('admin/assets/vendor/gridjs/gridjs.umd.js') }}"></script> --}}
     <script src="{{ asset('admin/assets/js/pages/table-gridjs.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
@@ -50,8 +50,7 @@
         @if (session('error'))
             toastr.error('{{ session('error') }}', 'Error');
         @endif
-    </script>
-    <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             new DataTable('#myTable', {
                 language: {
@@ -59,9 +58,9 @@
                 }
             });
         });
-    </script>
-    <script>
+
         function confirmDelete(id) {
+            debugger;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to undo this!",
@@ -88,8 +87,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-    </script>
-    <script>
+
         $(document).ready(function() {
             $('#description , #description_1').summernote({
                 height: 200,
@@ -103,8 +101,7 @@
                 ]
             });
         });
-    </script>
-    <script>
+
         const input = document.querySelector('#featuresInput');
         const tagify = new Tagify(input);
 
