@@ -38,6 +38,7 @@
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ Str::limit(strip_tags($item->description), 30, '...') }}</td>
                                                     <td>
+                                                        
                                                         <span
                                                             class="badge {{ $item->status ? 'bg-success' : 'bg-danger' }}">
                                                             {{ $item->status ? 'Active' : 'Inactive' }}
