@@ -183,26 +183,31 @@
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-map-marker-alt"></i></span>
                             <p class="fs-4 lh-1 fw-medium text-white mb-1 mb-sm-0">Address</p>
-                            <p class="text-white mb-0">301 Massachusetts Ave, Lunenburg MA 1462</p>
+                            <p class="text-white mb-0">{{$general_content->address}}</p>
                         </div>
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-phone"></i></span>
                             <p class="fs-4 lh-1 fw-medium text-white mb-1 mb-sm-0">Get In Touch</p>
-                            <p class="text-white mb-0"><a href="tel:13456789" class="text-inherit">85 125 1256 12145</a></p>
+                            <p class="text-white mb-0"><a href="tel:13456789"
+                                    class="text-inherit">{{$general_content->getintouch}}</a></p>
                         </div>
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-envelope"></i></span>
                             <p class="fs-4 lh-1 fw-medium text-white mb-1 mb-sm-0">Mail Us</p>
                             <p class="text-white mb-0"><a href="mailto:info@example.com"
-                                    class="text-inherit">info@example.com</a></p>
+                                    class="text-inherit">{{$general_content->email}}</a></p>
                         </div>
                     </div>
                     <span class="text-white fw-medium fs-4">Follow Me On:</span>
                     <div class="d-inline-flex gap-2 mt-2 mt-sm-0 ms-sm-3">
-                        <a class="icon-btn" href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a class="icon-btn" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="icon-btn" href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="icon-btn" href="#"><i class="fab fa-instagram"></i></a>
+                        <a class="icon-btn" href="{{$general_content->facebook}}" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="icon-btn" href="{{$general_content->twitter}}" target="_blank"><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="icon-btn" href="{{$general_content->linkedin}}" target="_blank"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a class="icon-btn" href="{{$general_content->youtube}}" target="_blank"><i
+                                class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-6">

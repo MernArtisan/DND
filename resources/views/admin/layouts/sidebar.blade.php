@@ -185,12 +185,19 @@
 
                         <li class="side-nav-item">
                             <a href="{{ route('admin.teams.index') }}" class="side-nav-link">
-                                <span class="menu-icon"><i class="ti ti-users-group"></i></span> {{-- 👈 Unique icon for team --}}
+                                <span class="menu-icon"><i class="ti ti-users-group"></i></span> {{-- 👈 Unique icon for
+                                team --}}
                                 <span class="menu-text"> Teams </span>
                             </a>
                         </li>
 
-
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.general.details') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-tools"></i></span> {{-- 👈 Unique icon for
+                                team --}}
+                                <span class="menu-text"> General Details </span>
+                            </a>
+                        </li>
 
                     </ul>
                 </div>
@@ -199,8 +206,8 @@
             {{-- <li class="side-nav-title mt-2">Components</li> --}}
 
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false"
-                    aria-controls="sidebarBaseUI" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI"
+                    class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-settings"></i></span>
                     <span class="menu-text"> Settings </span>
                     <span class="menu-arrow"></span>

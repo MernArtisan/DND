@@ -43,5 +43,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('/testimonials', \App\Http\Controllers\admin\TestimoniController::class);
     Route::resource('/teams', \App\Http\Controllers\admin\TeamController::class);
+    Route::get('/general-details', [App\Http\Controllers\admin\GeneralController::class, 'general'])->name('general.details');
+    Route::get('/edit-general-details', [App\Http\Controllers\admin\GeneralController::class, 'edit'])->name('edit.general.details');
+    Route::post('/update-general-details', [App\Http\Controllers\admin\GeneralController::class, 'update'])->name('update.general.details');
   });
 });

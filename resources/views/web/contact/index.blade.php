@@ -84,7 +84,7 @@
                                     <div class="d-flex">
                                         <span class="icon-btn3 me-3"><i class="fas fa-phone-alt"></i></span>
                                         <div class="media-body align-self-center">
-                                            <h4 class="h5 text-white font-theme text-normal mb-0">Get In Touch</h4>
+                                            <h4 class="h5 text-white font-theme text-normal mb-0">Call Us</h4>
                                             <a href="tel:0123456789" class="d-inline-block">85 125 1256 12145</a>
                                         </div>
                                     </div>
