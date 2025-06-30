@@ -23,11 +23,9 @@
             <div class="row gx-60 mb-30">
 
                 <div class="col-lg-6 mb-30">
-                    <span class="sub-title2 mb-20">Contact</span>
-                    <h2 class="text-normal mb-md-3">Lorem Ipsum Dolor Sit Amet</h2>
-                    <p class="me-xl-4 pe-xl-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Morbi et tempus nisi, id pretium quam. Donec gravida risus ac sem tristique,
-                        sed aliquet nibh interdum. Duis molestie facilisis purus at interdum. </p>
+                    <span class="sub-title2 mb-20">{{$cms_content[7]->name}}</span>
+                    <h2 class="text-normal mb-md-3">{{$cms_content[7]->description}}</h2>
+                    <p class="me-xl-4 pe-xl-5">{{$cms_content[7]->item_1}} </p>
                     <h3 class="h4 text-normal pt-xl-2">Opening Hours</h3>
                     <table class="table schedule-table ">
                         <tr>

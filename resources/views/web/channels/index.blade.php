@@ -125,8 +125,8 @@
         }
     </style>
     <!--==============================
-                            Breadcumb
-                            ============================== -->
+                                Breadcumb
+                                ============================== -->
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
         data-bg-src="{{asset('web/assets/img/breadcumb/breadcumb.jpg')}}" data-overlay>
         <div class="container z-index-common">
@@ -141,14 +141,14 @@
         </div>
     </div>
     <!--==============================
-                            Live Stream Channels Start
-                            ==============================-->
+                                Live Stream Channels Start
+                                ==============================-->
 
     <section class="vs-live-stream vs-live-stream-layout1 space-top space-md-bottom">
         <div class="container">
             <div class="section-title text-center">
-                <h2 class="sec-title1live">Watch Live Channels</h2>
-                <p class="sec-text">Enjoy your favorite shows, sports, and events in real-time</p>
+                <h2 class="sec-title1live">{{$cms_content[6]->name}}</h2>
+                <p class="sec-text">{{$cms_content[6]->description}}</p>
             </div>
 
             <div class="row gx-4 gy-30">
@@ -306,8 +306,8 @@
             </div>
 
             <!--  <div class="text-center mt-50">
-                                    <a href="#" class="vs-btn style2">View All Channels</a>
-                                </div> -->
+                                        <a href="#" class="vs-btn style2">View All Channels</a>
+                                    </div> -->
         </div>
     </section>
     @include('web.components.newsletter')

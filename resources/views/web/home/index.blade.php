@@ -45,10 +45,8 @@
                 </div>
                 <div class="col-lg-6 align-self-center">
                     <div class="about-content1 pl-35">
-                        <h2 class="sec-title2">Lorem Ipsum Dolar Sit Amet</h2>
-                        <p class="mb-30 text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <h2 class="sec-title2">{{$cms_content[0]->name}}</h2>
+                        <p class="mb-30 text-justify">{{$cms_content[0]->description}}</p>
                         <h3 class="h5 font-theme">Lorem Ipsum - Pro Player</h3>
                     </div>
                 </div>
@@ -62,8 +60,8 @@
             <div class="row">
                 <div class="col-md-5 col-lg-6 col-xl-6">
                     <div class="section-title has-title-rotate">
-                        <span class="title-rotate">#schedule</span>
-                        <h2 class="sec-title1 text-white">STREAM TIMETABLE</h2>
+                        <span class="title-rotate">{{$cms_content[1]->name}}</span>
+                        <h2 class="sec-title1 text-white">{{$cms_content[1]->description}}</h2>
                     </div>
                 </div>
             </div>
@@ -119,8 +117,8 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-7 col-md-8">
                         <div class="section-title text-center">
-                            <span class="sub-title">#schedule</span>
-                            <h2 class="sec-title1 text-center">WATCH MY STREAMS</h2>
+                            <span class="sub-title">{{$cms_content[2]->name}}</span>
+                            <h2 class="sec-title1 text-center">{{$cms_content[2]->description}}</h2>
                         </div>
                     </div>
                 </div>
@@ -174,8 +172,8 @@
                     <div class="row">
                         <div class="col-11 col-md-6  col-lg-12">
                             <div class="section-title has-title-rotate">
-                                <span class="title-rotate">#schedule</span>
-                                <h2 class="sec-title1 text-white">Contact with us</h2>
+                                <span class="title-rotate">{{$cms_content[3]->name}}</span>
+                                <h2 class="sec-title1 text-white">{{$cms_content[3]->description}}</h2>
                             </div>
                         </div>
                     </div>
@@ -241,8 +239,8 @@
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-7 col-md-8">
                     <div class="section-title text-center">
-                        <span class="sub-title">#schedule</span>
-                        <h2 class="sec-title1 text-center">Latest News Feed</h2>
+                        <span class="sub-title">{{$cms_content[4]->name}}</span>
+                        <h2 class="sec-title1 text-center">{{$cms_content[4]->description}}</h2>
                     </div>
                 </div>
             </div>
