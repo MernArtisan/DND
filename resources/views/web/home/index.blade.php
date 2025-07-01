@@ -2,7 +2,8 @@
 @section('title', 'Home')
 @section('content')
     <div class="hero-layout2">
-        <div class="row vs-carousel arrow-style3" data-arrows="true" data-dots="false" data-dots-lg-show="true" data-fade="true">
+        <div class="row vs-carousel arrow-style3" data-arrows="true" data-dots="false" data-dots-lg-show="true"
+            data-fade="true">
             @foreach ($banners as $banner)
                 <div class="hero-inner">
                     <div class="hero-bg" data-bg-src="{{ asset('storage/' . $banner->image) }}"></div>
@@ -131,6 +132,7 @@
 
                         @foreach ($streamsGrouped as $categoryId => $stream)
                             <div class="position-relative image-scale-hover">
+<<<<<<< HEAD
                                 <a class="popup-video" href="{{ $stream->video_url }}">
                                     <img class="w-100" src="{{ asset('storage/' . $stream->image) }}"
                                         alt="{{ $stream->title }}">
@@ -140,6 +142,33 @@
                             </div>
                         @endforeach
 
+=======
+                                <a class="popup-video" href="#"><img class="w-100"
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
+                                <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
+                            </div>
+                            <div class="position-relative image-scale-hover">
+                                <a class="popup-video" href="#"><img class="w-100"
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
+                                <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
+                            </div>
+                            <div class="position-relative image-scale-hover">
+                                <a class="popup-video" href="#"><img class="w-100"
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
+                                <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
+                            </div>
+                            <div class="position-relative image-scale-hover">
+                                <a class="popup-video" href="#"><img class="w-100"
+                                        src="{{ asset('web/assets/img/video/playing-snooker.jpg') }}" alt="Video Thumb"></a>
+                                <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
+                            </div>
+                            <div class="position-relative image-scale-hover">
+                                <a class="popup-video" href="#"><img class="w-100"
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
+                                <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
+                            </div>
+                        </div>
+>>>>>>> origin/moiz
                     </div>
                 </div>
             </div>
@@ -164,36 +193,39 @@
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-map-marker-alt"></i></span>
                             <p class="fs-4 lh-1 fw-medium text-white mb-1 mb-sm-0">Address</p>
-                            <p class="text-white mb-0">301 Massachusetts Ave, Lunenburg MA 1462</p>
+                            <p class="text-white mb-0">{{$general_content->address}}</p>
                         </div>
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-phone"></i></span>
                             <p class="fs-4 lh-1 fw-medium text-white mb-1 mb-sm-0">Get In Touch</p>
-                            <p class="text-white mb-0"><a href="tel:13456789" class="text-inherit">85 125 1256 12145</a>
-                            </p>
+                            <p class="text-white mb-0"><a href="tel:13456789" class="text-inherit">85 125 1256 12145</a></p>
                         </div>
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-envelope"></i></span>
                             <p class="fs-4 lh-1 fw-medium text-white mb-1 mb-sm-0">Mail Us</p>
                             <p class="text-white mb-0"><a href="mailto:info@example.com"
-                                    class="text-inherit">info@example.com</a></p>
+                                    class="text-inherit">{{$general_content->email}}</a></p>
                         </div>
                     </div>
                     <span class="text-white fw-medium fs-4">Follow Me On:</span>
                     <div class="d-inline-flex gap-2 mt-2 mt-sm-0 ms-sm-3">
-                        <a class="icon-btn" href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a class="icon-btn" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="icon-btn" href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="icon-btn" href="#"><i class="fab fa-instagram"></i></a>
+                        <a class="icon-btn" href="{{$general_content->facebook}}" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="icon-btn" href="{{$general_content->twitter}}" target="_blank"><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="icon-btn" href="{{$general_content->linkedin}}" target="_blank"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a class="icon-btn" href="{{$general_content->youtube}}" target="_blank"><i
+                                class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <form action="#" method="POST" class="contact-form contact-form-style1 form-dark px-60 py-60 ">
+                    <form action="{{ route('inquiry.submit') }}" method="POST"
+                        class="contact-form contact-form-style1 form-dark px-60 py-60 ">
                         <div class="row">
                             <div class="col-lg-12 form-group">
                                 <label class="text-white" for="name">Enter Name</label>
-                                <input type="text" id="name" name="name" class="form-control"
-                                    placeholder="Enter Your Name">
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Enter Your Name">
                                 <i class="fal fa-user"></i>
                             </div>
                             <div class="col-lg-12 form-group">
@@ -260,10 +292,72 @@
                                     </a>
                                 </h3>
                             </div>
+<<<<<<< HEAD
                         </div>
                     </div>
                 @endforeach
 
+=======
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
+                                    ipsum is
+                                    placeholder text commonly graphic</a></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="vs-blog image-scale-hover">
+                        <a href="{{ route('news.index') }}" class="overlay"></a>
+                        <div class="blog-image">
+                            <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
+                                    class="w-100" alt="Blog Image"></a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta text-light fs-xs mb-10 text-white">
+                                <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>February 13,
+                                    2025</a>
+                            </div>
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
+                                    ipsum is
+                                    placeholder text commonly graphic</a></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="vs-blog image-scale-hover">
+                        <a href="{{ route('news.index') }}" class="overlay"></a>
+                        <div class="blog-image">
+                            <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
+                                    class="w-100" alt="Blog Image"></a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta text-light fs-xs mb-10 text-white">
+                                <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>March 18, 2025</a>
+                            </div>
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
+                                    ipsum is
+                                    placeholder text commonly graphic</a></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="vs-blog image-scale-hover">
+                        <a href="{{ route('news.index') }}" class="overlay"></a>
+                        <div class="blog-image">
+                            <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
+                                    class="w-100" alt="Blog Image"></a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta text-light fs-xs mb-10 text-white">
+                                <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>Augest 19,
+                                    2025</a>
+                            </div>
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
+                                    ipsum is
+                                    placeholder text commonly graphic</a></h3>
+                        </div>
+                    </div>
+                </div>
+>>>>>>> origin/moiz
             </div>
         </div>
     </section>
@@ -280,12 +374,56 @@
                         src="{{ asset('web/assets/img/icons/quote-1.png') }}" alt="Quote">
                     <img class="position-absolute d-none d-xxl-inline-block start-100 top-100 translate-middle mb-xl-4"
                         src="{{ asset('web/assets/img/icons/quote-1.png') }}" alt="Quote">
+<<<<<<< HEAD
 
                     {{-- Unified Carousel --}}
                     <div class="testimonial-content text-center px-lg-4 mb-40 vs-carousel" data-slide-show="1"
                         data-fade="true">
 
                         @foreach ($testimonials as $testimonial)
+=======
+                    <div class="testimonial-content text-center px-lg-4 mb-40 vs-carousel" data-slide-show="1" id="slide1"
+                        data-asnavfor="#slide2, #slide3" data-fade="true">
+                        <h2 class="testi-text mb-0">Lorem ipsum is placeholder text commonly used in the graphic, print,
+                            and
+                            publishing industries for <u>previewing layouts and visual mockups.</u></h2>
+                        <h2 class="testi-text mb-0">From its medieval origins to the digital era, learn everything there is
+                            to know about the ubiquitous lorem ipsum passage bled parts of Cicero's De Finibus Bo.</h2>
+                        <h2 class="testi-text mb-0">The placeholder text, beginning with the line “Lorem ipsum dolor sit
+                            amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago</h2>
+                        <h2 class="testi-text mb-0">Richard McClintock, a Latin scholar from Hampden-Sydney College, is
+                            credited with discovering the source behind the ubiquitous filler text. In seeing a sample of
+                            lorem</h2>
+                    </div>
+                </div>
+                <div class="col-xl-5">
+                    <div class="author-area pb-40">
+                        <button
+                            class="icon-btn4 d-none d-sm-inline-block position-absolute start-100 top-50 translate-middle-x"
+                            data-slick-next="#slide2"><i class="fas fa-chevron-right"></i></button>
+                        <button
+                            class="icon-btn4 d-none d-sm-inline-block position-absolute start-0 top-50 translate-middle-x"
+                            data-slick-prev="#slide2"><i class="fas fa-chevron-left"></i></button>
+                        <div class="avater-slide1 vs-carousel mb-30" id="slide2" data-slide-show="3" data-center-mode="true"
+                            data-xl-center-mode="true" data-ml-center-mode="true" data-lg-center-mode="true"
+                            data-md-center-mode="true" data-sm-center-mode="true" data-xs-center-mode="true"
+                            data-asnavfor="#slide1, #slide3">
+                            <div class="avater">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
+                            </div>
+                            <div class="avater">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
+                            </div>
+                            <div class="avater">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
+                            </div>
+                            <div class="avater">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
+                            </div>
+                        </div>
+                        <div class="author-name text-center vs-carousel" id="slide3" data-asnavfor="#slide2, #slide1"
+                            data-slide-show="1" data-fade="true">
+>>>>>>> origin/moiz
                             <div>
                                 {{-- Star Ratings --}}
                                 <div class="testimonial-rating mb-3">
@@ -362,4 +500,47 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const forms = document.querySelectorAll('.contact-form');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(form);
+                    const messageBox = form.querySelector('.form-messages');
+                    messageBox.innerText = '';
+                    messageBox.classList.remove('text-success', 'text-danger');
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                        .then(async res => {
+                            if (!res.ok) {
+                                const errorData = await res.json();
+                                const errors = errorData.errors || { general: ['Something went wrong.'] };
+                                const firstError = Object.values(errors)[0][0];
+                                throw new Error(firstError);
+                            }
+                            return res.json();
+                        })
+                        .then(data => {
+                            toastr.success(data.message || 'You have successfully subscribed.');
+                            form.reset();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            toastr.error(error.message || 'Something went wrong.');
+                        });
+                });
+            });
+        });
+    </script>
+
 @endsection

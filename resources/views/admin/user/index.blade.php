@@ -66,7 +66,7 @@
                                                             method="POST" class="d-none">
                                                             @csrf
                                                             @method('DELETE')
-                                                            {{--  --}}
+                                                            {{-- --}}
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -99,11 +99,12 @@
 @endsection
 
 @section('scripts')
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+    {{--
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script> --}}
 
     <script>
-        $(document).on('click', '.toggle-status', function() {
+        $(document).on('click', '.toggle-status', function () {
             let button = $(this);
             let id = button.data('id');
 
@@ -114,7 +115,7 @@
                     _token: '{{ csrf_token() }}',
                     id: id
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
 
 
@@ -134,7 +135,7 @@
         });
 
 
-        $(document).on('click', '.view-streamer', function() {
+        $(document).on('click', '.view-streamer', function () {
             const id = $(this).data('id');
 
             $.ajax({
@@ -143,45 +144,45 @@
                 data: {
                     id
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         const u = response.data;
 
                         let html = `
-                    <div class="row mb-3">
-                        <div class="col-md-3 text-center">
-                            <img src="${u.image}" class="rounded-circle mb-2" width="100" height="100">
-                            <h5>${u.name}</h5>
-                            <p>${u.email}</p>
-                            <p><strong>Status:</strong> ${u.is_active ? 'Active' : 'Blocked'}</p>
-                        </div>
-                        <div class="col-md-9">
-                            <p><strong>Phone:</strong> ${u.phone_code ?? ''} ${u.phone ?? '-'}</p>
-                            <p><strong>Location:</strong> ${u.city ?? ''}, ${u.state ?? ''}, ${u.country ?? ''}</p>
-                            <p><strong>Bio:</strong> ${u.bio ?? '-'}</p>
-                        </div>
-                    </div>
-                    <hr>
-                        `;
+                                <div class="row mb-3">
+                                    <div class="col-md-3 text-center">
+                                        <img src="${u.image}" class="rounded-circle mb-2" width="100" height="100">
+                                        <h5>${u.name}</h5>
+                                        <p>${u.email}</p>
+                                        <p><strong>Status:</strong> ${u.is_active ? 'Active' : 'Blocked'}</p>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p><strong>Phone:</strong> ${u.phone_code ?? ''} ${u.phone ?? '-'}</p>
+                                        <p><strong>Location:</strong> ${u.city ?? ''}, ${u.state ?? ''}, ${u.country ?? ''}</p>
+                                        <p><strong>Bio:</strong> ${u.bio ?? '-'}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                    `;
 
                         // CHANNELS
                         html += `<h5>Channels</h5>`;
                         if (Array.isArray(u.channel) && u.channel.length > 0) {
                             u.channel.forEach(c => {
                                 html += `
-                    <div class="border rounded p-3 mb-3">
-                        <p><strong>Name:</strong> ${c.name}</p>
-                        <p><strong>Description:</strong> ${c.description ?? '-'}</p>
-                        <p><strong>Banner:</strong><br>
-                            <img src="${c.banner ? c.banner : '/default-man.png'}" width="150">
+                                <div class="border rounded p-3 mb-3">
+                                    <p><strong>Name:</strong> ${c.name}</p>
+                                    <p><strong>Description:</strong> ${c.description ?? '-'}</p>
+                                    <p><strong>Banner:</strong><br>
+                                        <img src="${c.banner ? c.banner : '/default-man.png'}" width="150">
 
-                        </p>
-                        <p><strong>Logo:</strong><br>
-                            <img src="${c.logo ? c.logo : '/default-man.png'}" width="80">
-                        </p>
-                        <p><strong>Status:</strong> ${c.is_active ? 'Active' : 'Inactive'}</p>
-                    </div>
-                        `;
+                                    </p>
+                                    <p><strong>Logo:</strong><br>
+                                        <img src="${c.logo ? c.logo : '/default-man.png'}" width="80">
+                                    </p>
+                                    <p><strong>Status:</strong> ${c.is_active ? 'Active' : 'Inactive'}</p>
+                                </div>
+                                    `;
                             });
                         } else {
                             html += `<p>No channels found.</p>`;
@@ -191,20 +192,20 @@
                         if (Array.isArray(u.stream) && u.stream.length > 0) {
                             u.stream.forEach(s => {
                                 html += `
-                    <div class="border rounded p-3 mb-3">
-                        <p><strong>Title:</strong> ${s.title}</p>
-                        <p><strong>Teams:</strong> ${s.team_1} (${s.team1_symbol}) vs ${s.team_2} (${s.team2_symbol})</p>
-                        <p><strong>Date:</strong> ${s.date}</p>
-                        <p><strong>Time:</strong> ${s.start_time} - ${s.end_time}</p>
-                        <p><strong>Location:</strong> ${s.location} (${s.location_symbol})</p>
-                        <p><strong>Description:</strong> ${s.description ?? '-'}</p>
-                        <p><strong>Viewer Count:</strong> ${s.viewer_count ?? 0}</p>
-                        <p><strong>Status:</strong> ${s.status}</p>
-                        <p><strong>Image:</strong><br>
-                            <img src="${s.image ? s.image : '/default-man.png'}" width="150">
-                        </p>
-                    </div>
-                    `;
+                                <div class="border rounded p-3 mb-3">
+                                    <p><strong>Title:</strong> ${s.title}</p>
+                                    <p><strong>Teams:</strong> ${s.team_1} (${s.team1_symbol}) vs ${s.team_2} (${s.team2_symbol})</p>
+                                    <p><strong>Date:</strong> ${s.date}</p>
+                                    <p><strong>Time:</strong> ${s.start_time} - ${s.end_time}</p>
+                                    <p><strong>Location:</strong> ${s.location} (${s.location_symbol})</p>
+                                    <p><strong>Description:</strong> ${s.description ?? '-'}</p>
+                                    <p><strong>Viewer Count:</strong> ${s.viewer_count ?? 0}</p>
+                                    <p><strong>Status:</strong> ${s.status}</p>
+                                    <p><strong>Image:</strong><br>
+                                        <img src="${s.image ? s.image : '/default-man.png'}" width="150">
+                                    </p>
+                                </div>
+                                `;
                             });
                         } else {
                             html += `<p>No streams found.</p>`;

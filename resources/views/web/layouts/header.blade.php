@@ -117,7 +117,7 @@
                                 </div> -->
                             <!--=========my-pop-up=======-->
                             <div class="col-sm-6 d-none d-md-block">
-                                <p class="top-title">Welcome to our great eSports Team.
+                                <p class="top-title">{{$general_content->welcome}}
                                 </p>
                             </div>
 
@@ -164,10 +164,10 @@
                             <div class="col-sm-6 text-end d-none d-md-block">
                                 <div class="d-flex align-items-center justify-content-end">
                                     <ul class="social-links fs-xs text-white">
-                                        <li><a href="#" class="icon-btn6"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#" class="icon-btn6"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="#" class="icon-btn6"><i class="fab fa-linkedin-in"></i></a></li>
-                                        <li><a href="#" class="icon-btn6"><i class="fab fa-youtube"></i></a></li>
+                                        <li><a href="{{$general_content->facebook}}" class="icon-btn6" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="{{$general_content->twitter}}" class="icon-btn6" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="{{$general_content->linkedin}}" class="icon-btn6" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                                        <li><a href="{{$general_content->youtube}}" class="icon-btn6" target="_blank"><i class="fab fa-youtube"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
