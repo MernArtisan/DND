@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@yield('title')</title>
     <meta name="author" content="Vecuro">
@@ -20,6 +22,8 @@
     <link rel="stylesheet" href="{{asset('web/assets/css/magnific-popup.min.css')}}">
     <link rel="stylesheet" href="{{asset('web/assets/css/slick.min.css')}}">
     <link rel="stylesheet" href="{{asset('web/assets/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 <style>
     /* Popup Container */
@@ -200,6 +204,7 @@
     <script src="{{asset('web/assets/js/isotope.pkgd.min.js')}}"></script>
     <script src="{{asset('web/assets/js/jquery-ui.min.js')}}"></script>
     <script src="{{asset('web/assets/js/vscustom-carousel.min.js')}}"></script>
+
     <script src="{{asset('web/assets/js/vs-cursor.min.js')}}"></script>
     <script src="{{asset('web/assets/js/vsmenu.min.js')}}"></script>
     <script
@@ -207,6 +212,47 @@
     <script src="{{asset('web/assets/js/map.js')}}"></script>
     <script src="{{asset('web/assets/js/ajax-mail.js')}}"></script>
     <script src="{{asset('web/assets/js/main.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('newsletterForm');
+            if (!form) return;
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                })
+                    .then(async response => {
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            const errors = errorData.errors?.email || ['Something went wrong.'];
+                            throw new Error(errors[0]);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        toastr.success(data.message || 'You have successfully subscribed.');
+                        form.reset();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        toastr.error(error.message || 'Something went wrong.');
+                    });
+            });
+        });
+    </script>
 
 
     @yield('js')

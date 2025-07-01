@@ -33,7 +33,8 @@
     <script src="{{ asset('admin/assets/js/pages/dashboard-sales.js') }}"></script>
     <script src="{{ asset('admin/assets/js/config.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    {{-- <script src="{{ asset('admin/assets/vendor/gridjs/gridjs.umd.js') }}"></script> --}}
+    {{--
+    <script src="{{ asset('admin/assets/vendor/gridjs/gridjs.umd.js') }}"></script> --}}
     <script src="{{ asset('admin/assets/js/pages/table-gridjs.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
@@ -51,7 +52,7 @@
             toastr.error('{{ session('error') }}', 'Error');
         @endif
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             new DataTable('#myTable', {
                 language: {
                     emptyTable: "No subscriptions found"
@@ -80,7 +81,7 @@
             if (input.files && input.files[0]) {
 
                 var reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     document.querySelector("#img").setAttribute("src", e.target.result);
                 };
 
@@ -88,7 +89,7 @@
             }
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#description , #description_1').summernote({
                 height: 200,
                 placeholder: 'Enter description...',
@@ -106,7 +107,7 @@
         const tagify = new Tagify(input);
 
         // Convert array of tag objects to comma-separated string before submit
-        tagify.on('change', function() {
+        tagify.on('change', function () {
             const raw = tagify.value.map(item => item.value).join(',');
             input.value = raw;
         });

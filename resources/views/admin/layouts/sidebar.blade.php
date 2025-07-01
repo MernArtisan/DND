@@ -191,13 +191,7 @@
                             </a>
                         </li>
 
-                        <li class="side-nav-item">
-                            <a href="{{ route('admin.general.details') }}" class="side-nav-link">
-                                <span class="menu-icon"><i class="ti ti-tools"></i></span> {{-- 👈 Unique icon for
-                                team --}}
-                                <span class="menu-text"> General Details </span>
-                            </a>
-                        </li>
+
 
                     </ul>
                 </div>
@@ -216,9 +210,27 @@
                 <div class="collapse" id="sidebarBaseUI">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
+                            <a href="{{ route('admin.general.details') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-tools"></i></span>
+                                <span class="menu-text"> General Details </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.inquiries.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-user-question"></i></span>
+                                <span class="menu-text"> inquiries </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
                             <a href="{{ route('admin.subscription.index') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-video"></i></span>
                                 <span class="menu-text"> Subscription </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.newsletter.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-news"></i></span>
+                                <span class="menu-text"> Newsletter </span>
                             </a>
                         </li>
                         <li class="side-nav-item">

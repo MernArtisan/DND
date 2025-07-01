@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\General;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,6 +27,7 @@ class GeneralController extends Controller
     /**
      * Update general settings.
      */
+
     public function update(Request $request)
     {
         // Validate input
@@ -50,9 +52,16 @@ class GeneralController extends Controller
             'map' => 'nullable|string',
         ]);
 
-        // Update general settings
+        // Clean the map input (only store the src if full iframe is pasted)
+        $map = $request->input('map');
+        if (Str::contains($map, '<iframe')) {
+            preg_match('/src="([^"]+)"/', $map, $matches);
+            $map = $matches[1] ?? '';
+        }
+
+        // Get and update general settings
         $general = General::findOrFail(1);
-        $general->update($request->only([
+        $general->fill($request->only([
             'welcome',
             'description',
             'address',
@@ -70,9 +79,10 @@ class GeneralController extends Controller
             'mon-fri',
             'sat',
             'sun',
-            'map',
         ]));
+        $general->map = $map;
+        $general->save();
 
-        return redirect()->back()->with('success', 'General settings updated successfully.');
+        return redirect()->route('admin.general.details')->with('success', 'General settings updated successfully.');
     }
 }

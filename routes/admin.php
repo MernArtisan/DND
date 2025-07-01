@@ -30,21 +30,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('/subscription', App\Http\Controllers\admin\SubscriptionController::class);
     Route::resource('/articles', App\Http\Controllers\admin\ArticleController::class);
     Route::post('articles/delete-image', [App\Http\Controllers\admin\ArticleController::class, 'deleteImage'])->name('articles.deleteImage');
-
     Route::get('/admin-profile', [App\Http\Controllers\admin\UserController::class, 'showProfile'])->name('showProfile');
     Route::get('/edit-admin-profile', [App\Http\Controllers\admin\UserController::class, 'editProfile'])->name('editProfile');
-
     Route::put('/update-admin-profile', [App\Http\Controllers\admin\UserController::class, 'updateProfile'])->name('updateProfile');
 
     // Route::put('/update-admin-profile', [App\Http\Controllers\admin\UserController::class, 'updateProfile'])->name('updateProfile');
 
     Route::resource('/content', App\Http\Controllers\admin\ContentController::class);
 
-
     Route::resource('/testimonials', \App\Http\Controllers\admin\TestimoniController::class);
     Route::resource('/teams', \App\Http\Controllers\admin\TeamController::class);
     Route::get('/general-details', [App\Http\Controllers\admin\GeneralController::class, 'general'])->name('general.details');
     Route::get('/edit-general-details', [App\Http\Controllers\admin\GeneralController::class, 'edit'])->name('edit.general.details');
     Route::post('/update-general-details', [App\Http\Controllers\admin\GeneralController::class, 'update'])->name('update.general.details');
+
+    Route::post('/newsletter-submit', [App\Http\Controllers\admin\NewsletterController::class, 'newsletter'])->name('newsletter.submit');
+    Route::get('/newsletter', [App\Http\Controllers\admin\NewsletterController::class, 'index'])->name('newsletter.index');
+
+    Route::get('/inquiries', [App\Http\Controllers\admin\InquiryController::class, 'index'])->name('inquiries.index');
+
   });
 });

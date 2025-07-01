@@ -95,7 +95,7 @@
                                     {{-- Opening Hours --}}
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Hours (Mon - Fri)</label>
-                                        <input type="text" name="mon-fri" class="form-control" value="{{ old('mon-fri', $general->mon_fri) }}" placeholder="Enter Mon-Fri hours">
+                                        <input type="text" name="mon-fri" class="form-control" value="{{ old('mon-fri', $general->{'mon-fri'} ?? '') }}" placeholder="Enter Mon-Fri hours">
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -117,7 +117,7 @@
                                     {{-- Submit --}}
                                     <div class="col-12 mt-4">
                                         <button type="submit" class="btn btn-primary">Update</button>
-                                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Cancel</a>
+                                        <a href="{{ route('admin.general.details') }}" class="btn btn-secondary">Cancel</a>
                                     </div>
 
                                 </div> <!-- end row -->

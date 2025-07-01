@@ -44,11 +44,10 @@ class ContentController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit($encryptedId)
-    { {
-            $id = decrypt($encryptedId);
-            $cms_content = Content::findOrFail($id); // ✅ Single model, not a collection
-            return view('admin.content.edit', compact('cms_content'));
-        }
+    {
+        $id = decrypt($encryptedId);
+        $cms_content = Content::findOrFail($id); // ✅ Single model, not a collection
+        return view('admin.content.edit', compact('cms_content'));
     }
 
     /**

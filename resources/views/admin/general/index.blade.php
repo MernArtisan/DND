@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Categories')
+@section('title', 'General Details')
 @section('content')
     <div class="wrapper">
         <div class="page-content">
@@ -9,8 +9,8 @@
                         &nbsp;
                         <div class="card">
                             <div class="card-header border-bottom border-dashed d-flex justify-content-between">
-                                <h4 class="header-title">Category List</h4>
-                                <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-sm">Add New</a>
+                                <h4 class="header-title">General Details</h4>
+                                {{-- <a href="{{ route('admin.category.create') }}" class="btn btn-primary btn-sm">Add New</a> --}}
                             </div>
 
                             <div class="card-body">

@@ -140,8 +140,8 @@
     <section class="vs-pricing vs-pricing-layout1 space-top space-md-bottom">
         <div class="container">
             <div class="section-title text-center">
-                <h2 class="sec-title1price">Simple, Transparent Pricing</h2>
-                <p class="sec-text">Choose the plan that fits your needs. Cancel anytime.</p>
+                <h2 class="sec-title1price">{{$cms_content[8]->name}}</h2>
+                <p class="sec-text">{{$cms_content[8]->description}}</p>
             </div>
 
             <div class="row justify-content-center gx-4 gy-30">

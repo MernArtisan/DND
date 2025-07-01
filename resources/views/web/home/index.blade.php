@@ -4,18 +4,18 @@
     <div class="hero-layout2">
         <div class="row vs-carousel arrow-style3" data-arrows="true" data-dots="false" data-dots-lg-show="true"
             data-fade="true">
-            @foreach($banners as $banner)
+            @foreach ($banners as $banner)
                 <div class="hero-inner">
                     <div class="hero-bg" data-bg-src="{{ asset('storage/' . $banner->image) }}"></div>
                     <div class="container">
                         <div class="hero-content">
-                            @if($banner->title)
+                            @if ($banner->title)
                                 <span class="hero-subtitle">{{ $banner->title }}</span>
                             @endif
-                            @if($banner->subtitle)
+                            @if ($banner->subtitle)
                                 <h1 class="hero-title">{!! nl2br(e($banner->subtitle)) !!}</h1>
                             @endif
-                            @if($banner->description)
+                            @if ($banner->description)
                                 <p class="hero-text">{!! $banner->description !!}</p>
                             @endif
                             <div class="hero-btns">
@@ -31,12 +31,12 @@
 
     <section class="vs-about-wrapper position-relative space">
         <div class="position-absolute bottom-0 start-0 d-none d-lg-block"><img
-                src="{{asset('web/assets/img/shape/about-1-2.png')}}" alt="BG Shape"></div>
+                src="{{ asset('web/assets/img/shape/about-1-2.png') }}" alt="BG Shape"></div>
         <div class="container z-index-common">
             <div class="row">
                 <div class="col-lg-6 mb-20 mb-lg-0">
                     <div class="img-box1 hover-shape">
-                        <img src="{{asset('web/assets/img/about/about.webp')}}" class="w-100 d-block" alt="About Image">
+                        <img src="{{ asset('web/assets/img/about/about.webp') }}" class="w-100 d-block" alt="About Image">
                         <div class="exp-box1 text-start">
                             <h2 class="h1 text-gradient mb-0 counter"><span class="number">5</span>+</h2>
                             <p class="exp-text mb-0">Years Of Experience</p>
@@ -45,10 +45,8 @@
                 </div>
                 <div class="col-lg-6 align-self-center">
                     <div class="about-content1 pl-35">
-                        <h2 class="sec-title2">Lorem Ipsum Dolar Sit Amet</h2>
-                        <p class="mb-30 text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <h2 class="sec-title2">{{ $cms_content[0]->name }}</h2>
+                        <p class="mb-30 text-justify">{{ $cms_content[0]->description }}</p>
                         <h3 class="h5 font-theme">Lorem Ipsum - Pro Player</h3>
                     </div>
                 </div>
@@ -57,52 +55,52 @@
     </section>
 
     <section class="vs-timetable-wrapper vs-timetable-layout1 space"
-        data-bg-src="{{asset('web/assets/img/bg/background.jpeg')}}">
+        data-bg-src="{{ asset('web/assets/img/bg/background.jpeg') }}">
         <div class="container pb-35">
             <div class="row">
                 <div class="col-md-5 col-lg-6 col-xl-6">
                     <div class="section-title has-title-rotate">
-                        <span class="title-rotate">#schedule</span>
-                        <h2 class="sec-title1 text-white">STREAM TIMETABLE</h2>
+                        <span class="title-rotate">{{ $cms_content[1]->name }}</span>
+                        <h2 class="sec-title1 text-white">{{ $cms_content[1]->description }}</h2>
                     </div>
                 </div>
             </div>
             <div class="text-center text-xl-end">
                 <div class="timetable-style1">
                     <div class="d-flex gap-2 justify-content-center">
-                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
+                        <a href="{{ route('liveStreams.index') }}" class="timetable-box">
                             <p class="day mb-0">Monday</p>
                             <p class="name mb-0">Not Streaming</p>
                         </a>
-                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
+                        <a href="{{ route('liveStreams.index') }}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Tuesday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
                     </div>
                     <div class="d-flex gap-2 justify-content-center">
-                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
+                        <a href="{{ route('liveStreams.index') }}" class="timetable-box">
                             <p class="day mb-0">Wednesday</p>
                             <p class="name mb-0">Not Streaming</p>
                         </a>
-                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
+                        <a href="{{ route('liveStreams.index') }}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Thursday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
-                        <a href="{{route('liveStreams.index')}}" class="timetable-box active">
+                        <a href="{{ route('liveStreams.index') }}" class="timetable-box active">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Friday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
-                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
+                        <a href="{{ route('liveStreams.index') }}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Saturday</p>
                             <p class="name mb-0">Call of duty</p>
                         </a>
                     </div>
                     <div class="d-flex gap-2 justify-content-center">
-                        <a href="{{route('liveStreams.index')}}" class="timetable-box">
+                        <a href="{{ route('liveStreams.index') }}" class="timetable-box">
                             <p class="time mb-0">2:00 AM - 9:00 AM cet</p>
                             <p class="day mb-0">Sunday</p>
                             <p class="name mb-0">Call of duty</p>
@@ -119,8 +117,8 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-7 col-md-8">
                         <div class="section-title text-center">
-                            <span class="sub-title">#schedule</span>
-                            <h2 class="sec-title1 text-center">WATCH MY STREAMS</h2>
+                            <span class="sub-title">{{ $cms_content[2]->name }}</span>
+                            <h2 class="sec-title1 text-center">{{ $cms_content[2]->description }}</h2>
                         </div>
                     </div>
                 </div>
@@ -137,27 +135,27 @@
                             data-arrows="true" data-speed="500" data-infinite="fasle">
                             <div class="position-relative image-scale-hover">
                                 <a class="popup-video" href="#"><img class="w-100"
-                                        src="{{asset('web/assets/img/video/rugby-img.jpg')}}" alt="Video Thumb"></a>
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
                                 <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
                             </div>
                             <div class="position-relative image-scale-hover">
                                 <a class="popup-video" href="#"><img class="w-100"
-                                        src="{{asset('web/assets/img/video/rugby-img.jpg')}}" alt="Video Thumb"></a>
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
                                 <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
                             </div>
                             <div class="position-relative image-scale-hover">
                                 <a class="popup-video" href="#"><img class="w-100"
-                                        src="{{asset('web/assets/img/video/rugby-img.jpg')}}" alt="Video Thumb"></a>
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
                                 <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
                             </div>
                             <div class="position-relative image-scale-hover">
                                 <a class="popup-video" href="#"><img class="w-100"
-                                        src="{{asset('web/assets/img/video/playing-snooker.jpg')}}" alt="Video Thumb"></a>
+                                        src="{{ asset('web/assets/img/video/playing-snooker.jpg') }}" alt="Video Thumb"></a>
                                 <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
                             </div>
                             <div class="position-relative image-scale-hover">
                                 <a class="popup-video" href="#"><img class="w-100"
-                                        src="{{asset('web/assets/img/video/rugby-img.jpg')}}" alt="Video Thumb"></a>
+                                        src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
                                 <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
                             </div>
                         </div>
@@ -174,8 +172,8 @@
                     <div class="row">
                         <div class="col-11 col-md-6  col-lg-12">
                             <div class="section-title has-title-rotate">
-                                <span class="title-rotate">#schedule</span>
-                                <h2 class="sec-title1 text-white">Contact with us</h2>
+                                <span class="title-rotate">{{ $cms_content[3]->name }}</span>
+                                <h2 class="sec-title1 text-white">{{ $cms_content[3]->description }}</h2>
                             </div>
                         </div>
                     </div>
@@ -188,8 +186,7 @@
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-phone"></i></span>
                             <p class="fs-4 lh-1 fw-medium text-white mb-1 mb-sm-0">Get In Touch</p>
-                            <p class="text-white mb-0"><a href="tel:13456789"
-                                    class="text-inherit">{{$general_content->getintouch}}</a></p>
+                            <p class="text-white mb-0"><a href="tel:13456789" class="text-inherit">85 125 1256 12145</a></p>
                         </div>
                         <div class="info-style1 text-center text-sm-start">
                             <span class="icon-btn2"><i class="fas fa-envelope"></i></span>
@@ -211,7 +208,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <form action="#" method="POST" class="contact-form contact-form-style1 form-dark px-60 py-60 ">
+                    <form action="{{ route('inquiry.submit') }}" method="POST"
+                        class="contact-form contact-form-style1 form-dark px-60 py-60 ">
                         <div class="row">
                             <div class="col-lg-12 form-group">
                                 <label class="text-white" for="name">Enter Name</label>
@@ -246,8 +244,8 @@
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-7 col-md-8">
                     <div class="section-title text-center">
-                        <span class="sub-title">#schedule</span>
-                        <h2 class="sec-title1 text-center">Latest News Feed</h2>
+                        <span class="sub-title">{{ $cms_content[4]->name }}</span>
+                        <h2 class="sec-title1 text-center">{{ $cms_content[4]->description }}</h2>
                     </div>
                 </div>
             </div>
@@ -255,16 +253,17 @@
                 data-sm-slide-show="1" data-xs-slide-show="1">
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="{{route('news.index')}}" class="overlay"></a>
+                        <a href="{{ route('news.index') }}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                            <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
                                     class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>January 22, 2025</a>
+                                <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>January 22,
+                                    2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
                                     ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
@@ -272,16 +271,17 @@
                 </div>
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="{{route('news.index')}}" class="overlay"></a>
+                        <a href="{{ route('news.index') }}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                            <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
                                     class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>February 13, 2025</a>
+                                <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>February 13,
+                                    2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
                                     ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
@@ -289,16 +289,16 @@
                 </div>
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="{{route('news.index')}}" class="overlay"></a>
+                        <a href="{{ route('news.index') }}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                            <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
                                     class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>March 18, 2025</a>
+                                <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>March 18, 2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
                                     ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
@@ -306,16 +306,17 @@
                 </div>
                 <div class="col-xl-4">
                     <div class="vs-blog image-scale-hover">
-                        <a href="{{route('news.index')}}" class="overlay"></a>
+                        <a href="{{ route('news.index') }}" class="overlay"></a>
                         <div class="blog-image">
-                            <a href="{{route('news.index')}}"><img src="{{asset('web/assets/img/blog/news-1.jpg')}}"
+                            <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
                                     class="w-100" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta text-light fs-xs mb-10 text-white">
-                                <a href="{{route('news.index')}}"><i class="fal fa-calendar-alt"></i>Augest 19, 2025</a>
+                                <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>Augest 19,
+                                    2025</a>
                             </div>
-                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{route('news.index')}}">Lorem
+                            <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
                                     ipsum is
                                     placeholder text commonly graphic</a></h3>
                         </div>
@@ -337,12 +338,13 @@
                         <i class="fas fa-star"></i>
                     </div>
                     <img class="position-absolute d-none d-xxl-inline-block start-0 top-100 translate-middle mb-xl-4"
-                        src="{{asset('web/assets/img/icons/quote-1.png')}}" alt="Quote">
+                        src="{{ asset('web/assets/img/icons/quote-1.png') }}" alt="Quote">
                     <img class="position-absolute d-none d-xxl-inline-block start-100 top-100 translate-middle mb-xl-4"
-                        src="{{asset('web/assets/img/icons/quote-1.png')}}" alt="Quote">
+                        src="{{ asset('web/assets/img/icons/quote-1.png') }}" alt="Quote">
                     <div class="testimonial-content text-center px-lg-4 mb-40 vs-carousel" data-slide-show="1" id="slide1"
                         data-asnavfor="#slide2, #slide3" data-fade="true">
-                        <h2 class="testi-text mb-0">Lorem ipsum is placeholder text commonly used in the graphic, print, and
+                        <h2 class="testi-text mb-0">Lorem ipsum is placeholder text commonly used in the graphic, print,
+                            and
                             publishing industries for <u>previewing layouts and visual mockups.</u></h2>
                         <h2 class="testi-text mb-0">From its medieval origins to the digital era, learn everything there is
                             to know about the ubiquitous lorem ipsum passage bled parts of Cicero's De Finibus Bo.</h2>
@@ -366,16 +368,16 @@
                             data-md-center-mode="true" data-sm-center-mode="true" data-xs-center-mode="true"
                             data-asnavfor="#slide1, #slide3">
                             <div class="avater">
-                                <img src="{{asset('web/assets/img/author/author-1.jpg')}}" alt="Author Image">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
                             </div>
                             <div class="avater">
-                                <img src="{{asset('web/assets/img/author/author-1.jpg')}}" alt="Author Image">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
                             </div>
                             <div class="avater">
-                                <img src="{{asset('web/assets/img/author/author-1.jpg')}}" alt="Author Image">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
                             </div>
                             <div class="avater">
-                                <img src="{{asset('web/assets/img/author/author-1.jpg')}}" alt="Author Image">
+                                <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
                             </div>
                         </div>
                         <div class="author-name text-center vs-carousel" id="slide3" data-asnavfor="#slide2, #slide1"
@@ -407,7 +409,6 @@
 @section('js')
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC3Ip9iVC0nIxC6V14CKLQ1HZNF_65qEQ "></script>
     <script>
-
         const joinNowLink = document.getElementById('joinNowLink');
         const registerPopup = document.getElementById('registerPopup');
         const closePopup = document.getElementById('closePopup');
@@ -446,4 +447,47 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const forms = document.querySelectorAll('.contact-form');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(form);
+                    const messageBox = form.querySelector('.form-messages');
+                    messageBox.innerText = '';
+                    messageBox.classList.remove('text-success', 'text-danger');
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                        .then(async res => {
+                            if (!res.ok) {
+                                const errorData = await res.json();
+                                const errors = errorData.errors || { general: ['Something went wrong.'] };
+                                const firstError = Object.values(errors)[0][0];
+                                throw new Error(firstError);
+                            }
+                            return res.json();
+                        })
+                        .then(data => {
+                            toastr.success(data.message || 'You have successfully subscribed.');
+                            form.reset();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            toastr.error(error.message || 'Something went wrong.');
+                        });
+                });
+            });
+        });
+    </script>
+
 @endsection
