@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\web;
 
-<<<<<<< HEAD
 use App\Http\Controllers\Controller;
 use App\Models\CorprateSponser;
-=======
 use App\Models\Content;
->>>>>>> origin/moiz
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class DiscoverController extends Controller
 {
