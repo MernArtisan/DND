@@ -190,6 +190,12 @@
                             </a>
                         </li>
 
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.corporate-sponsors.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-handshake"></i></span>
+                                <span class="menu-text"> Corporate Sponsors </span>
+                            </a>
+                        </li>
 
 
                     </ul>

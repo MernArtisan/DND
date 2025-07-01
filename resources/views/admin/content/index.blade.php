@@ -33,7 +33,7 @@
 
                                                     <td>{{ Str::limit(strip_tags($item->description), 20, '...') }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.content.edit', encrypt($item->id)) }}"
+                                                        <a href="{{ route('admin.content.edit', $item->id) }}"
                                                             class="btn btn-sm btn-warning">
                                                             <i class="ti ti-pencil"></i>
                                                         </a>

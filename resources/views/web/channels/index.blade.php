@@ -125,30 +125,30 @@
         }
     </style>
     <!--==============================
-                                Breadcumb
-                                ============================== -->
+                                                                Breadcumb
+                                                                ============================== -->
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
-        data-bg-src="{{asset('web/assets/img/breadcumb/breadcumb.jpg')}}" data-overlay>
+        data-bg-src="{{ asset('web/assets/img/breadcumb/breadcumb.jpg') }}" data-overlay>
         <div class="container z-index-common">
             <div class="breadcumb-content text-center">
                 <h1 class="breadcumb-title h1 text-white my-0">Live Stream Channels</h1>
                 <!--  <h2 class="breadcumb-bg-title">News</h2> -->
                 <ul class="breadcumb-menu-style1 text-white mx-auto fs-xs">
-                    <li><a href="{{route('home.index')}}"><i class="fal fa-home"></i>Home</a></li>
+                    <li><a href="{{ route('home.index') }}"><i class="fal fa-home"></i>Home</a></li>
                     <li class="active">Live Stream Channels</li>
                 </ul>
             </div>
         </div>
     </div>
     <!--==============================
-                                Live Stream Channels Start
-                                ==============================-->
+                                                                Live Stream Channels Start
+                                                                ==============================-->
 
-    <section class="vs-live-stream vs-live-stream-layout1 space-top space-md-bottom">
+    {{-- <section class="vs-live-stream vs-live-stream-layout1 space-top space-md-bottom">
         <div class="container">
             <div class="section-title text-center">
-                <h2 class="sec-title1live">{{$cms_content[6]->name}}</h2>
-                <p class="sec-text">{{$cms_content[6]->description}}</p>
+                <h2 class="sec-title1live">{{ $cms_content[6]->name }}</h2>
+                <p class="sec-text">{{ $cms_content[6]->description }}</p>
             </div>
 
             <div class="row gx-4 gy-30">
@@ -156,12 +156,12 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="Sports Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="Sports Channel" class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Sports HD</h3>
                                 <p class="channel-desc">Live matches & tournaments</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -175,12 +175,12 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="Movies Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="Movies Channel" class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Movie Premiere</h3>
                                 <p class="channel-desc">Blockbuster movies 24/7</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -194,12 +194,12 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="News Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="News Channel" class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Global News</h3>
                                 <p class="channel-desc">Breaking news worldwide</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -213,12 +213,12 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="Music Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="Music Channel" class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Hits FM</h3>
                                 <p class="channel-desc">Latest music videos</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -232,12 +232,12 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="Kids Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="Kids Channel" class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Cartoon World</h3>
                                 <p class="channel-desc">Fun for kids</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -251,12 +251,13 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="Documentary Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="Documentary Channel"
+                                class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Discovery+</h3>
                                 <p class="channel-desc">Amazing documentaries</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -270,12 +271,13 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="Cooking Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="Cooking Channel"
+                                class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Food Network</h3>
                                 <p class="channel-desc">Delicious recipes</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -289,12 +291,12 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="live-channel">
                         <div class="channel-thumb">
-                            <img src="{{asset('web/assets/img/blog/news-1.jpg')}}" alt="Tech Channel" class="w-100">
+                            <img src="{{ asset('web/assets/img/blog/news-1.jpg') }}" alt="Tech Channel" class="w-100">
                             <div class="channel-label">LIVE</div>
                             <div class="channel-overlay">
                                 <h3 class="channel-title">Tech Today</h3>
                                 <p class="channel-desc">Latest gadget reviews</p>
-                                <a href="{{route('liveStreams.index')}}" class="vs-btn style3">Watch Now</a>
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn style3">Watch Now</a>
                             </div>
                         </div>
                         <div class="channel-info">
@@ -306,10 +308,52 @@
             </div>
 
             <!--  <div class="text-center mt-50">
-                                        <a href="#" class="vs-btn style2">View All Channels</a>
-                                    </div> -->
+                                                <a href="#" class="vs-btn style2">View All Channels</a>
+                                            </div> -->
+        </div>
+    </section> --}}
+    <section class="vs-live-stream vs-live-stream-layout1 space-top space-md-bottom">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2 class="sec-title1live">{{ $cms_content[6]->name ?? 'Live Streams' }}</h2>
+                <p class="sec-text">{{ $cms_content[6]->description ?? '' }}</p>
+            </div>
+
+            <div class="row gx-4 gy-30">
+                @foreach ($channels as $channel)
+                    @php
+                        $stream = $channel->streams->first();
+                    @endphp
+                    @if ($stream)
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="live-channel">
+                                <div class="channel-thumb">
+                                    <img src="{{ asset('storage/' . $stream->image) }}" alt="{{ $channel->name }}"
+                                        class="w-100">
+                                    <div class="channel-label">LIVE</div>
+                                    <div class="channel-overlay">
+                                        <h3 class="channel-title">{{ $channel->name }}</h3>
+                                        <p class="channel-desc">{{ $stream->title }}</p>
+                                        <a href="/viewer" class="vs-btn style3">Watch Now</a>
+                                    </div>
+                                </div>
+                                <div class="channel-info">
+                                    <span class="channel-viewers">
+                                        <i class="fas fa-eye"></i>
+                                        {{ number_format($stream->viewer_count) }} watching
+                                    </span>
+                                    <span class="channel-category">
+                                        {{ $stream->category->name ?? 'Uncategorized' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
         </div>
     </section>
+
     @include('web.components.newsletter')
 
 @endsection

@@ -47,7 +47,7 @@
                                         @endif
 
                                         {{-- 4: Image --}}
-                                        @if(in_array($cms_content->id, []))
+                                        @if(in_array($cms_content->id, [4,3]))
                                             <div class="col-12 mb-3">
                                                 <label class="form-label">Image</label>
                                                 <input type="file" name="image" class="form-control" accept="image/*"
@@ -68,7 +68,7 @@
                                         @endif
 
                                         {{-- 6: Item 1 --}}
-                                        @if(in_array($cms_content->id, [9, 10]))
+                                        @if(in_array($cms_content->id, [3,9, 10]))
                                             <div class="col-12 mb-3">
                                                 <label class="form-label">Item 1</label>
                                                 <input type="text" name="item_1" class="form-control"
@@ -86,7 +86,7 @@
                                         @endif
 
                                         {{-- 8: Item 2 --}}
-                                        @if(in_array($cms_content->id, []))
+                                        @if(in_array($cms_content->id, [3]))
                                             <div class="col-12 mb-3">
                                                 <label class="form-label">Item 2</label>
                                                 <input type="text" name="item_2" class="form-control"
@@ -104,7 +104,7 @@
                                         @endif
 
                                         {{-- 10: Item 3 --}}
-                                        @if(in_array($cms_content->id, []))
+                                        @if(in_array($cms_content->id, [3]))
                                             <div class="col-12 mb-3">
                                                 <label class="form-label">Item 3</label>
                                                 <input type="text" name="item_3" class="form-control"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Models\Content;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ContentController extends Controller
 {
@@ -43,30 +44,48 @@ class ContentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($encryptedId)
-    { {
-            $id = decrypt($encryptedId);
-            $cms_content = Content::findOrFail($id); // ✅ Single model, not a collection
-            return view('admin.content.edit', compact('cms_content'));
-        }
+    public function edit($id)
+    {
+        $cms_content = Content::findOrFail($id); // ✅ Single model, not a collection
+        return view('admin.content.edit', compact('cms_content'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $encryptedId)
+    // public function update(Request $request, $encryptedId)
+    // {
+    //     $id = decrypt($encryptedId);
+    //     $cms_content = Content::findOrFail($id);
+
+    //     $request->validate([
+    //         'name' => 'nullable|string|max:255',
+    //         'description' => 'nullable|string',
+    //     ]);
+    //     $cms_content->update($request->except('_token', '_method'));
+
+    //     return redirect()->route('admin.content.index')->with('success', 'Content updated successfully!');
+    // }
+
+    public function update(Request $request, string $id)
     {
-        $id = decrypt($encryptedId);
-        $cms_content = Content::findOrFail($id);
+        $content = Content::findOrFail($id);
 
-        $request->validate([
-            'name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-        $cms_content->update($request->except('_token', '_method'));
+        if ($request->hasFile('image')) {
+            // Optional: delete old image
+            if ($content->image && Storage::disk('public')->exists($content->image)) {
+                Storage::disk('public')->delete($content->image);
+            }
 
-        return redirect()->route('admin.content.index')->with('success', 'Content updated successfully!');
+            $path = $request->file('image')->store('contents', 'public'); // uploads to storage/app/public/contents
+            $content->image = $path; // save path directly
+        }
+
+        $content->update($request->except('image'));
+
+        return redirect()->route('admin.content.index')->with('success', 'Content Updated Successfully');
     }
+
 
 
     /**

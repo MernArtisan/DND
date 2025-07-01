@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\CorprateSponser;
 use Illuminate\Http\Request;
 
 class DiscoverController extends Controller
 {
     public function corporateSponsors()
     {
-        return view('web.discover.corporateSponsors');
+        $corporateSponsors = CorprateSponser::where('status', 1)->get();
+        return view('web.discover.corporateSponsors', [
+            'corporateSponsors' => $corporateSponsors
+        ]);
     }
 
     public function liveStreams()
