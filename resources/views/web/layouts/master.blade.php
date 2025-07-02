@@ -14,14 +14,14 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap"
         rel="stylesheet">
-    <link rel="shortcut icon" href="{{asset('web/assets/img/main-logo-1.png')}}" type="image/x-icon">
-    <link rel="icon" href="{{asset('web/assets/img/main-logo-1.png')}}" type="image/x-icon">
-    <link rel="stylesheet" href="{{asset('web/assets/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('web/assets/css/fontawesome.min.css')}}">
-    <link rel="stylesheet" href="{{asset('web/assets/css/layerslider.min.css')}}">
-    <link rel="stylesheet" href="{{asset('web/assets/css/magnific-popup.min.css')}}">
-    <link rel="stylesheet" href="{{asset('web/assets/css/slick.min.css')}}">
-    <link rel="stylesheet" href="{{asset('web/assets/css/style.css')}}">
+    <link rel="shortcut icon" href="{{ asset('web/assets/img/main-logo-1.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('web/assets/img/main-logo-1.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('web/assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/assets/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/assets/css/layerslider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/assets/css/magnific-popup.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/assets/css/slick.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/assets/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 </head>
@@ -196,44 +196,45 @@
     <div class="vs-cursor2"></div>
 
 
-    <script src="{{asset('web/assets/js/vendor/jquery-3.6.0.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/slick.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/imagesloaded.pkgd.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/isotope.pkgd.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/jquery-ui.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/vscustom-carousel.min.js')}}"></script>
+    <script src="{{ asset('web/assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/slick.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/vscustom-carousel.min.js') }}"></script>
 
-    <script src="{{asset('web/assets/js/vs-cursor.min.js')}}"></script>
-    <script src="{{asset('web/assets/js/vsmenu.min.js')}}"></script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2zcZWYTrnjovVYwCR9zwHJwVEtUEufJk&libraries=places"></script>
-    <script src="{{asset('web/assets/js/map.js')}}"></script>
-    <script src="{{asset('web/assets/js/ajax-mail.js')}}"></script>
-    <script src="{{asset('web/assets/js/main.js')}}"></script>
+    <script src="{{ asset('web/assets/js/vs-cursor.min.js') }}"></script>
+    <script src="{{ asset('web/assets/js/vsmenu.min.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2zcZWYTrnjovVYwCR9zwHJwVEtUEufJk&libraries=places">
+    </script>
+    <script src="{{ asset('web/assets/js/map.js') }}"></script>
+    <script src="{{ asset('web/assets/js/ajax-mail.js') }}"></script>
+    <script src="{{ asset('web/assets/js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-   
+
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('newsletterForm');
             if (!form) return;
 
-            form.addEventListener('submit', function (e) {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
                 const formData = new FormData(form);
 
                 fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json',
-                    },
-                    body: formData
-                })
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content'),
+                            'Accept': 'application/json',
+                        },
+                        body: formData
+                    })
                     .then(async response => {
                         if (!response.ok) {
                             const errorData = await response.json();

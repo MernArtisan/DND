@@ -141,36 +141,12 @@
                             @endforeach
 
 
-                            <a class="popup-video" href="#"><img class="w-100"
-                                    src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
-                            <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
-                        </div>
-                        <div class="position-relative image-scale-hover">
-                            <a class="popup-video" href="#"><img class="w-100"
-                                    src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
-                            <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
-                        </div>
-                        <div class="position-relative image-scale-hover">
-                            <a class="popup-video" href="#"><img class="w-100"
-                                    src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
-                            <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
-                        </div>
-                        <div class="position-relative image-scale-hover">
-                            <a class="popup-video" href="#"><img class="w-100"
-                                    src="{{ asset('web/assets/img/video/playing-snooker.jpg') }}" alt="Video Thumb"></a>
-                            <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
-                        </div>
-                        <div class="position-relative image-scale-hover">
-                            <a class="popup-video" href="#"><img class="w-100"
-                                    src="{{ asset('web/assets/img/video/rugby-img.jpg') }}" alt="Video Thumb"></a>
-                            <a class="popup-video play-btn overlay-center" href="#"><i class="fas fa-play"></i></a>
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
-        </div>
+        </div> 
     </section>
 
 
@@ -295,66 +271,7 @@
                     </div>
                 @endforeach
 
-                <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
-                        ipsum is
-                        placeholder text commonly graphic</a></h3>
             </div>
-        </div>
-        </div>
-        <div class="col-xl-4">
-            <div class="vs-blog image-scale-hover">
-                <a href="{{ route('news.index') }}" class="overlay"></a>
-                <div class="blog-image">
-                    <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
-                            class="w-100" alt="Blog Image"></a>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-meta text-light fs-xs mb-10 text-white">
-                        <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>February 13,
-                            2025</a>
-                    </div>
-                    <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
-                            ipsum is
-                            placeholder text commonly graphic</a></h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4">
-            <div class="vs-blog image-scale-hover">
-                <a href="{{ route('news.index') }}" class="overlay"></a>
-                <div class="blog-image">
-                    <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
-                            class="w-100" alt="Blog Image"></a>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-meta text-light fs-xs mb-10 text-white">
-                        <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>March 18, 2025</a>
-                    </div>
-                    <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
-                            ipsum is
-                            placeholder text commonly graphic</a></h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4">
-            <div class="vs-blog image-scale-hover">
-                <a href="{{ route('news.index') }}" class="overlay"></a>
-                <div class="blog-image">
-                    <a href="{{ route('news.index') }}"><img src="{{ asset('web/assets/img/blog/news-1.jpg') }}"
-                            class="w-100" alt="Blog Image"></a>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-meta text-light fs-xs mb-10 text-white">
-                        <a href="{{ route('news.index') }}"><i class="fal fa-calendar-alt"></i>Augest 19,
-                            2025</a>
-                    </div>
-                    <h3 class="blog-title h5 font-theme mb-0 text-white"><a href="{{ route('news.index') }}">Lorem
-                            ipsum is
-                            placeholder text commonly graphic</a></h3>
-                </div>
-            </div>
-        </div>
-        </div>
         </div>
     </section>
 
@@ -363,65 +280,12 @@
     <section class="vs-testimonial testimonial-layout1 space">
         <div class="container position-relative">
             <div class="row justify-content-center">
-                <div class="col-lg-11 position-relative">
+                <div class="col-xl-8 col-lg-10 col-md-12">
+                    <div class="author-area pb-40">
+                        <div class="author-name text-center vs-carousel" id="slide3" data-asnavfor="#slide2, #slide1"
+                            data-slide-show="1" data-fade="true">
 
-                    {{-- Quote Icons --}}
-                    <img class="position-absolute d-none d-xxl-inline-block start-0 top-100 translate-middle mb-xl-4"
-                        src="{{ asset('web/assets/img/icons/quote-1.png') }}" alt="Quote">
-                    <img class="position-absolute d-none d-xxl-inline-block start-100 top-100 translate-middle mb-xl-4"
-                        src="{{ asset('web/assets/img/icons/quote-1.png') }}" alt="Quote">
-                    <div class="testimonial-content text-center px-lg-4 mb-40 vs-carousel" data-slide-show="1"
-                        data-fade="true">
-
-                        @foreach ($testimonials as $testimonial)
-                            <div class="testimonial-content text-center px-lg-4 mb-40 vs-carousel" data-slide-show="1"
-                                id="slide1" data-asnavfor="#slide2, #slide3" data-fade="true">
-                                <h2 class="testi-text mb-0">Lorem ipsum is placeholder text commonly used in the graphic,
-                                    print,
-                                    and
-                                    publishing industries for <u>previewing layouts and visual mockups.</u></h2>
-                                <h2 class="testi-text mb-0">From its medieval origins to the digital era, learn everything
-                                    there is
-                                    to know about the ubiquitous lorem ipsum passage bled parts of Cicero's De Finibus Bo.
-                                </h2>
-                                <h2 class="testi-text mb-0">The placeholder text, beginning with the line “Lorem ipsum
-                                    dolor sit
-                                    amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago
-                                </h2>
-                                <h2 class="testi-text mb-0">Richard McClintock, a Latin scholar from Hampden-Sydney
-                                    College, is
-                                    credited with discovering the source behind the ubiquitous filler text. In seeing a
-                                    sample of
-                                    lorem</h2>
-                            </div>
-                    </div>
-                    <div class="col-xl-5">
-                        <div class="author-area pb-40">
-                            <button
-                                class="icon-btn4 d-none d-sm-inline-block position-absolute start-100 top-50 translate-middle-x"
-                                data-slick-next="#slide2"><i class="fas fa-chevron-right"></i></button>
-                            <button
-                                class="icon-btn4 d-none d-sm-inline-block position-absolute start-0 top-50 translate-middle-x"
-                                data-slick-prev="#slide2"><i class="fas fa-chevron-left"></i></button>
-                            <div class="avater-slide1 vs-carousel mb-30" id="slide2" data-slide-show="3"
-                                data-center-mode="true" data-xl-center-mode="true" data-ml-center-mode="true"
-                                data-lg-center-mode="true" data-md-center-mode="true" data-sm-center-mode="true"
-                                data-xs-center-mode="true" data-asnavfor="#slide1, #slide3">
-                                <div class="avater">
-                                    <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
-                                </div>
-                                <div class="avater">
-                                    <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
-                                </div>
-                                <div class="avater">
-                                    <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
-                                </div>
-                                <div class="avater">
-                                    <img src="{{ asset('web/assets/img/author/author-1.jpg') }}" alt="Author Image">
-                                </div>
-                            </div>
-                            <div class="author-name text-center vs-carousel" id="slide3"
-                                data-asnavfor="#slide2, #slide1" data-slide-show="1" data-fade="true">
+                            @foreach ($testimonials as $testimonial)
                                 <div>
                                     {{-- Star Ratings --}}
                                     <div class="testimonial-rating mb-3">
@@ -447,13 +311,15 @@
                                         <span>{{ $testimonial->designation ?? 'User' }}</span>
                                     </div>
                                 </div>
-                                @endforeach
+                            @endforeach
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </div> {{-- /.vs-carousel --}}
+                    </div> {{-- /.author-area --}}
+                </div> {{-- /.col --}}
+            </div> {{-- /.row --}}
+        </div> {{-- /.container --}}
     </section>
+
 
 @endsection
 @section('js')
@@ -497,8 +363,8 @@
                 alert('Please fill out all fields.');
             }
         });
-    </script>
-    <script>
+
+
         document.addEventListener('DOMContentLoaded', function() {
             const forms = document.querySelectorAll('.contact-form');
 

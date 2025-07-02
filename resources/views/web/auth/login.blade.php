@@ -4,7 +4,6 @@
 
 
     <style>
-        /* Register Form Styles */
         .register-section {
             background-color: #f8f9fa;
             padding: 60px 0;
@@ -62,34 +61,30 @@
         .input-group {
             position: relative;
         }
-    </style>
-    <!--==============================
-                    Breadcumb
-                    ============================== -->
+    </style> #
+
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
-        data-bg-src="{{asset('web/assets/img/breadcumb/breadcumb.jpg')}}" data-overlay>
+        data-bg-src="{{ asset('web/assets/img/breadcumb/breadcumb.jpg') }}" data-overlay>
         <div class="container z-index-common">
             <div class="breadcumb-content text-center">
                 <h1 class="breadcumb-title h1 text-white my-0">Login</h1>
-                <!--  <h2 class="breadcumb-bg-title">News</h2> -->
                 <ul class="breadcumb-menu-style1 text-white mx-auto fs-xs">
-                    <li><a href="{{route('home.index')}}"><i class="fal fa-home"></i>Home</a></li>
+                    <li><a href="{{ route('home.index') }}"><i class="fal fa-home"></i>Home</a></li>
                     <li class="active">Login</li>
                 </ul>
             </div>
         </div>
     </div>
-    <!--==============================
-                    Register Form Start
-                    ==============================-->
+
     <section class="register-section space-top space-md-bottom">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-8">
                     <div class="register-form-wrap">
                         <h2 class="register-form-title text-center mb-4">Enter Your Email</h2>
-                        <form id="registrationForm" action="verify-otp" method="get">
-                            <!-- Email -->
+                        <form id="registrationForm" action="{{ route('login.authenticate') }}" method="POST">
+                            @csrf
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="email" class="form-label">Email Address*</label>
@@ -97,7 +92,13 @@
                                 </div>
                             </div>
 
-                            <!-- Submit Button -->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <button type="submit" class="vs-btn gradient-btn w-100 py-3">Login</button>
                             </div>

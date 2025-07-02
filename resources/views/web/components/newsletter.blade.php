@@ -12,7 +12,7 @@
                             class="newsletter-style1 d-md-flex">
                             @csrf
                             <input type="email" name="email" class="form-control me-md-2 mb-2 mb-md-0"
-                                placeholder="Enter email address" required>
+                                placeholder="Enter email address" required style="margin-top: 20px">
                             <button type="submit" class="vs-btn gradient-btn">Subscribe Now</button>
                         </form>
                         <div id="newsletterMessage" class="mt-2 fw-semibold"></div>
@@ -22,4 +22,3 @@
         </div>
     </div>
 </section>
-
