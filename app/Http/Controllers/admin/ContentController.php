@@ -46,6 +46,7 @@ class ContentController extends Controller
      */
     public function edit($id)
     {
+        
         $cms_content = Content::findOrFail($id); // ✅ Single model, not a collection
         return view('admin.content.edit', compact('cms_content'));
     }
@@ -69,21 +70,25 @@ class ContentController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $content = Content::findOrFail($id);
+        try {
+            $content = Content::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            // Optional: delete old image
-            if ($content->image && Storage::disk('public')->exists($content->image)) {
-                Storage::disk('public')->delete($content->image);
+            if ($request->hasFile('image')) {
+                // Optional: delete old image
+                if ($content->image && Storage::disk('public')->exists($content->image)) {
+                    Storage::disk('public')->delete($content->image);
+                }
+
+                $path = $request->file('image')->store('contents', 'public'); // uploads to storage/app/public/contents
+                $content->image = $path; // save path directly
             }
 
-            $path = $request->file('image')->store('contents', 'public'); // uploads to storage/app/public/contents
-            $content->image = $path; // save path directly
+            $content->update($request->except('image'));
+
+            return redirect()->route('admin.content.index')->with('success', 'Content Updated Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update content: ' . $e->getMessage());
         }
-
-        $content->update($request->except('image'));
-
-        return redirect()->route('admin.content.index')->with('success', 'Content Updated Successfully');
     }
 
 
@@ -99,31 +104,35 @@ class ContentController extends Controller
     public function Privacy()
     {
         $privacy = Content::find(1);
-        // dump($content);
         return view('admin.content.privacy', compact('privacy'));
     }
 
     public function updatePrivacy(Request $request)
     {
-        $content = Content::find(1);
-
-        $content->update($request->all());
-        return redirect()->route('admin.privacy-policy')->with('success', 'Privacy Policy Upated');
+        try {
+            $content = Content::find(1);
+            $content->update($request->all());
+            return redirect()->route('admin.privacy-policy')->with('success', 'Privacy Policy Upated');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update content: ' . $e->getMessage());
+        }
     }
 
 
     public function Terms()
     {
         $terms = Content::find(2);
-        // dump($content);
         return view('admin.content.terms', compact('terms'));
     }
 
     public function updateTerms(Request $request)
     {
-        $content = Content::find(2);
-
-        $content->update($request->all());
-        return redirect()->route('admin.terms-condition')->with('success', 'Term & Conditions Updated');
+        try {
+            $content = Content::find(2);
+            $content->update($request->all());
+            return redirect()->route('admin.terms-condition')->with('success', 'Term & Conditions Updated');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update content: ' . $e->getMessage());
+        }
     }
 }

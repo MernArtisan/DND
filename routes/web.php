@@ -27,6 +27,18 @@ Route::get('/live-streams', [App\Http\Controllers\web\DiscoverController::class,
 Route::get('/terms', [App\Http\Controllers\web\DiscoverController::class, 'terms'])->name('terms.index');
 Route::get('/privacy', [App\Http\Controllers\web\DiscoverController::class, 'privacy'])->name('privacy.index');
 Route::post('/submit-inquiry', [App\Http\Controllers\web\ContactController::class, 'inquiry'])->name('inquiry.submit');
+Route::post('/verify-otp', [App\Http\Controllers\web\AuthController::class, 'verifyOtpSubmit'])->name('verifyOtp.submit');
+Route::post('/signup-submit', [App\Http\Controllers\web\AuthController::class, 'signupSubmit'])->name('signup.submit');
+Route::post('/resend-otp', [App\Http\Controllers\web\AuthController::class, 'resendOtp'])->name('resend.otp');
 
+
+
+
+Route::get('/logout', [App\Http\Controllers\web\AuthController::class, 'logout'])->name('logout');
+
+Route::get('forgot-password', [App\Http\Controllers\web\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [App\Http\Controllers\web\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [App\Http\Controllers\web\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [App\Http\Controllers\web\ResetPasswordController::class, 'reset'])->name('password.update');
 
 require __DIR__ . '/admin.php';

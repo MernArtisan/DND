@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-lg-6 mb-20 mb-lg-0">
                     <div class="img-box1 hover-shape">
-                        <img src="{{ asset('storage/' . ($cms_content[0]->image ?? 'default.jpg')) }}" class="w-100 d-block"
+                        <img src="{{ asset('storage/' . ($cms_content[0]->image ?? 'default-man.png')) }}" class="w-100 d-block"
                             alt="About Image">
                         <div class="exp-box1 text-start">
                             <h2 class="h1 text-gradient mb-0 counter"><span
@@ -320,94 +320,5 @@
         </div> {{-- /.container --}}
     </section>
 
-
-@endsection
-@section('js')
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC3Ip9iVC0nIxC6V14CKLQ1HZNF_65qEQ "></script>
-    <script>
-        const joinNowLink = document.getElementById('joinNowLink');
-        const registerPopup = document.getElementById('registerPopup');
-        const closePopup = document.getElementById('closePopup');
-
-
-        joinNowLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            registerPopup.style.display = 'flex';
-        });
-
-
-        closePopup.addEventListener('click', () => {
-            registerPopup.style.display = 'none';
-        });
-
-
-        window.addEventListener('click', (event) => {
-            if (event.target === registerPopup) {
-                registerPopup.style.display = 'none';
-            }
-        });
-
-
-        document.getElementById('registerForm').addEventListener('submit', (event) => {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-
-            if (name && email && password) {
-                alert(`Thank you, ${name}! You have successfully registered.`);
-                registerPopup.style.display = 'none';
-            } else {
-                alert('Please fill out all fields.');
-            }
-        });
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('.contact-form');
-
-            forms.forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    const formData = new FormData(form);
-                    const messageBox = form.querySelector('.form-messages');
-                    messageBox.innerText = '';
-                    messageBox.classList.remove('text-success', 'text-danger');
-
-                    fetch(form.action, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector(
-                                    'meta[name="csrf-token"]').getAttribute('content'),
-                                'Accept': 'application/json'
-                            },
-                            body: formData
-                        })
-                        .then(async res => {
-                            if (!res.ok) {
-                                const errorData = await res.json();
-                                const errors = errorData.errors || {
-                                    general: ['Something went wrong.']
-                                };
-                                const firstError = Object.values(errors)[0][0];
-                                throw new Error(firstError);
-                            }
-                            return res.json();
-                        })
-                        .then(data => {
-                            toastr.success(data.message || 'You have successfully subscribed.');
-                            form.reset();
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            toastr.error(error.message || 'Something went wrong.');
-                        });
-                });
-            });
-        });
-    </script>
 
 @endsection

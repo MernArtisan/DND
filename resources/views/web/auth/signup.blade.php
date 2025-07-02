@@ -190,10 +190,10 @@
         }
     </style>
     <!--==============================
-        Breadcumb
-        ============================== -->
-    <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50" data-bg-src="{{asset('web/assets/img/breadcumb/breadcumb.jpg')}}"
-        data-overlay>
+            Breadcumb
+            ============================== -->
+    <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
+        data-bg-src="{{asset('web/assets/img/breadcumb/breadcumb.jpg')}}" data-overlay>
         <div class="container z-index-common">
             <div class="breadcumb-content text-center">
                 <h1 class="breadcumb-title h1 text-white my-0">Register</h1>
@@ -206,8 +206,8 @@
         </div>
     </div>
     <!--==============================
-        Register Form Start
-        ==============================-->
+            Register Form Start
+            ==============================-->
 
     <section class="register-section space-top space-md-bottom">
         <div class="container">
@@ -215,15 +215,16 @@
                 <div class="col-lg-8 col-xl-8">
                     <div class="register-form-wrap">
                         <h2 class="register-form-title text-center mb-4">Create Your Account</h2>
-                        <form class="register-form" id="register-form" method="post">
+                        <form class="register-form" id="register-form" method="post" action="{{ route('signup.submit') }}">
+                            @csrf
                             <div class="row gx-3 gy-1">
                                 <!-- Username -->
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="username" class="form-label">Username*</label>
                                         <input type="text" class="form-control" id="username" name="username" required>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <!-- Full Name -->
                                 <div class="col-md-12">
@@ -241,20 +242,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Phone -->
-                                <!--<div class="col-md-10">
-                                    <div class="form-group">
-                                        <label class="form-label">Phone Number*</label>
-                                        <div class="input-group">
-                                            <select class="form-select phone-code" name="phonecode" required>
-                                                <option value="+1">+1 US</option>
-                                                <option value="+44">+44 UK</option>
-                                                <option value="+91">+91 IN</option>
-                                            </select>
-                                            <input type="tel" class="form-control" name="phone" required>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <!-- Phone Field -->
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -275,7 +262,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Location Fields -->
+                                <!-- Country -->
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="country" class="form-label">Country*</label>
@@ -288,6 +275,7 @@
                                     </div>
                                 </div>
 
+                                <!-- State -->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="state" class="form-label">State*</label>
@@ -295,6 +283,7 @@
                                     </div>
                                 </div>
 
+                                <!-- City -->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="city" class="form-label">City*</label>
@@ -334,6 +323,24 @@
                                     </div>
                                 </div>
 
+                                <!-- Password -->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="password" class="form-label">Password*</label>
+                                        <input type="password" class="form-control" id="password" name="password" required
+                                            minlength="6">
+                                    </div>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="password_confirmation" class="form-label">Confirm Password*</label>
+                                        <input type="password" class="form-control" id="password_confirmation"
+                                            name="password_confirmation" required>
+                                    </div>
+                                </div>
+
                                 <!-- Submit Button -->
                                 <div class="col-12">
                                     <button type="submit" class="vs-btn gradient-btn w-100 py-3">Register Now</button>
@@ -341,11 +348,12 @@
 
                                 <!-- Login Link -->
                                 <div class="col-12 text-center mt-4">
-                                    <p class="form-footer">Already have an account? <a href="login.php"
+                                    <p class="form-footer">Already have an account? <a href="/login"
                                             class="text-primary">Login here</a></p>
-                                </div>
+                                </div>  
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

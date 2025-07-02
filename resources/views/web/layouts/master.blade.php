@@ -217,24 +217,24 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('newsletterForm');
             if (!form) return;
 
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 e.preventDefault();
 
                 const formData = new FormData(form);
 
                 fetch(form.action, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content'),
-                            'Accept': 'application/json',
-                        },
-                        body: formData
-                    })
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                })
                     .then(async response => {
                         if (!response.ok) {
                             const errorData = await response.json();
@@ -255,6 +255,54 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const forms = document.querySelectorAll('.contact-form');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(form);
+                    const messageBox = form.querySelector('.form-messages');
+                    messageBox.innerText = '';
+                    messageBox.classList.remove('text-success', 'text-danger');
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                        .then(async res => {
+                            if (!res.ok) {
+                                const errorData = await res.json();
+                                const errors = errorData.errors || { general: ['Something went wrong.'] };
+                                const firstError = Object.values(errors)[0][0];
+                                throw new Error(firstError);
+                            }
+                            return res.json();
+                        })
+                        .then(data => {
+                            toastr.success(data.message || 'You have successfully subscribed.');
+                            form.reset();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            toastr.error(error.message || 'Something went wrong.');
+                        });
+                });
+            });
+        });
+         @if (session('success'))
+            toastr.success('{{ session('success') }}', 'Success');
+        @endif
+        @if (session('error'))
+            toastr.error('{{ session('error') }}', 'Error');
+        @endif
+    </script>
 
     @yield('js')
 

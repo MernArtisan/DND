@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\SignupRequest;
+use App\Services\UserService;
 
 class AuthController extends Controller
 {
@@ -19,53 +21,156 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid email or password.',
-            ]);
-        }
-
-        // Generate OTP
-        $otp = rand(1000, 9999);
-
-        DB::table('user_otps')->updateOrInsert(
-            ['user_id' => $user->id],
-            ['otp' => $otp, 'created_at' => now()]
-        );
-
-        // Send OTP via email
         try {
-            Mail::raw("Your login OTP is: $otp", function ($msg) use ($user) {
-                $msg->to($user->email)->subject('Your OTP Code');
-            });
-
-            return response()->json([
-                'status' => true,
-                'message' => 'OTP sent successfully to your email.',
-                'user_id' => $user->id,
-                'otp' => $otp
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|string|min:6',
             ]);
+
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
+            }
+
+            // Check if OTP was recently sent (within 60 seconds)
+            $otpRecord = DB::table('user_otps')->where('user_id', $user->id)->first();
+
+            if ($otpRecord && now()->diffInSeconds($otpRecord->created_at) < 60) {
+                $otp = $otpRecord->otp; // Reuse existing OTP
+            } else {
+                $otp = rand(100000, 999999); // Generate new 6-digit OTP
+                DB::table('user_otps')->updateOrInsert(
+                    ['user_id' => $user->id],
+                    ['otp' => $otp, 'created_at' => now()]
+                );
+            }
+
+            try {
+                // Send OTP via email
+                Mail::raw("Your login OTP is: $otp", function ($msg) use ($user) {
+                    $msg->to($user->email)->subject('Your OTP Code');
+                });
+
+                // Store info in session for verification
+                session([
+                    'otp_user_id' => $user->id,
+                    'otp_sent_at' => now()
+                ]);
+
+                return redirect()->route('verifyOtp.index')->with('success', 'OTP sent to your email.');
+            } catch (\Exception $e) {
+                Log::error('OTP email error: ' . $e->getMessage(), [
+                    'line' => $e->getLine(),
+                    'file' => $e->getFile(),
+                    // Optional: 'trace' => $e->getTraceAsString()
+                ]);
+
+                return back()->with('error', 'Failed to send OTP. Please try again.');
+            }
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return redirect()->back()->with('error', $e->getMessage());
+            return back()->with('error', 'Failed to authenticate user: ' . $e->getMessage());
         }
     }
+
+
 
     public function signup()
     {
+        if (auth()->check()) {
+            return redirect()->route('home.index')->with('error', 'You are already logged in.');
+        }
         return view('web.auth.signup');
     }
+
+    public function signupSubmit(SignupRequest $request, UserService $userService)
+    {
+        $user = $userService->createUser($request->validated());
+
+        auth()->login($user);
+
+        return redirect()->route('home.index')->with('success', 'Registration successful! Welcome aboard.');
+    }
+
 
     public function verifyOtp()
     {
         return view('web.auth.otp');
+    }
+
+    public function verifyOtpSubmit(Request $request)
+    {
+        try {
+            $request->validate([
+                'otp' => 'required|digits:6',
+            ]);
+
+            $userId = session('otp_user_id');
+
+            if (!$userId) {
+                return redirect()->route('login.index')->with('error', 'Session expired. Please login again.');
+            }
+
+            $otpRecord = DB::table('user_otps')->where('user_id', $userId)->first();
+
+            if (!$otpRecord || $otpRecord->otp != $request->otp) {
+                return back()->with('error', 'Invalid OTP. Please try again.');
+            }
+
+            // Log the user in
+            $user = User::find($userId);
+            auth()->login($user);
+
+            // Clear OTP session and record (optional)
+            session()->forget(['otp_user_id', 'otp_sent_at']);
+            DB::table('user_otps')->where('user_id', $userId)->delete();
+
+            return redirect()->route('home.index')->with('success', 'You are now logged in.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to verify OTP: ' . $e->getMessage());
+        }
+    }
+
+    public function resendOtp(Request $request)
+    {
+        try {
+            $userId = session('otp_user_id');
+
+            if (!$userId) {
+                return response()->json(['message' => 'Session expired. Please login again.'], 401);
+            }
+
+            $user = User::find($userId);
+            if (!$user) {
+                return response()->json(['message' => 'User not found.'], 404);
+            }
+
+            // Check if OTP was recently sent (1-minute cooldown)
+            $otpRecord = DB::table('user_otps')->where('user_id', $user->id)->first();
+            if ($otpRecord && now()->diffInSeconds($otpRecord->created_at) < 60) {
+                return response()->json(['message' => 'Please wait before requesting a new OTP.'], 429);
+            }
+
+            // Generate new OTP
+            $otp = rand(100000, 999999);
+
+            DB::table('user_otps')->updateOrInsert(
+                ['user_id' => $user->id],
+                ['otp' => $otp, 'created_at' => now()]
+            );
+
+            try {
+                Mail::raw("Your new OTP is: $otp", function ($msg) use ($user) {
+                    $msg->to($user->email)->subject('Your New OTP Code');
+                });
+
+                return response()->json(['message' => 'New OTP has been sent.']);
+            } catch (\Exception $e) {
+                Log::error('Resend OTP error: ' . $e->getMessage());
+                return response()->json(['message' => 'Failed to send OTP. Try again.'], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Somthin went wrong while' . $e->getMessage()], 500);
+        }
     }
 }

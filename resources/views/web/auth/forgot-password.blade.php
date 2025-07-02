@@ -1,7 +1,6 @@
 @extends('web.layouts.master')
-@section('title', 'Login')
+@section('title', 'Forgot Password')
 @section('content')
-
 
     <style>
         .register-section {
@@ -42,8 +41,7 @@
             display: block;
         }
 
-        .form-control,
-        .form-select {
+        .form-control {
             height: 50px;
             border: 1px solid #e1e1e1;
             border-radius: 5px;
@@ -52,14 +50,9 @@
             transition: all 0.3s;
         }
 
-        .form-control:focus,
-        .form-select:focus {
+        .form-control:focus {
             border-color: #d82e2e;
             box-shadow: 0 0 0 0.25rem rgba(216, 46, 46, 0.25);
-        }
-
-        .input-group {
-            position: relative;
         }
     </style>
 
@@ -67,10 +60,10 @@
         data-bg-src="{{ asset('web/assets/img/breadcumb/breadcumb.jpg') }}" data-overlay>
         <div class="container z-index-common">
             <div class="breadcumb-content text-center">
-                <h1 class="breadcumb-title h1 text-white my-0">Login</h1>
+                <h1 class="breadcumb-title h1 text-white my-0">Forgot Password</h1>
                 <ul class="breadcumb-menu-style1 text-white mx-auto fs-xs">
                     <li><a href="{{ route('home.index') }}"><i class="fal fa-home"></i>Home</a></li>
-                    <li class="active">Login</li>
+                    <li class="active">Forgot Password</li>
                 </ul>
             </div>
         </div>
@@ -81,39 +74,43 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-8">
                     <div class="register-form-wrap">
-                        <h2 class="register-form-title text-center mb-4">Enter Your Email</h2>
-                        <form id="registrationForm" action="{{ route('login.authenticate') }}" method="POST">
+                        <h2 class="register-form-title text-center mb-4">Reset Your Password</h2>
+
+                        @if (session('status'))
+                            <div class="alert alert-success text-white bg-success border-0 text-center">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger text-white bg-danger border-0 text-center">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
+
+                        <form action="{{ route('password.email') }}" method="POST">
                             @csrf
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="email" class="form-label">Email Address*</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <label for="email" class="form-label">Enter Your Email</label>
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        placeholder="you@example.com" required autofocus>
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12 text-end mb-3">
-                                <a href="{{ route('password.request') }}" class="text-white" style="font-size: 14px;">
-                                    Forgot Password?
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="vs-btn gradient-btn w-100 py-3">Login</button>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="vs-btn gradient-btn w-100 py-3">Send Reset Link</button>
                             </div>
                         </form>
 
+                        <div class="text-center mt-4">
+                            <a href="{{ route('login.index') }}" class="text-white">Back to Login</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    {{-- @include('web.components.newsletter') --}}
 
 @endsection

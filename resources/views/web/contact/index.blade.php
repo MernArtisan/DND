@@ -16,8 +16,8 @@
         </div>
     </div>
     <!--==============================
-                                                        Contact Form Area
-                                                        ==============================-->
+                                                            Contact Form Area
+                                                            ==============================-->
     <section class="vs-contact-wrapper space-top  newsletter-pb">
         <div class="container">
             <div class="row gx-60 mb-30">
@@ -114,49 +114,4 @@
     </section>
     @include('web.components.newsletter')
 
-@endsection
-
-@section('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const forms = document.querySelectorAll('.contact-form');
-
-            forms.forEach(form => {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-
-                    const formData = new FormData(form);
-                    const messageBox = form.querySelector('.form-messages');
-                    messageBox.innerText = '';
-                    messageBox.classList.remove('text-success', 'text-danger');
-
-                    fetch(form.action, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json'
-                        },
-                        body: formData
-                    })
-                        .then(async res => {
-                            if (!res.ok) {
-                                const errorData = await res.json();
-                                const errors = errorData.errors || { general: ['Something went wrong.'] };
-                                const firstError = Object.values(errors)[0][0];
-                                throw new Error(firstError);
-                            }
-                            return res.json();
-                        })
-                        .then(data => {
-                            toastr.success(data.message || 'You have successfully subscribed.');
-                            form.reset();
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            toastr.error(error.message || 'Something went wrong.');
-                        });
-                });
-            });
-        });
-    </script>
 @endsection
