@@ -572,7 +572,7 @@ class DiscoverController extends Controller
                 'id' => $article->id,
                 'name' => $article->name,
                 'slug' => $article->slug,
-                'description' => Str::limit(strip_tags($article->description), 150),
+                'description' => Str::limit(strip_tags($article->description), 1000),
                 'images' => $article->images->map(function ($img) {
                     return asset($img->image);
                 }),
