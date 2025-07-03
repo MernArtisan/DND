@@ -216,7 +216,7 @@
                 <div class="collapse" id="sidebarBaseUI">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a href="{{ route('admin.general.details') }}" class="side-nav-link">
+                            <a href="{{ route('edit.general.details') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-tools"></i></span>
                                 <span class="menu-text"> General Details </span>
                             </a>
