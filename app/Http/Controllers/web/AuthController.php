@@ -21,6 +21,7 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
+        // return $request->all();
         try {
             $request->validate([
                 'email' => 'required|email',
@@ -30,7 +31,7 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
 
             if (!$user || !Hash::check($request->password, $user->password)) {
-                return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
+                return back()->with('error', 'Invalid Credentials')->withErrors(['email' => 'Invalid email or password.'])->withInput();
             }
 
             // Check if OTP was recently sent (within 60 seconds)

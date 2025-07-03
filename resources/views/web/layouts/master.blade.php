@@ -213,9 +213,6 @@
     <script src="{{ asset('web/assets/js/ajax-mail.js') }}"></script>
     <script src="{{ asset('web/assets/js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('newsletterForm');
@@ -296,7 +293,7 @@
                 });
             });
         });
-         @if (session('success'))
+        @if (session('success'))
             toastr.success('{{ session('success') }}', 'Success');
         @endif
         @if (session('error'))

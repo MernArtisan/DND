@@ -46,7 +46,7 @@ class ResetPasswordController extends Controller
 
             DB::table('password_resets')->where('email', $request->email)->delete();
 
-            return redirect()->route('login')->with('success', 'Password has been reset.');
+            return redirect()->route('login.index')->with('success', 'Password has been reset.');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Something went wrong. Please try again later.']);
         }

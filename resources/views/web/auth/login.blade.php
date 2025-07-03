@@ -1,8 +1,6 @@
 @extends('web.layouts.master')
 @section('title', 'Login')
 @section('content')
-
-
     <style>
         .register-section {
             background-color: #f8f9fa;
@@ -62,7 +60,6 @@
             position: relative;
         }
     </style>
-
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
         data-bg-src="{{ asset('web/assets/img/breadcumb/breadcumb.jpg') }}" data-overlay>
         <div class="container z-index-common">
