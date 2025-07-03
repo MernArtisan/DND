@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin.guest' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
             'admin.auth' => \App\Http\Middleware\AdminAuthenticate::class,
+            'checkSubscription' => \App\Http\Middleware\CheckSubscriptionExpiry::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

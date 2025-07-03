@@ -6,14 +6,25 @@ use App\Helpers\ApiResponse;
 use App\Models\SubcriptionPayment;
 use Illuminate\Http\Request;
 use App\Models\SubscriptionPlan;
+use App\Models\UserSubscription;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class SubscriptionControler extends Controller
 {
     public function subscriptionsPlans()
     {
-        $plans = SubscriptionPlan::orderBy('created_at', 'desc')->get()->map(function ($plan) {
+        $userId = Auth::id();
+
+        // Fetch the user's current active subscription (if any)
+        $userSubscription = UserSubscription::where('user_id', $userId)
+            ->where('is_active', true)
+            ->where('end_date', '>=', now())
+            ->first();
+
+        // Get all plans and mark which one is currently subscribed by the user
+        $plans = SubscriptionPlan::orderBy('created_at', 'desc')->get()->map(function ($plan) use ($userSubscription) {
             return [
                 'id' => $plan->id,
                 'name' => $plan->name,
@@ -25,6 +36,7 @@ class SubscriptionControler extends Controller
                 'description' => $plan->description,
                 'features' => json_decode($plan->features, true), // Convert JSON string to array
                 'is_active' => (bool)$plan->is_active,
+                'is_user_active_plan' => $userSubscription && $userSubscription->plan_id === $plan->id,
                 'created_at' => $plan->created_at,
                 'updated_at' => $plan->updated_at
             ];
@@ -36,17 +48,31 @@ class SubscriptionControler extends Controller
         );
     }
 
-    public function subscriptionPlan(Request $request, $id)
+
+
+    public function subcribeplan(Request $request, $id)
     {
+        // ✅ Validate incoming request
         $request->validate([
             'payment_id' => 'nullable|string',
             'amount' => 'required|numeric',
             'status' => 'required|in:success,failed,pending',
         ]);
 
+        // ✅ Fetch the selected plan
         $plan = SubscriptionPlan::findOrFail($id);
 
-        // Create payment record
+        // ✅ Check if user already has an active subscription
+        $activeSub = UserSubscription::where('user_id', Auth::id())
+            ->where('is_active', true)
+            ->where('end_date', '>=', now())
+            ->first();
+
+        if ($activeSub) {
+            return ApiResponse::error('You already have an active subscription plan. Please cancel or wait for it to expire.');
+        }
+
+        // ✅ Create payment record
         $payment = SubcriptionPayment::create([
             'user_id' => Auth::id(),
             'plan_id' => $plan->id,
@@ -57,6 +83,28 @@ class SubscriptionControler extends Controller
             'payment_date' => now(),
         ]);
 
+        // ✅ Create user subscription if payment was successful
+        if ($request->status === 'success') {
+            $startDate = now();
+
+            $endDate = match ($plan->billing_cycle) {
+                'day' => $startDate->copy()->addHours((int) $plan->duration_unit),
+                'month' => $startDate->copy()->addMonth(),
+                'annual' => $startDate->copy()->addYear(),
+                default => $startDate,
+            };
+
+
+            UserSubscription::create([
+                'user_id' => Auth::id(),
+                'plan_id' => $plan->id,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'is_active' => true
+            ]);
+        }
+
+        // ✅ Final API response
         return ApiResponse::success(
             message: 'Subscription processed successfully.',
             data: [

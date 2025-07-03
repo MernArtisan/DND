@@ -46,7 +46,10 @@ class ContentController extends Controller
      */
     public function edit($id)
     {
+<<<<<<< HEAD
         
+=======
+>>>>>>> 821f8a6b9a33b74ff751ba93bbefe7b440bd25ef
         $cms_content = Content::findOrFail($id); // ✅ Single model, not a collection
         return view('admin.content.edit', compact('cms_content'));
     }

@@ -151,7 +151,10 @@ class UserController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
+                return redirect()->back()
+                    ->with('error', 'Please correct the errors below.')
+                    ->withErrors($validator)
+                    ->withInput();
             }
 
             $data = $request->only([

@@ -38,7 +38,8 @@
                                                     <td>{{ $item->description }}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-sm btn-info view-details"
-                                                            data-id="{{ $item->id }}" data-name="{{ $item->name }}" {{--
+                                                            data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                                            {{--
                                                             data-slug="{{ $item->slug }}" --}} data-price="{{ $item->price }}"
                                                             data-billing_cycle="{{ $item->billing_cycle }}"
                                                             data-duration_unit="{{ $item->duration_unit }}"
@@ -49,22 +50,11 @@
                                                             <i class="ti ti-eye"></i>
                                                         </button>
 
-                                                        <a href="{{ route('admin.subscription.edit', encrypt($item->id)) }}"
+                                                        <a href="{{ route('admin.subscription.edit', $item->id) }}"
                                                             class="btn btn-sm btn-warning">
                                                             <i class="ti ti-pencil"></i>
                                                         </a>
 
-                                                        {{-- <button type="button" class="btn btn-sm btn-danger"
-                                                            onclick="confirmDelete({{ $item->id }})">
-                                                            <i class="ti ti-trash"></i>
-                                                        </button>
-
-                                                        <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('admin.subscription.destroy', encrypt($item->id)) }}"
-                                                            method="POST" class="d-none">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form> --}}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -114,7 +104,7 @@
         // document.addEventListener('DOMContentLoaded', function () {
         //     new DataTable('#myTable');
 
-        $(document).on('click', '.view-details', function () {
+        $(document).on('click', '.view-details', function() {
             $('#modal-name').text($(this).data('name'));
             $('#modal-price').text($(this).data('price'));
             $('#modal-billing-cycle').text($(this).data('billing_cycle'));
