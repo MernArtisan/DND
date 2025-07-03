@@ -41,4 +41,7 @@ Route::post('forgot-password', [App\Http\Controllers\web\ForgotPasswordControlle
 Route::get('reset-password/{token}', [App\Http\Controllers\web\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('reset-password', [App\Http\Controllers\web\ResetPasswordController::class, 'reset'])->name('password.update');
 
+// Route::post('reset-password', [App\Http\Controllers\web\ResetPasswordController::class, 'reset'])->name('password.update');
+
+
 require __DIR__ . '/admin.php';
