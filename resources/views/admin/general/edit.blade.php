@@ -22,96 +22,96 @@
                                     {{-- General Info --}}
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Welcome Message</label>
-                                        <input type="text" name="welcome" class="form-control" value="{{ old('welcome', $general->welcome) }}" placeholder="Enter welcome message">
+                                        <input type="text" name="welcome" class="form-control" value="{{ old('welcome', $general->welcome) }}" placeholder="Enter welcome message" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Description</label>
-                                        <input type="text" name="description" class="form-control" value="{{ old('description', $general->description) }}" placeholder="Enter description">
+                                        <input type="text" name="description" class="form-control" value="{{ old('description', $general->description) }}" placeholder="Enter description" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Address</label>
-                                        <input type="text" name="address" class="form-control" value="{{ old('address', $general->address) }}" placeholder="Enter address">
+                                        <input type="text" name="address" class="form-control" value="{{ old('address', $general->address) }}" placeholder="Enter address" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Phone</label>
-                                        <input type="text" name="phone" class="form-control" value="{{ old('phone', $general->phone) }}" placeholder="Enter phone number">
+                                        <input type="text" name="phone" class="form-control" value="{{ old('phone', $general->phone) }}" placeholder="Enter phone number" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control" value="{{ old('email', $general->email) }}" placeholder="Enter email address">
+                                        <input type="email" name="email" class="form-control" value="{{ old('email', $general->email) }}" placeholder="Enter email address" required>
                                     </div>
 
                                     {{-- Social Links --}}
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Facebook URL</label>
-                                        <input type="url" name="facebook" class="form-control" value="{{ old('facebook', $general->facebook) }}" placeholder="Enter Facebook link">
+                                        <input type="url" name="facebook" class="form-control" value="{{ old('facebook', $general->facebook) }}" placeholder="Enter Facebook link" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Twitter URL</label>
-                                        <input type="url" name="twitter" class="form-control" value="{{ old('twitter', $general->twitter) }}" placeholder="Enter Twitter link">
+                                        <input type="url" name="twitter" class="form-control" value="{{ old('twitter', $general->twitter) }}" placeholder="Enter Twitter link" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Instagram URL</label>
-                                        <input type="url" name="instagram" class="form-control" value="{{ old('instagram', $general->instagram) }}" placeholder="Enter Instagram link">
+                                        <input type="url" name="instagram" class="form-control" value="{{ old('instagram', $general->instagram) }}" placeholder="Enter Instagram link" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">YouTube URL</label>
-                                        <input type="url" name="youtube" class="form-control" value="{{ old('youtube', $general->youtube) }}" placeholder="Enter YouTube link">
+                                        <input type="url" name="youtube" class="form-control" value="{{ old('youtube', $general->youtube) }}" placeholder="Enter YouTube link" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">LinkedIn URL</label>
-                                        <input type="url" name="linkedin" class="form-control" value="{{ old('linkedin', $general->linkedin) }}" placeholder="Enter LinkedIn link">
+                                        <input type="url" name="linkedin" class="form-control" value="{{ old('linkedin', $general->linkedin) }}" placeholder="Enter LinkedIn link" required>
                                     </div>
 
                                     {{-- Footer Info --}}
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Get In Touch</label>
-                                        <input type="text" name="getintouch" class="form-control" value="{{ old('getintouch', $general->getintouch) }}" placeholder="Enter get in touch text">
+                                        <input type="text" name="getintouch" class="form-control" value="{{ old('getintouch', $general->getintouch) }}" placeholder="Enter get in touch text" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Copyright Text</label>
-                                        <input type="text" name="copyright" class="form-control" value="{{ old('copyright', $general->copyright) }}" placeholder="Enter copyright text">
+                                        <input type="text" name="copyright" class="form-control" value="{{ old('copyright', $general->copyright) }}" placeholder="Enter copyright text" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">DND Sports Text</label>
-                                        <input type="text" name="dndsports" class="form-control" value="{{ old('dndsports', $general->dndsports) }}" placeholder="Enter DND Sports text">
+                                        <input type="text" name="dndsports" class="form-control" value="{{ old('dndsports', $general->dndsports) }}" placeholder="Enter DND Sports text" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Rights Text</label>
-                                        <input type="text" name="rights" class="form-control" value="{{ old('rights', $general->rights) }}" placeholder="Enter rights text">
+                                        <input type="text" name="rights" class="form-control" value="{{ old('rights', $general->rights) }}" placeholder="Enter rights text" required>
                                     </div>
 
                                     {{-- Opening Hours --}}
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Hours (Mon - Fri)</label>
-                                        <input type="text" name="mon-fri" class="form-control" value="{{ old('mon-fri', $general->{'mon-fri'} ?? '') }}" placeholder="Enter Mon-Fri hours">
+                                        <input type="text" name="mon-fri" class="form-control" value="{{ old('mon-fri', $general->{'mon-fri'} ?? '') }}" placeholder="Enter Mon-Fri hours" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Hours (Saturday)</label>
-                                        <input type="text" name="sat" class="form-control" value="{{ old('sat', $general->sat) }}" placeholder="Enter Saturday hours">
+                                        <input type="text" name="sat" class="form-control" value="{{ old('sat', $general->sat) }}" placeholder="Enter Saturday hours" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Hours (Sunday)</label>
-                                        <input type="text" name="sun" class="form-control" value="{{ old('sun', $general->sun) }}" placeholder="Enter Sunday hours">
+                                        <input type="text" name="sun" class="form-control" value="{{ old('sun', $general->sun) }}" placeholder="Enter Sunday hours" required>
                                     </div>
 
                                     {{-- Map --}}
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Google Map Embed/Link</label>
-                                        <input type="text" name="map" class="form-control" value="{{ old('map', $general->map) }}" placeholder="Enter map link or embed code">
+                                        <input type="text" name="map" class="form-control" value="{{ old('map', $general->map) }}" placeholder="Enter map link or embed code" required>
                                     </div>
 
                                     {{-- Submit --}}
