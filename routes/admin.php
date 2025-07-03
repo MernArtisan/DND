@@ -49,6 +49,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/newsletter', [App\Http\Controllers\admin\NewsletterController::class, 'index'])->name('newsletter.index');
 
     Route::get('/inquiries', [App\Http\Controllers\admin\InquiryController::class, 'index'])->name('inquiries.index');
+    Route::get('/user-list', [App\Http\Controllers\admin\UserListController::class, 'index'])->name('user-list.index');
 
+    Route::get('admin/user/details', [App\Http\Controllers\admin\UserListController::class, 'details'])->name('user.details');
+    Route::post('admin/user/toggle-status', [App\Http\Controllers\admin\UserListController::class, 'toggleStatus'])->name('user.toggleStatus');
+    Route::delete('admin/user/{id}', [App\Http\Controllers\admin\UserListController::class, 'destroy'])->name('user.destroy');
   });
 });

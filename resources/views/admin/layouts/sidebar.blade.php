@@ -122,7 +122,12 @@
                                 <span class="menu-text"> Streamer </span>
                             </a>
                         </li>
-
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.user-list.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
+                                <span class="menu-text"> Users </span>
+                            </a>
+                        </li>
 
                     </ul>
                 </div>
@@ -148,7 +153,6 @@
                                 <span class="menu-text"> Edit Profile</span>
                             </a>
                         </li>
-
 
                     </ul>
                 </div>
