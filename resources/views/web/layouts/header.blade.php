@@ -2,7 +2,7 @@
     <button class="vs-btn preloaderCls">Cancel Preloader </button>
     <div class="preloader-inner">
         <div class="loader-logo">
-            <img src="{{ asset('web/assets/img/main-logo-1.png')}}" alt="Loader Image">
+            <img src="{{ asset('web/assets/img/main-logo-1.png') }}" alt="Loader Image">
         </div>
         <div class="loader-wrap pt-4">
             <span class="loader"></span>
@@ -17,7 +17,7 @@
         <div class="row align-items-center">
             <div class="col-5 col-md-3">
                 <div class="logo">
-                    <a href="{{route('home.index')}}"><img src="{{ asset('web/assets/img/main-logo-1.png')}}"
+                    <a href="{{ route('home.index') }}"><img src="{{ asset('web/assets/img/main-logo-1.png') }}"
                             alt="main-logo"></a>
                 </div>
             </div>
@@ -25,25 +25,25 @@
                 <nav class="main-menu menu-sticky1 d-none d-lg-block link-inherit">
                     <ul>
                         <li>
-                            <a href="{{route('home.index')}}">Home</a>
+                            <a href="{{ route('home.index') }}">Home</a>
                         </li>
                         <li>
-                            <a href="{{route('news.index')}}">News</a>
+                            <a href="{{ route('news.index') }}">News</a>
                         </li>
                         <li>
-                            <a href="{{route('staff.index')}}">Staff</a>
+                            <a href="{{ route('staff.index') }}">Staff</a>
                         </li>
                         <li>
-                            <a href="{{route('Channels.index')}}">Channels</a>
+                            <a href="{{ route('Channels.index') }}">Channels</a>
                         </li>
                         <li>
-                            <a href="{{route('corporateSponsors.index')}}">Corporate Sponsor</a>
+                            <a href="{{ route('corporateSponsors.index') }}">Corporate Sponsor</a>
                         </li>
                         <li>
-                            <a href="{{route('liveStreams.index')}}">Live Stream</a>
+                            <a href="{{ route('liveStreams.index') }}">Live Stream</a>
                         </li>
                         <li>
-                            <a href="{{route('contact.index')}}">Contact</a>
+                            <a href="{{ route('contact.index') }}">Contact</a>
                         </li>
                     </ul>
                 </nav>
@@ -61,18 +61,17 @@
         <button class="closeButton border-theme text-theme bg-theme-hover sideMenuCls"><i
                 class="far fa-times"></i></button>
         <div class="about-box">
-            <a href="{{route('home.index')}}"><img src="{{ asset('web/assets/img/main-logo-1.png')}}"
+            <a href="{{ route('home.index') }}"><img src="{{ asset('web/assets/img/main-logo-1.png') }}"
                     alt="main-logo"></a>
-            <p class="text-light mt-3">Appropriately reinvent cross-unit scenarios with reliable metrics. Dramatically
-                morph distinctive alignments whereas.</p>
+            <p class="text-light mt-3">{{ $general_content->description }}</p>
             <ul class="social-links fs-xs text-white">
-                <li><a href="{{$general_content->facebook}}" class="icon-btn" target="_blank"><i
+                <li><a href="{{ $general_content->facebook }}" class="icon-btn" target="_blank"><i
                             class="fab fa-facebook-f"></i></a></li>
-                <li><a href="{{$general_content->twitter}}" class="icon-btn" target="_blank"><i
+                <li><a href="{{ $general_content->twitter }}" class="icon-btn" target="_blank"><i
                             class="fab fa-twitter"></i></a></li>
-                <li><a href="{{$general_content->linkedin}}" class="icon-btn" target="_blank"><i
+                <li><a href="{{ $general_content->linkedin }}" class="icon-btn" target="_blank"><i
                             class="fab fa-linkedin-in"></i></a></li>
-                <li><a href="{{$general_content->youtube}}" class="icon-btn" target="_blank"><i
+                <li><a href="{{ $general_content->youtube }}" class="icon-btn" target="_blank"><i
                             class="fab fa-youtube"></i></a></li>
             </ul>
             <div class="my-40">
@@ -103,7 +102,7 @@
     <div class="vs-menu-area bg-dark">
         <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
         <div class="mobile-logo">
-            <a href="{{route('home.index')}}"><img src="{{ asset('web/assets/img/main-logo-1.png')}}"
+            <a href="{{ route('home.index') }}"><img src="{{ asset('web/assets/img/main-logo-1.png') }}"
                     alt="main-logo"></a>
         </div>
         <div class="vs-mobile-menu link-inherit"></div><!-- Menu Will Append With Javascript -->
@@ -112,7 +111,7 @@
 
 <header class="header-wrapper header-layout2 mt-30">
     <div class="container position-relative">
-        <div class="bg-fluid" data-bg-src="{{asset('web/assets/img/shape/header-bg-2-1.jpg')}}">
+        <div class="bg-fluid" data-bg-src="{{ asset('web/assets/img/shape/header-bg-2-1.jpg') }}">
             <div class="header-top">
                 <div class="container px-0">
                     <div class="top-innner">
@@ -122,7 +121,7 @@
                                 </div> -->
                             <!--=========my-pop-up=======-->
                             <div class="col-sm-6 d-none d-md-block">
-                                <p class="top-title">{{$general_content->welcome}}
+                                <p class="top-title">{{ $general_content->welcome }}
                                 </p>
                             </div>
 
@@ -169,14 +168,14 @@
                             <div class="col-sm-6 text-end d-none d-md-block">
                                 <div class="d-flex align-items-center justify-content-end">
                                     <ul class="social-links fs-xs text-white">
-                                        <li><a href="{{$general_content->facebook}}" class="icon-btn6"
+                                        <li><a href="{{ $general_content->facebook }}" class="icon-btn6"
                                                 target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="{{$general_content->twitter}}" class="icon-btn6" target="_blank"><i
-                                                    class="fab fa-twitter"></i></a></li>
-                                        <li><a href="{{$general_content->linkedin}}" class="icon-btn6"
+                                        <li><a href="{{ $general_content->twitter }}" class="icon-btn6"
+                                                target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="{{ $general_content->linkedin }}" class="icon-btn6"
                                                 target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
-                                        <li><a href="{{$general_content->youtube}}" class="icon-btn6" target="_blank"><i
-                                                    class="fab fa-youtube"></i></a></li>
+                                        <li><a href="{{ $general_content->youtube }}" class="icon-btn6"
+                                                target="_blank"><i class="fab fa-youtube"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -188,30 +187,30 @@
                 <div class="row align-items-center">
                     <div class="col-6 col-lg-3 col-xl-2">
                         <div class="header-logo py-3 py-lg-0">
-                            <a href="{{route('home.index')}}"><img src="{{ asset('web/assets/img/main-logo-1.png')}}"
-                                    alt="main-logo"></a>
+                            <a href="{{ route('home.index') }}"><img
+                                    src="{{ asset('web/assets/img/main-logo-1.png') }}" alt="main-logo"></a>
                         </div>
                     </div>
                     <div class="col-6 col-lg-6 col-xl-5 text-end">
                         <nav class="main-menu menu-style1 mobile-menu-active ">
                             <ul>
                                 <li>
-                                    <a href="{{route('home.index')}}">Home</a>
+                                    <a href="{{ route('home.index') }}">Home</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('news.index')}}">News</a>
+                                    <a href="{{ route('news.index') }}">News</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('staff.index')}}">Staff</a>
+                                    <a href="{{ route('staff.index') }}">Staff</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('Channels.index')}}">Channels</a>
+                                    <a href="{{ route('Channels.index') }}">Channels</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('corporateSponsors.index')}}">Corporate Sponsor</a>
+                                    <a href="{{ route('corporateSponsors.index') }}">Corporate Sponsor</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('contact.index')}}">Contact</a>
+                                    <a href="{{ route('contact.index') }}">Contact</a>
                                 </li>
                             </ul>
                         </nav>
@@ -220,13 +219,14 @@
                     </div>
                     <div class="col-lg-8 col-xl-5 d-none d-lg-block">
                         <div class="header-right d-flex align-items-center justify-content-end">
-                            <a href="{{route('liveStreams.index')}}" class="vs-btn outline3 d-none d-xl-inline-block"><i
+                            <a href="{{ route('liveStreams.index') }}"
+                                class="vs-btn outline3 d-none d-xl-inline-block"><i
                                     class="fas fa-wifi"></i><strong>Live Streaming</strong></a>
-                            <a href="{{route('signup.index')}}"> <button
+                            <a href="{{ route('signup.index') }}"> <button
                                     class="icon-btn7 sideCartToggler has-badge mr-10" type="button">
                                     <i class="fa fa-user-plus"></i>
                                 </button></a>
-                            <a href="{{route('login.index')}}"> <button class="icon-btn7 sideCartToggler has-badge"
+                            <a href="{{ route('login.index') }}"> <button class="icon-btn7 sideCartToggler has-badge"
                                     type="button">
                                     <i class="fas fa-sign-out-alt"></i>
                                 </button></a>
