@@ -18,8 +18,9 @@
                                 <p class="hero-text">{!! $banner->description !!}</p>
                             @endif
                             <div class="hero-btns">
-                                <a href="#" class="vs-btn outline1 me-3">asd <i class="fas fa-wifi"></i></a>
-                                <a href="#" class="vs-btn outline3">gytry<i class="fas fa-users"></i> </a>
+                                <a href="#" class="vs-btn outline1 me-3">Live Stream<i
+                                        class="fas fa-wifi"></i></a>
+                                <a href="#" class="vs-btn outline3">Meet Our Staff <i class="fas fa-users"></i> </a>
                             </div>
                         </div>
                     </div>
@@ -35,8 +36,8 @@
             <div class="row">
                 <div class="col-lg-6 mb-20 mb-lg-0">
                     <div class="img-box1 hover-shape">
-                        <img src="{{ asset('storage/' . ($cms_content[0]->image ?? 'default-man.png')) }}" class="w-100 d-block"
-                            alt="About Image">
+                        <img src="{{ asset('storage/' . ($cms_content[0]->image ?? 'default-man.png')) }}"
+                            class="w-100 d-block" alt="About Image">
                         <div class="exp-box1 text-start">
                             <h2 class="h1 text-gradient mb-0 counter"><span
                                     class="number">{{ $cms_content[0]->item_1 }}</span></h2>
@@ -146,7 +147,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </section>
 
 
