@@ -63,17 +63,6 @@ class SubscriptionController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($encryptedId)
     {
         $id = decrypt($encryptedId);
@@ -102,7 +91,7 @@ class SubscriptionController extends Controller
 
             $subscription->update([
                 'name' => $request->name,
-                'slug' => Str::slug($request->name), // Update slug if name changes
+                'slug' => Str::slug($request->name),
                 'price' => $request->price,
                 'billing_cycle' => $request->billing_cycle,
                 'duration_unit' => $request->duration_unit,
@@ -115,7 +104,7 @@ class SubscriptionController extends Controller
 
             return redirect()->route('admin.subscription.index')->with('success', 'Subscription updated successfully.');
         } catch (\Exception $e) {
-            return redirect()->back('')->with('error', $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

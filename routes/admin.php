@@ -22,7 +22,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/privacy-policy', [App\Http\Controllers\admin\ContentController::class, 'Privacy'])->name('privacy-policy');
     Route::put('/privacy-policy-update', [App\Http\Controllers\admin\ContentController::class, 'updatePrivacy'])->name('privacy-policy-update');
 
-    Route::resource('/resource', App\Http\Controllers\admin\ContentController::class);
+    // Route::resource('/resource', App\Http\Controllers\admin\ContentController::class);
 
     Route::get('/terms-condition', [App\Http\Controllers\admin\ContentController::class, 'Terms'])->name('terms-condition');
     Route::put('/terms-condition-update', [App\Http\Controllers\admin\ContentController::class, 'updateTerms'])->name('terms-condition-update');
