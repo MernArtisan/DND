@@ -574,7 +574,7 @@ class DiscoverController extends Controller
                 'slug' => $article->slug,
                 'short_description' => Str::limit(strip_tags($article->description), 150),
                 'full_description' => $article->description,
-                'image' => asset($article->images->first()?->image ?? null),
+                'image' => asset($article->images ?? null),
                 'created_at' => $article->created_at->format('Y-m-d'),
             ];
         });
@@ -584,6 +584,4 @@ class DiscoverController extends Controller
             'data' => $articles
         ]);
     }
-
-   
 }
