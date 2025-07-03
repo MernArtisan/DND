@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
-// 
 use Illuminate\Support\Facades\Auth;
 
 class DiscoverController extends Controller
@@ -23,7 +22,6 @@ class DiscoverController extends Controller
     public function banners()
     {
         $banners = Banner::where('platform', ['both', 'app'])->get();
-
         return ApiResponse::success(message: 'Banners fetched successfully.', data: [
             'banners' => $banners
         ]);
@@ -191,7 +189,6 @@ class DiscoverController extends Controller
                 'title' => $highlight->title,
                 'video' => asset('storage/' . $highlight->video),  // Assuming the video is stored in the 'storage' folder
                 'thumbnail' => asset('storage/' . $highlight->thumbnail),  // Assuming the thumbnail is stored in the 'storage' folder
-
                 'description' => $highlight->description,
                 'created_at' => $highlight->created_at,
                 'commentCount' => $highlight->comments->count(),
@@ -447,79 +444,6 @@ class DiscoverController extends Controller
     }
 
 
-    // public function filterData(Request $request)
-    // {
-    //     $request->validate([
-    //         'channel_id' => 'nullable|integer|exists:channels,id',
-    //         'highlight' => 'nullable|boolean',
-    //         'status' => 'nullable|in:live'
-    //     ]);
-
-    //     $response = [];
-
-    //     // 1. Get LIVE streams (filter by channel if provided)
-    //     $streamQuery = Stream::with('channel')
-    //         ->where('status', 'live')
-    //         ->orderBy('created_at', 'desc');
-
-    //     if ($request->has('channel_id')) {
-    //         $streamQuery->where('channel_id', $request->channel_id);
-    //     }
-
-    //     foreach ($streamQuery->get() as $stream) {
-    //         $response[] = [
-    //             'id' => $stream->id,
-    //             'name' => $stream->title,
-    //             'status' => $stream->status,
-    //             'image' => asset('storage/'.$stream->image),
-    //             'description' => $stream->description,
-    //             'type' => 'stream',
-    //             'channel_id' => $stream->channel->id,
-    //             'channel_name' => $stream->channel->name
-    //         ];
-    //     }
-
-    //     // 2. Get channels (filter by ID if provided)
-    //     $channelQuery = $request->has('channel_id')
-    //         ? Channel::where('id', $request->channel_id)
-    //         : Channel::query();
-
-    //     foreach ($channelQuery->where('is_active', 1)->get() as $channel) {
-    //         $response[] = [
-    //             'id' => $channel->id,
-    //             'name' => $channel->name,
-    //             'image' => asset($channel->logo),
-    //             'is_active' => $channel->is_active,
-    //             'description' => $channel->description,
-    //             'type' => 'channel'
-    //         ];
-    //     }
-
-    //     // 3. Get highlights if requested
-    //     if ($request->boolean('highlight')) {
-    //         foreach (
-    //             Highlight::with('channel')
-    //                 ->orderBy('created_at', 'desc')
-    //                 ->get() as $highlight
-    //         ) {
-    //             $response[] = [
-    //                 'id' => $highlight->id,
-    //                 'name' => $highlight->title,
-    //                 'image' => asset('storage/' . $highlight->thumbnail),
-    //                 'description' => $highlight->description,
-    //                 'type' => 'highlight',
-    //                 'channel_id' => $highlight->channel->id,
-    //                 'channel_name' => $highlight->channel->name
-    //             ];
-    //         }
-    //     }
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'Filter results fetched successfully',
-    //         'data' => $response
-    //     ]);
-    // }
 
     public function filterData(Request $request)
     {
