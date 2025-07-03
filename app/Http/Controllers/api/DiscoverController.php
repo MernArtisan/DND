@@ -574,7 +574,9 @@ class DiscoverController extends Controller
                 'slug' => $article->slug,
                 'short_description' => Str::limit(strip_tags($article->description), 150),
                 'full_description' => $article->description,
-                'image' => asset($article->images ?? null),
+                'images' => $article->images->map(function ($img) {
+                    return asset($img->image);
+                }),
                 'created_at' => $article->created_at->format('Y-m-d'),
             ];
         });
