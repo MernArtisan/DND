@@ -113,4 +113,35 @@ class SubscriptionControler extends Controller
             ]
         );
     }
+
+    public function GetMySubscription()
+    {
+        $user = Auth::user();
+
+        $subscription = UserSubscription::with('plan')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->first();
+
+        if (!$subscription) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No subscription found for this user.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'My Subscription',
+            'data' => [
+                'plan_name' => $subscription->plan->name,
+                'start_date' => $subscription->start_date,
+                'end_date' => $subscription->end_date,
+                'is_active' => $subscription->is_active,
+                'price' => $subscription->plan->price,
+                'billing_cycle' => $subscription->plan->billing_cycle,
+                'features' => json_decode($subscription->plan->features),
+            ]
+        ]);
+    }
 }

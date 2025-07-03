@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Models\Category;
 use App\Models\Like;
+use App\Models\User;
 use App\Models\Banner;
 use App\Models\Stream;
 use App\Models\Unlike;
+use App\Models\Article;
 use App\Models\Channel;
+use App\Models\Category;
 use App\Models\Highlight;
 use App\Helpers\ApiResponse;
+use App\Models\UserSubscription;
 use Illuminate\Http\Request;
+use App\Models\SubscriptionPlan;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\SubscriptionPlan;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class DiscoverController extends Controller
 {
@@ -561,4 +564,26 @@ class DiscoverController extends Controller
             'stream' => ApiResponse::transform($stream),
         ]);
     }
+
+    public function GetArticals()
+    {
+        $articles = Article::with('images')->orderBy('created_at', 'desc')->get()->map(function ($article) {
+            return [
+                'id' => $article->id,
+                'name' => $article->name,
+                'slug' => $article->slug,
+                'short_description' => Str::limit(strip_tags($article->description), 150),
+                'full_description' => $article->description,
+                'image' => asset($article->images->first()?->image ?? null),
+                'created_at' => $article->created_at->format('Y-m-d'),
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $articles
+        ]);
+    }
+
+   
 }

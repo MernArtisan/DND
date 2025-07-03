@@ -67,4 +67,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/subscriptions-plans', [App\Http\Controllers\api\SubscriptionControler::class, 'subscriptionsPlans']);
     Route::post('/subscribe/{id}', [App\Http\Controllers\api\SubscriptionControler::class, 'subcribeplan']);
+    Route::get('/get-my-subscription',[App\Http\Controllers\api\SubscriptionControler::class, 'GetMySubscription']);
+    Route::get('/articals', [App\Http\Controllers\api\DiscoverController::class, 'GetArticals']);
 });
