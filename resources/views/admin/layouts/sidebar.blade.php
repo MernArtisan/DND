@@ -105,11 +105,25 @@
                 <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages"
                     class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-files"></i></span>
-                    <span class="menu-text">Streamer<br> Managemenet</span>
+                    <span class="menu-text">Users<br> Managemenet</span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarPages">
                     <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.user-list.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-users"></i></span> {{-- Best match for Users
+                                --}}
+                                <span class="menu-text"> Users </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('admin.user-streamer.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-microphone"></i></span> {{-- Better than folder
+                                for Streamer --}}
+                                <span class="menu-text"> Streamer </span>
+                            </a>
+                        </li>
                         <li class="side-nav-item">
                             <a href="{{ route('admin.streams') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-video"></i></span>
@@ -117,20 +131,14 @@
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a href="{{ route('admin.user-streamer.index') }}" class="side-nav-link">
-                                <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
-                                <span class="menu-text"> Streamer </span>
+                            <a href="{{ route('admin.subscribers.index') }}" class="side-nav-link">
+                                <span class="menu-icon"><i class="ti ti-user-check"></i></span>
+                                <span class="menu-text"> Subscribers </span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="{{ route('admin.user-list.index') }}" class="side-nav-link">
-                                <span class="menu-icon"><i class="ti ti-folder-filled"></i></span>
-                                <span class="menu-text"> Users </span>
-                            </a>
-                        </li>
-
                     </ul>
                 </div>
+
             </li>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPagesError" aria-expanded="false"

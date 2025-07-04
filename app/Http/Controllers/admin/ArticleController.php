@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\Article;
+use App\Models\Newsletter;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ArticleImages;
+use App\Mail\ArticlePublishedMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,7 +42,7 @@ class ArticleController extends Controller
                 'name' => 'required|string|max:255',
                 'description' => 'nullable',
                 'images' => 'required|array',
-                'images.*' => 'image|mimes:png,jpg,jpeg|max:10240',
+                'images.*' => 'image|mimes:png,jpg,jpeg',
             ]);
 
             if ($validator->fails()) {
@@ -66,6 +69,15 @@ class ArticleController extends Controller
                 }
             }
 
+
+            // Send article mail to all newsletter subscribers
+            $subscribers = Newsletter::pluck('email')->toArray();
+
+            foreach ($subscribers as $email) {
+                Mail::to($email)->send(new ArticlePublishedMail($article));
+            }
+
+
             return redirect()->route('admin.articles.index')
                 ->with('success', 'Article created successfully.');
         } catch (\Exception $e) {
@@ -81,7 +93,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified resource.`
      */
     public function edit($encryptedId)
     {
@@ -128,6 +140,13 @@ class ArticleController extends Controller
                         'image' => 'storage/' . $path,
                     ]);
                 }
+            }
+
+            // Send article mail to all newsletter subscribers
+            $subscribers = Newsletter::pluck('email')->toArray();
+
+            foreach ($subscribers as $email) {
+                Mail::to($email)->send(new ArticlePublishedMail($article));
             }
 
             return redirect()->route('admin.articles.index')
