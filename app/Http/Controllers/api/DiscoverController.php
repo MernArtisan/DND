@@ -26,7 +26,7 @@ class DiscoverController extends Controller
 {
     public function banners()
     {
-        $banners = Banner::whereIn('platform', ['both', 'app'])->get()->map(function ($banner) {
+        $banners = Banner::where('platform', ['both', 'app'])->get()->map(function ($banner) {
             return [
                 'id' => $banner->id,
                 'title' => $banner->title,
