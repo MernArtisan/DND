@@ -87,8 +87,8 @@ class HighlightController extends Controller
         DB::beginTransaction();
 
         try {
-            $thumbnailPath = $request->file('thumbnail')?->store('highlights', 'public');
-            $videoPath = $request->file('video')?->store('highlights', 'public');
+            $thumbnailPath = $request->file('thumbnail')->store('highlights', 'public');
+            $videoPath = $request->file('video')->store('highlights', 'public');
 
             $highlight = Highlight::create([
                 'channel_id' => $request->channel_id,
@@ -97,6 +97,9 @@ class HighlightController extends Controller
                 'thumbnail'  => $thumbnailPath,
                 'description' => $request->description,
             ]);
+
+            $channel = Channel::find($request->channel_id);
+            $channelImage = $channel && $channel->image ? asset('storage/' . $channel->image) : null;
 
             $users = User::select('id')->get();
 
@@ -107,6 +110,7 @@ class HighlightController extends Controller
                     'seen' => false,
                     'created_at' => now(),
                     'updated_at' => now(),
+                    'channel_image' => $channelImage, // ✅ If this column exists
                 ]);
             }
 
@@ -120,6 +124,7 @@ class HighlightController extends Controller
             return ApiResponse::error('Failed to create highlight.', $e->getMessage());
         }
     }
+
     public function update(Request $request, $id)
     {
         $request->validate([
