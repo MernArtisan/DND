@@ -4,15 +4,16 @@ namespace App\Http\Controllers\api;
 
 use Exception;
 use App\Models\Stream;
+use App\Models\Channel;
 use App\Models\Category;
 use App\Helpers\ApiResponse;
-use Illuminate\Http\Request;
 // use App\Helpers\StreamHelper;
+use Illuminate\Http\Request;
 use App\Services\StreamService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStreamRequest;
-use App\Models\Channel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StreamController extends Controller
 {
@@ -39,7 +40,7 @@ class StreamController extends Controller
     public function addStream(StoreStreamRequest $request)
     {
         $stream = $this->streamService->create($request->validated(), $request->file('image'));
- 
+
         return ApiResponse::success('Stream created successfully.', [
             'stream' => ApiResponse::transform($stream)
         ]);
@@ -151,6 +152,47 @@ class StreamController extends Controller
         return ApiResponse::success('My streams fetched successfully.', [
             'stream' => $stream->map([ApiResponse::class, 'transform']),
             'channels' => $channels
+        ]);
+    }
+
+    public function updateScoreCard(Request $request, $id)
+    {
+        // Validate input
+        $request->validate([
+            'score_card' => 'required',
+        ]);
+
+        try {
+            // Try to find the stream
+            $stream = Stream::findOrFail($id);
+
+            // Update score_card
+            $stream->score_card = $request->score_card;
+            $stream->save();
+
+            // Return success response
+            return response()->json([
+                'status'  => true,
+                'message' => 'Score card updated successfully.',
+                'data'    => $stream
+            ]);
+        } catch (ModelNotFoundException $e) {
+            // Return proper error message if ID not found
+            return response()->json([
+                'status'  => false,
+                'message' => 'Invalid Stream ID. Score card could not be updated.',
+            ], 404);
+        }
+    }
+
+    public function getScoreCard()
+    {
+        $streams = Stream::where('status', 'live')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Live score cards fetched successfully.',
+            'data' => $streams
         ]);
     }
 }

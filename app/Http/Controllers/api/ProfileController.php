@@ -135,47 +135,7 @@ class ProfileController extends Controller
     }
 
 
-    public function updateScoreCard(Request $request, $id)
-    {
-        // Validate input
-        $request->validate([
-            'score_card' => 'required',
-        ]);
-
-        try {
-            // Try to find the stream
-            $stream = Stream::findOrFail($id);
-
-            // Update score_card
-            $stream->score_card = $request->score_card;
-            $stream->save();
-
-            // Return success response
-            return response()->json([
-                'status'  => true,
-                'message' => 'Score card updated successfully.',
-                'data'    => $stream
-            ]);
-        } catch (ModelNotFoundException $e) {
-            // Return proper error message if ID not found
-            return response()->json([
-                'status'  => false,
-                'message' => 'Invalid Stream ID. Score card could not be updated.',
-            ], 404);
-        }
-    }
-
-    public function getScoreCard()
-    {
-        $streams = Stream::where('status', 'live')->get();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Live score cards fetched successfully.',
-            'data' => $streams
-        ]);
-    }
-
+  
     public function checkSubscription($user_id)
     {
         try {
