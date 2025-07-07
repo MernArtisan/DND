@@ -79,17 +79,19 @@ class HighlightController extends Controller
         $request->validate([
             'channel_id'   => 'required|exists:channels,id',
             'title'        => 'required|string|max:255',
-            'video'        => 'required',
-            'thumbnail'    => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'video'        => 'required|file',
+            'thumbnail'    => 'required|image',
             'description'  => 'required|string|max:1000',
         ]);
 
         DB::beginTransaction();
 
         try {
-            $thumbnailPath = $request->file('thumbnail')->store('highlights', 'public');
-            $videoPath = $request->file('video')->store('highlights', 'public');
+            // ✅ Save files
+            $thumbnailPath = $request->file('thumbnail')->store('highlights', 'public'); // returns: highlights/xyz.jpg
+            $videoPath = $request->file('video')->store('highlights', 'public');         // returns: highlights/xyz.mp4
 
+            // ✅ Create highlight
             $highlight = Highlight::create([
                 'channel_id' => $request->channel_id,
                 'title'      => $request->title,
@@ -98,9 +100,13 @@ class HighlightController extends Controller
                 'description' => $request->description,
             ]);
 
+            // ✅ Get channel image (relative path)
             $channel = Channel::find($request->channel_id);
-            $channelImage = $channel && $channel->image ? asset('storage/' . $channel->image) : null;
+            $channelImage = $channel->logo;
 
+            // return $channelImage;
+
+            // ✅ Notify all users
             $users = User::select('id')->get();
 
             foreach ($users as $user) {
@@ -108,9 +114,9 @@ class HighlightController extends Controller
                     'user_id' => $user->id,
                     'message' => 'New highlight published: ' . $highlight->title,
                     'seen' => false,
+                    'image' => $channelImage,
                     'created_at' => now(),
                     'updated_at' => now(),
-                    'channel_image' => $channelImage, // ✅ If this column exists
                 ]);
             }
 

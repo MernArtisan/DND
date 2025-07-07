@@ -10,6 +10,7 @@ class Notification extends Model
         'user_id',
         'message',
         'seen',
+        'image'
     ];
 
     public function user()
