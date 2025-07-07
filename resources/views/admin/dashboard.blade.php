@@ -16,24 +16,24 @@
 
             <div class="row">
                 <div class="col">
-                    <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 text-center">
+                    <div class="row row-cols-xxl-3 row-cols-md-2 row-cols-1 text-center">
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Orders</h5>
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Subscribtions
+                                        Active</h5>
                                     <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                         <div class="user-img fs-42 flex-shrink-0">
                                             <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                                <iconify-icon
-                                                    icon="solar:case-round-minimalistic-bold-duotone"></iconify-icon>
+                                                <iconify-icon icon="mdi:account-check"></iconify-icon>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">687.3k</h3>
+                                        <h3 class="mb-0 fw-bold">{{$user_subscription_active}}</h3>
                                     </div>
-                                    <p class="mb-0 text-muted">
+                                    {{-- <p class="mb-0 text-muted">
                                         <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 9.19%</span>
                                         <span class="text-nowrap">Since last month</span>
-                                    </p>
+                                    </p> --}}
                                 </div>
                             </div>
                         </div>
@@ -41,19 +41,20 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Returns</h5>
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Subscribtions
+                                        Expired</h5>
                                     <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                         <div class="user-img fs-42 flex-shrink-0">
                                             <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                                <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
+                                                <iconify-icon icon="mdi:account-off"></iconify-icon>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">9.62k</h3>
+                                        <h3 class="mb-0 fw-bold">{{$user_subscription_inactive}}</h3>
                                     </div>
-                                    <p class="mb-0 text-muted">
+                                    {{-- <p class="mb-0 text-muted">
                                         <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 26.87%</span>
                                         <span class="text-nowrap">Since last month</span>
-                                    </p>
+                                    </p> --}}
                                 </div>
                             </div>
                         </div><!-- end col -->
@@ -61,20 +62,20 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Avg. Sales Earnings
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Streamers
                                     </h5>
                                     <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                         <div class="user-img fs-42 flex-shrink-0">
                                             <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                                <iconify-icon icon="solar:wallet-money-bold-duotone"></iconify-icon>
+                                                <iconify-icon icon="mdi:video-account"></iconify-icon>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">$98.24 <small class="text-muted">USD</small></h3>
+                                        <h3 class="mb-0 fw-bold">{{$user_streamers}} </h3>
                                     </div>
-                                    <p class="mb-0 text-muted">
+                                    {{-- <p class="mb-0 text-muted">
                                         <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 3.51%</span>
                                         <span class="text-nowrap">Since last month</span>
-                                    </p>
+                                    </p> --}}
                                 </div>
                             </div>
                         </div><!-- end col -->
@@ -82,26 +83,67 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Number of Visits
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Number of Channels
                                     </h5>
                                     <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
                                         <div class="user-img fs-42 flex-shrink-0">
                                             <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                                <iconify-icon icon="solar:eye-bold-duotone"></iconify-icon>
+                                                <iconify-icon icon="mdi:youtube-tv"></iconify-icon>
                                             </span>
                                         </div>
-                                        <h3 class="mb-0 fw-bold">87.94M</h3>
+                                        <h3 class="mb-0 fw-bold">{{$channels_count}}</h3>
                                     </div>
-                                    <p class="mb-0 text-muted">
+                                    {{-- <p class="mb-0 text-muted">
                                         <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 1.05%</span>
                                         <span class="text-nowrap">Since last month</span>
-                                    </p>
+                                    </p> --}}
                                 </div>
                             </div>
                         </div><!-- end col -->
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Paid Users
+                                    </h5>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                        <div class="user-img fs-42 flex-shrink-0">
+                                            <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                <iconify-icon icon="mdi:account-cash"></iconify-icon>
+                                            </span>
+                                        </div>
+                                        <h3 class="mb-0 fw-bold">{{$user_subscriptions}}</h3>
+                                    </div>
+                                    {{-- <p class="mb-0 text-muted">
+                                        <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 1.05%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> --}}
+                                </div>
+                            </div>
+                        </div><!-- end col -->
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Users
+                                    </h5>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                        <div class="user-img fs-42 flex-shrink-0">
+                                            <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                <iconify-icon icon="mdi:account-group"></iconify-icon>
+                                            </span>
+                                        </div>
+                                        <h3 class="mb-0 fw-bold">{{$users}}</h3>
+                                    </div>
+                                    {{-- <p class="mb-0 text-muted">
+                                        <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 1.05%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> --}}
+                                </div>
+                            </div>
+                        </div><!-- end col -->
+
                     </div><!-- end row -->
 
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-xxl-4">
                             <div class="card">
                                 <div
@@ -166,77 +208,120 @@
                                     </div>
                                 </div>
                             </div> <!-- end card-->
-                        </div> <!-- end col-->
+                        </div> <!-- end col--> --}}
 
-                        <div class="col-xxl-8">
+                        <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="header-title">Overview</h4>
-                                    <div class="dropdown">
+                                    <h4 class="header-title">Monthly Revenue Chart</h4>
+                                    {{-- <div class="dropdown">
                                         <a href="#" class="dropdown-toggle drop-arrow-none card-drop"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="ti ti-dots-vertical"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                            <a href="javascript:void(0);" class="dropdown-item">Refresh</a>
+                                            <a href="javascript:void(0);" class="dropdown-item">Export</a>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
-
-                                <div class="bg-danger bg-opacity-10">
-                                    <div class="row text-center">
-                                        <div class="col-md-3 col-6">
-                                            <p class="text-muted mt-3 mb-1">Revenue</p>
-                                            <h4 class="mb-3">
-                                                <span class="ti ti-square-rounded-arrow-down text-success me-1"></span>
-                                                <span>$29.5k</span>
-                                            </h4>
-                                        </div>
-                                        <div class="col-md-3 col-6">
-                                            <p class="text-muted mt-3 mb-1">Expenses</p>
-                                            <h4 class="mb-3">
-                                                <span class="ti ti-square-rounded-arrow-up text-danger me-1"></span>
-                                                <span>$15.07k</span>
-                                            </h4>
-                                        </div>
-                                        <div class="col-md-3 col-6">
-                                            <p class="text-muted mt-3 mb-1">Investment</p>
-                                            <h4 class="mb-3">
-                                                <span class="ti ti-chart-infographic me-1"></span>
-                                                <span>$3.6k</span>
-                                            </h4>
-                                        </div>
-                                        <div class="col-md-3 col-6">
-                                            <p class="text-muted mt-3 mb-1">Savings</p>
-                                            <h4 class="mb-3">
-                                                <span class="ti ti-pig me-1"></span>
-                                                <span>$6.9k</span>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="card-body pt-0">
                                     <div dir="ltr">
-                                        <div id="revenue-chart" class="apex-charts"
-                                            data-colors="#6ac75a,#313a46,#ce7e7e,#669776"></div>
+                                        <div class="d-flex align-items-center gap-2 mb-3">
+                                            <select id="filter-month" class="form-select w-auto">
+                                                <option value="">All Months</option>
+                                                @foreach(range(1, 12) as $m)
+                                                    <option value="{{ $m }}" {{ now()->month == $m ? 'selected' : '' }}>
+                                                        {{ \Carbon\Carbon::create()->month($m)->format('F') }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                            <select id="filter-year" class="form-select w-auto">
+                                                <option value="">All Years</option>
+                                                @for ($y = now()->year; $y >= 2020; $y--)
+                                                    <option value="{{ $y }}" {{ now()->year == $y ? 'selected' : '' }}>{{ $y }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+
+                                            <button id="filter-btn" class="btn btn-primary">Filter</button>
+                                            <button id="reset-btn" class="btn btn-dark">Reset</button>
+                                        </div>
+                                        <div id="monthly-revenue-chart" style="min-height: 350px;">
+                                        </div>
                                     </div>
                                 </div>
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
+                            </div>
+                        </div>
+
                     </div>
 
-                </div> 
+                </div>
             </div> <!-- end row-->
 
-        </div>      
+        </div>
 
     </div>
+    <script>
+        let chart;
+
+        function loadChartData(month = '', year = '') {
+            fetch(`{{ route('admin.dashboard.chart-data') }}?month=${month}&year=${year}`)
+                .then(response => response.json())
+                .then(data => {
+                    const options = {
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        series: [{
+                            name: 'Revenue',
+                            data: data.totals
+                        }],
+                        xaxis: {
+                            categories: data.labels
+                        },
+                        colors: ['#f0dcb1'],
+                        dataLabels: {
+                            enabled: true,
+                            formatter: val => "$" + parseFloat(val).toFixed(2),
+                            style: { colors: ['#000'] }
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: val => "$" + parseFloat(val).toFixed(2)
+                            }
+                        }
+                    };
+
+                    if (chart) {
+                        chart.updateOptions(options);
+                    } else {
+                        chart = new ApexCharts(document.querySelector("#monthly-revenue-chart"), options);
+                        chart.render();
+                    }
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const month = document.getElementById('filter-month').value;
+            const year = document.getElementById('filter-year').value;
+            loadChartData(month, year); // 👈 load default current month/year
+
+            document.getElementById('filter-btn').addEventListener('click', function () {
+                const month = document.getElementById('filter-month').value;
+                const year = document.getElementById('filter-year').value;
+                loadChartData(month, year);
+            });
+
+            document.getElementById('reset-btn').addEventListener('click', function () {
+                document.getElementById('filter-month').value = '{{ now()->month }}';
+                document.getElementById('filter-year').value = '{{ now()->year }}';
+                loadChartData({{ now()->month }}, {{ now()->year }});
+            });
+        });
+
+    </script>
 @endsection

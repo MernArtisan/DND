@@ -236,9 +236,15 @@
                         <li class="side-nav-item">
                             <a href="{{ route('admin.inquiries.index') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-user-question"></i></span>
-                                <span class="menu-text"> inquiries </span>
+                                <span class="menu-text">
+                                    Inquiries
+                                    @if($inquiries_unread > 0)
+                                        <span class="badge bg-danger ms-2">{{ $inquiries_unread }}</span>
+                                    @endif
+                                </span>
                             </a>
                         </li>
+
                         <li class="side-nav-item">
                             <a href="{{ route('admin.subscription.index') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-video"></i></span>
@@ -248,7 +254,11 @@
                         <li class="side-nav-item">
                             <a href="{{ route('admin.newsletter.index') }}" class="side-nav-link">
                                 <span class="menu-icon"><i class="ti ti-news"></i></span>
-                                <span class="menu-text"> Newsletter </span>
+                                <span class="menu-text"> Newsletter
+                                    @if($newsletter > 0)
+                                        <span class="badge bg-danger ms-2">{{ $newsletter }}</span>
+                                    @endif
+                                </span>
                             </a>
                         </li>
                         <li class="side-nav-item">

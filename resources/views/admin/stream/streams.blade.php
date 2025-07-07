@@ -20,17 +20,24 @@
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="pending-tab" data-bs-toggle="tab"
                                             data-bs-target="#pending" type="button" role="tab" aria-controls="pending"
-                                            aria-selected="true">Pending</button>
+                                            aria-selected="true">Pending
+                                            @if($streams_count_pending > 0)
+                                                <span class="badge bg-danger ms-1">{{ $streams_count_pending }}</span>
+                                            @endif</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="live-tab" data-bs-toggle="tab" data-bs-target="#live"
-                                            type="button" role="tab" aria-controls="live"
-                                            aria-selected="false">Live</button>
+                                            type="button" role="tab" aria-controls="live" aria-selected="false">Live
+                                            @if($streams_count_live > 0)
+                                                <span class="badge bg-danger ms-1">{{ $streams_count_live }}</span>
+                                            @endif</button></button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="ended-tab" data-bs-toggle="tab" data-bs-target="#ended"
-                                            type="button" role="tab" aria-controls="ended"
-                                            aria-selected="false">Ended</button>
+                                            type="button" role="tab" aria-controls="ended" aria-selected="false">Ended
+                                            @if($streams_count_ended > 0)
+                                                <span class="badge bg-danger ms-1">{{ $streams_count_ended }}</span>
+                                            @endif</button></button>
                                     </li>
                                 </ul>
 
@@ -40,9 +47,8 @@
                                     @endphp
 
                                     @foreach ($statuses as $status)
-                                        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
-                                            id="{{ $status }}" role="tabpanel"
-                                            aria-labelledby="{{ $status }}-tab">
+                                        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $status }}"
+                                            role="tabpanel" aria-labelledby="{{ $status }}-tab">
                                             @php
                                                 $filtered = $streams->where('status', $status);
                                             @endphp
@@ -54,8 +60,7 @@
                                                     <div class="card mb-3">
                                                         <div class="card-body d-flex align-items-center">
                                                             <img src="{{ $stream->image ? asset('storage/' . $stream->image) : asset('default-man.png') }}"
-                                                                alt="Stream Image" class="me-3 rounded" width="100"
-                                                                height="80">
+                                                                alt="Stream Image" class="me-3 rounded" width="100" height="80">
                                                             <div>
                                                                 <h5 class="mb-1">{{ $stream->title }}</h5>
                                                                 <p class="mb-0">

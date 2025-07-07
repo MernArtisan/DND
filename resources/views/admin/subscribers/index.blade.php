@@ -85,6 +85,8 @@
                                                 <th>Plan</th>
                                                 <th>Price</th>
                                                 <th>Plan Cycle</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
                                                 <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -98,6 +100,8 @@
                                                     <td>{{ $item->plan->name}}</td>
                                                     <td>{{ $item->plan->price}}</td>
                                                     <td>{{ $item->plan->billing_cycle}}</td>
+                                                    <td>{{$item->start_date}}</td>
+                                                    <td>{{$item->end_date}}</td>
                                                     <td>
                                                         <span
                                                             class="btn btn-sm {{ $item->plan->is_active ? 'btn-success' : 'btn-danger' }}">
@@ -156,55 +160,55 @@
                         const features = JSON.parse(p.features || '[]');
 
                         let html = `
-                            <div class="mb-4">
-                                <h5>User Information</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><strong>Name:</strong> ${u.name}</p>
-                                        <p><strong>Email:</strong> ${u.email}</p>
-                                        <p><strong>Phone:</strong> ${u.phone ?? '-'}</p>
-                                        <p><strong>Location:</strong> ${u.city ?? '-'}, ${u.state ?? '-'}, ${u.country ?? '-'}</p>
+                                <div class="mb-4">
+                                    <h5>User Information</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Name:</strong> ${u.name}</p>
+                                            <p><strong>Email:</strong> ${u.email}</p>
+                                            <p><strong>Phone:</strong> ${u.phone ?? '-'}</p>
+                                            <p><strong>Location:</strong> ${u.city ?? '-'}, ${u.state ?? '-'}, ${u.country ?? '-'}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <hr>
+                                <hr>
 
-                            <h5 class="mb-3">Plan Information</h5>
-                            <div class="row justify-content-center">
-                                <div class="col-md-10">
-                                    <div class="pricing-card ${p.name.toLowerCase() === 'pro' ? 'popular' : ''}">
-                                        ${p.name.toLowerCase() === 'pro' ? '<div class="ribbon">MOST POPULAR</div>' : ''}
+                                <h5 class="mb-3">Plan Information</h5>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-10">
+                                        <div class="pricing-card ${p.name.toLowerCase() === 'pro' ? 'popular' : ''}">
+                                            ${p.name.toLowerCase() === 'pro' ? '<div class="ribbon">MOST POPULAR</div>' : ''}
 
-                                        <div class="pricing-header">
-                                            <div class="title">${p.name}</div>
-                                            <div class="subtitle">${p.description ?? ''}</div>
-                                        </div>
+                                            <div class="pricing-header">
+                                                <div class="title">${p.name}</div>
+                                                <div class="subtitle">${p.description ?? ''}</div>
+                                            </div>
 
-                                        <div class="pricing-price">
-                                            $${p.price}
-                                            <div class="duration">per ${p.billing_cycle} </div>
-                                            <div class="duration">(${p.duration_unit}) </div>
+                                            <div class="pricing-price">
+                                                $${p.price}
+                                                <div class="duration">per ${p.billing_cycle} </div>
+                                                <div class="duration">(${p.duration_unit}) </div>
 
-                                        </div>
+                                            </div>
 
-                                        <div class="pricing-features">
-                                            <ul>`;
+                                            <div class="pricing-features">
+                                                <ul>`;
                         features.forEach(f => {
                             html += `<li><i class="fas fa-check text-success"></i> ${f}</li>`;
                         });
                         html += `       </ul>
-                                        </div>
+                                            </div>
 
-                                        <div class="pricing-footer mt-3">
-                                            <span class="badge ${p.is_active ? 'bg-success' : 'bg-danger'}">
-                                                ${p.is_active ? 'Active' : 'Expired'}
-                                            </span>
+                                            <div class="pricing-footer mt-3">
+                                                <span class="badge ${p.is_active ? 'bg-success' : 'bg-danger'}">
+                                                    ${p.is_active ? 'Active' : 'Expired'}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
 
                         $('#subscriberDetails').html(html);
                         $('#subscriberModal').modal('show');

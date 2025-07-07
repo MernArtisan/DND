@@ -11,9 +11,18 @@ class InquiryController extends Controller
 
     public function index()
     {
-        $inquiries = Inquiry::all();
+        $inquiries = Inquiry::latest()->get();
         return view('admin.inquiry.index', [
-            'inquiries' => $inquiries
+            'inquiries' => $inquiries,
         ]);
+    }
+
+    public function markAsRead($id)
+    {
+        $inquiry = Inquiry::findOrFail($id);
+        if (!$inquiry->is_read) {
+            $inquiry->update(['is_read' => 1]);
+        }
+        return response()->json(['message' => 'Marked as read']);
     }
 }
