@@ -57,5 +57,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/subscribers', [App\Http\Controllers\admin\SubscribersController::class, 'index'])->name('subscribers.index');
     Route::get('/subscribers/details', [App\Http\Controllers\admin\SubscribersController::class, 'details'])->name('subscribers.details');
+    Route::post('/inquiries/{id}/mark-read', [App\Http\Controllers\admin\InquiryController::class, 'markAsRead']);
+    Route::get('/admin/dashboard/chart-data', [App\Http\Controllers\admin\DashboardControler::class, 'getChartData'])->name('dashboard.chart-data');
+
+
   });
 });

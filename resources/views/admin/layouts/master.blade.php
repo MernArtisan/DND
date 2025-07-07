@@ -42,6 +42,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 
 
+
     @yield('scripts')
 
     <script>
