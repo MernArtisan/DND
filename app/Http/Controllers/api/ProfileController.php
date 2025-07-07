@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\api;
 
+use Exception;
 use App\Models\User;
+use App\Models\Stream;
 use App\Models\Content;
 use Illuminate\Http\Request;
+use App\Models\UserSubscription;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileController extends Controller
 {
@@ -53,7 +57,7 @@ class ProfileController extends Controller
 
     public function terms()
     {
-        $content = Content::where('name', 'terms')->first();
+        $content = Content::where('name', 'Terms Condition')->first();
         if (!$content) {
             return response()->json([
                 'status' => false,
@@ -128,5 +132,78 @@ class ProfileController extends Controller
             'status' => true,
             'message' => 'FCM token updated successfully',
         ]);
+    }
+
+
+    public function updateScoreCard(Request $request, $id)
+    {
+        // Validate input
+        $request->validate([
+            'score_card' => 'required',
+        ]);
+
+        try {
+            // Try to find the stream
+            $stream = Stream::findOrFail($id);
+
+            // Update score_card
+            $stream->score_card = $request->score_card;
+            $stream->save();
+
+            // Return success response
+            return response()->json([
+                'status'  => true,
+                'message' => 'Score card updated successfully.',
+                'data'    => $stream
+            ]);
+        } catch (ModelNotFoundException $e) {
+            // Return proper error message if ID not found
+            return response()->json([
+                'status'  => false,
+                'message' => 'Invalid Stream ID. Score card could not be updated.',
+            ], 404);
+        }
+    }
+
+    public function getScoreCard()
+    {
+        $streams = Stream::where('status', 'live')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Live score cards fetched successfully.',
+            'data' => $streams
+        ]);
+    }
+
+    public function checkSubscription($user_id)
+    {
+        try {
+            // Check if user exists
+            $user = User::findOrFail($user_id);
+            // Check if active subscription exists
+            $subscription = UserSubscription::where('user_id', $user_id)
+                ->where('is_active', 1)
+                ->first();
+            return response()->json([
+                'status'  => true,
+                'message' => 'Subscription status retrieved successfully.',
+                'data'    => [
+                    'user_id' => $user_id,
+                    'subscription_status' => $subscription ? 'paid' : 'unpaid'
+                ]
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'User not found.',
+            ], 404);
+        } catch (Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'An error occurred while checking subscription.',
+                'error'   => $e->getMessage() // Optional: Remove in production
+            ], 500);
+        }
     }
 }

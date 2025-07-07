@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/save-video', [App\Http\Controllers\api\DiscoverController::class, 'saveVideo']);
     Route::get('/saved-videos', [App\Http\Controllers\api\DiscoverController::class, 'getMySavedVideos']);
     Route::post('/highlight-count-increment', [App\Http\Controllers\api\DiscoverController::class, 'incrementHighlightView']);
-
+    // 
     Route::get('/hightlights-specific/{id}', [App\Http\Controllers\api\DiscoverController::class, 'hightlightsSpecific']);
     Route::post('/highlights-specific/{id}/comment', [App\Http\Controllers\api\DiscoverController::class, 'addComment']);
     Route::post('/highlights-specific/{id}/like', [App\Http\Controllers\api\DiscoverController::class, 'likeUnlikeHighlight']);
@@ -67,6 +67,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/subscriptions-plans', [App\Http\Controllers\api\SubscriptionControler::class, 'subscriptionsPlans']);
     Route::post('/subscribe/{id}', [App\Http\Controllers\api\SubscriptionControler::class, 'subcribeplan']);
-    Route::get('/get-my-subscription',[App\Http\Controllers\api\SubscriptionControler::class, 'GetMySubscription']);
+    Route::get('/get-my-subscription', [App\Http\Controllers\api\SubscriptionControler::class, 'GetMySubscription']);
     Route::get('/articals', [App\Http\Controllers\api\DiscoverController::class, 'GetArticals']);
+
+    Route::get('/get-notifications', [App\Http\Controllers\api\DiscoverController::class, 'GetNotifications']);
+    Route::post('/mark-all-seen', [App\Http\Controllers\api\DiscoverController::class, 'markAllSeen']);
+    Route::post('/inquiry', [App\Http\Controllers\api\DiscoverController::class, 'submit_inquiry']);
+    Route::post('/score-card/{id}', [App\Http\Controllers\api\StreamController::class, 'updateScoreCard']);
+    Route::get('/score-card', [App\Http\Controllers\api\StreamController::class, 'getScoreCard']);
+    Route::get('/check-subscription/{user_id}', [App\Http\Controllers\api\ProfileController::class, 'checkSubscription']);
 });

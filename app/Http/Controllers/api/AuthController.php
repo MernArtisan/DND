@@ -15,11 +15,60 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+    // public function signin(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required|string|min:6',
+    //     ]);
+
+    //     $user = User::where('email', $request->email)->first();
+
+    //     if (!$user || !Hash::check($request->password, $user->password)) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Invalid email or password.',
+    //         ]);
+    //     }
+
+    //     // Generate OTP
+    //     $otp = rand(1000, 9999);
+
+    //     DB::table('user_otps')->updateOrInsert(
+    //         ['user_id' => $user->id],
+    //         ['otp' => $otp, 'created_at' => now()]
+    //     );
+
+    //     // Send OTP via email
+    //     try {
+    //         Mail::raw("Your login OTP is: $otp", function ($msg) use ($user) {
+    //             $msg->to($user->email)->subject('Your OTP Code');
+    //         });
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'OTP sent successfully to your email.',
+    //             'user_id' => $user->id,
+    //             'otp' => $otp
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         Log::error($e->getMessage());
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Failed to send OTP.',
+    //             'error' => $e->getMessage()
+    //         ]);
+    //     }
+    // }
+
+
+
     public function signin(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:6',
+            'is_third_party' => 'nullable|boolean',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -31,7 +80,39 @@ class AuthController extends Controller
             ]);
         }
 
-        // Generate OTP
+        // âœ… Skip OTP if is_third_party is true
+        if ($request->boolean('is_third_party')) {
+            $user->last_login_at = now();
+            $user->save();
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'message' => $user->name . ' login successful (third-party)',
+                'token' => $token,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                    'phone_code' => $user->phone_code,
+                    'phone' => $user->phone,
+                    'bio' => $user->bio,
+                    'country' => $user->country,
+                    'state' => $user->state,
+                    'city' => $user->city,
+                    'zip_code' => $user->zip_code,
+                    'email_verified_at' => $user->email_verified_at,
+                    'gender' => $user->gender,
+                    'address' => $user->address,
+                    'image' => $user->image ? asset($user->image) : asset('default-man.png'),
+                    'last_login_at' => $user->last_login_at,
+                ]
+            ]);
+        }
+
+        // ðŸ”’ Proceed with OTP for non-third-party login
         $otp = rand(1000, 9999);
 
         DB::table('user_otps')->updateOrInsert(
@@ -39,7 +120,6 @@ class AuthController extends Controller
             ['otp' => $otp, 'created_at' => now()]
         );
 
-        // Send OTP via email
         try {
             Mail::raw("Your login OTP is: $otp", function ($msg) use ($user) {
                 $msg->to($user->email)->subject('Your OTP Code');
@@ -49,7 +129,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'OTP sent successfully to your email.',
                 'user_id' => $user->id,
-                'otp' => $otp
+                'otp' => $otp // Remove in production
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -146,14 +226,14 @@ class AuthController extends Controller
             'role' => 'required|in:user,streamer',
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'phone_code' => 'required|string',
-            'phone' => 'required|string|unique:users',
+            'phone_code' => 'nullable|string',
+            'phone' => 'nullable|string|unique:users',
             'password' => 'required|confirmed',
-            'country' => 'required|string',
-            'state' => 'required|string',
-            'city' => 'required|string',
-            'address' => 'required|string',
-            'gender' => 'required|in:male,female,other',
+            'country' => 'nullable|string',
+            'state' => 'nullable|string',
+            'city' => 'nullable|string',
+            'address' => 'nullable|string',
+            'gender' => 'nullable|in:male,female,other',
         ]);
     }
     private function createUser(array $data)

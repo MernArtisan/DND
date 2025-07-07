@@ -10,6 +10,7 @@ use App\Models\Unlike;
 use App\Models\Article;
 use App\Models\Channel;
 use App\Models\Category;
+use App\Models\Inquiry;
 use App\Models\Highlight;
 use App\Helpers\ApiResponse;
 use App\Models\UserSubscription;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Models\SubscriptionPlan;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -551,19 +553,42 @@ class DiscoverController extends Controller
         ]);
     }
 
+    // public function getSpecificStream($id)
+    // {
+    //     $stream = Stream::where('id', $id)->first();
+    //     if (!$stream) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Stream not found',
+    //         ], 404);
+    //     }
+    //     return ApiResponse::success(message: 'Stream fetched successfully.', data: [
+    //         'stream' => ApiResponse::transform($stream),
+    //     ]);
+    // }
+
     public function getSpecificStream($id)
     {
         $stream = Stream::where('id', $id)->first();
+
         if (!$stream) {
             return response()->json([
                 'success' => false,
                 'message' => 'Stream not found',
             ], 404);
         }
-        return ApiResponse::success(message: 'Stream fetched successfully.', data: [
-            'stream' => ApiResponse::transform($stream),
-        ]);
+
+        $streamerId = optional(optional($stream->channel)->streamer)->id;
+
+        return ApiResponse::success(
+            message: 'Stream fetched successfully.',
+            data: [
+                'stream'      => ApiResponse::transform($stream),
+                'streamer_id' => $streamerId,
+            ]
+        );
     }
+
 
     public function GetArticals()
     {
@@ -584,5 +609,45 @@ class DiscoverController extends Controller
             'success' => true,
             'data' => $articles
         ]);
+    }
+
+
+    public function GetNotifications()
+    {
+        $notifications = Notification::where('user_id', Auth::id())->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Notification Fetched SuccessFully..',
+            'data' => $notifications
+        ]);
+    }
+
+    public function markAllSeen()
+    {
+        Notification::where('user_id', Auth::id())
+            ->where('seen', false)
+            ->update(['seen' => true]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'All notifications marked as seen.'
+        ]);
+    }
+
+    public function submit_inquiry(Request $request)
+    {
+        $validated = $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'message' => 'required|string',
+        ]);
+
+        $inquiry = Inquiry::create($validated);
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Inquiry submitted successfully',
+            'data'    => $inquiry
+        ], 201);
     }
 }

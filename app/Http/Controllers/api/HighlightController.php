@@ -9,6 +9,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,6 +38,42 @@ class HighlightController extends Controller
         ]);
     }
 
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'channel_id'   => 'required|exists:channels,id',
+    //         'title'        => 'required|string|max:255',
+    //         'video'        => 'required',
+    //         'thumbnail'    => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+    //         'description'  => 'required|string|max:1000',
+    //     ]);
+
+    //     DB::beginTransaction();
+
+    //     try {
+    //         $thumbnailPath = $request->file('thumbnail')?->store('highlights', 'public');
+    //         $videoPath = $request->file('video')?->store('highlights', 'public');
+
+    //         $highlight = Highlight::create([
+    //             'channel_id' => $request->channel_id,
+    //             'title'      => $request->title,
+    //             'video'      => $videoPath,
+    //             'thumbnail'  => $thumbnailPath,
+    //             'description' => $request->description,
+    //         ]);
+
+    //         DB::commit();
+
+    //         return ApiResponse::success('Highlight created successfully.', [
+    //             'highlight' => ApiResponse::highlightResource($highlight)
+    //         ], 201);
+    //     } catch (Throwable $e) {
+    //         DB::rollBack();
+    //         return ApiResponse::error('Failed to create highlight.', $e->getMessage());
+    //     }
+    // }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -61,6 +98,18 @@ class HighlightController extends Controller
                 'description' => $request->description,
             ]);
 
+            $users = User::select('id')->get();
+
+            foreach ($users as $user) {
+                DB::table('notifications')->insert([
+                    'user_id' => $user->id,
+                    'message' => 'New highlight published: ' . $highlight->title,
+                    'seen' => false,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
             DB::commit();
 
             return ApiResponse::success('Highlight created successfully.', [
@@ -71,7 +120,6 @@ class HighlightController extends Controller
             return ApiResponse::error('Failed to create highlight.', $e->getMessage());
         }
     }
-
     public function update(Request $request, $id)
     {
         $request->validate([

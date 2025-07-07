@@ -24,7 +24,8 @@ class Stream extends Model
         'status',
         'location_symbol',
         'team2_symbol',
-        'team1_symbol'
+        'team1_symbol',
+        'score_card'
     ];
 
     public function category()
