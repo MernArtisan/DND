@@ -55,7 +55,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             new DataTable('#myTable', {
                 language: {
-                    emptyTable: "No subscriptions found"
+                    emptyTable: "No data found"
                 }
             });
         });
