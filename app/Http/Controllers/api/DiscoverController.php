@@ -26,9 +26,25 @@ class DiscoverController extends Controller
 {
     public function banners()
     {
-        $banners = Banner::where('platform', ['both', 'app'])->get();
-        return ApiResponse::success(message: 'Banners fetched successfully.', data: [
-            'banners' => $banners
+        $banners = Banner::whereIn('platform', ['both', 'app'])->get()->map(function ($banner) {
+            return [
+                'id' => $banner->id,
+                'title' => $banner->title,
+                'subtitle' => $banner->subtitle,
+                'description' => $banner->description,
+                'image' => asset('storage/', $banner->image),
+                'platform' => $banner->platform,
+                'created_at' => $banner->created_at,
+                'updated_at' => $banner->updated_at,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Banners fetched successfully.',
+            'data' => [
+                'banners' => $banners
+            ]
         ]);
     }
 
