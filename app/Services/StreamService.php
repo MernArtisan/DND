@@ -46,18 +46,22 @@ class StreamService
         $data['status'] = $data['status'] ?? 'pending';
 
         if ($imageFile) {
-            $data['image'] = $imageFile->store('streams', 'public');
+            $data['image'] = $imageFile->store('streams', 'public'); // streams/xyz.jpg
         }
 
         $stream = Stream::create($data);
 
+        // ✅ Get channel logo relative path
+        $channelImage = $channel->logo ? $channel->logo : null;
+
         // 🔁 Send notification to all users
-        $allUsers = User::where('role', 'user')->get(); // Adjust role check if needed
+        $allUsers = User::where('role', 'user')->get();
         foreach ($allUsers as $u) {
             Notification::create([
                 'user_id' => $u->id,
                 'message' => 'New stream ' . $stream->title,
-                'seen' => false,
+                'image'   => $channelImage, // ✅ storing image path
+                'seen'    => false,
             ]);
         }
 
