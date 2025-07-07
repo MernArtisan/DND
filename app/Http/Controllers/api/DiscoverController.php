@@ -32,7 +32,7 @@ class DiscoverController extends Controller
                 'title' => $banner->title,
                 'subtitle' => $banner->subtitle,
                 'description' => $banner->description,
-                'image' => asset('storage/', $banner->image),
+                'image' => asset('storage/' . $banner->image),
                 'platform' => $banner->platform,
                 'created_at' => $banner->created_at,
                 'updated_at' => $banner->updated_at,
