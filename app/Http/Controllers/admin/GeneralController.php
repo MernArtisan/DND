@@ -83,6 +83,6 @@ class GeneralController extends Controller
         $general->map = $map;
         $general->save();
 
-        return redirect()->route('admin.general.details')->with('success', 'General settings updated successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'General settings updated successfully.');
     }
 }

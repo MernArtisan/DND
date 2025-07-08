@@ -7,7 +7,7 @@
                 <div class="hero-inner">
                     <div class="hero-bg" data-bg-src="{{ asset('storage/' . $banner->image) }}"></div>
                     <div class="container">
-                        <div class="hero-content">
+                        <div class="hero-content" >
                             @if ($banner->title)
                                 <span class="hero-subtitle">{{ $banner->title }}</span>
                             @endif
@@ -15,12 +15,12 @@
                                 <h1 class="hero-title">{!! nl2br(e($banner->subtitle)) !!}</h1>
                             @endif
                             @if ($banner->description)
-                                <p class="hero-text">{!! $banner->description !!}</p>
+                                <p class="hero-text" >{!! $banner->description !!}</p>
                             @endif
                             <div class="hero-btns">
-                                <a href="#" class="vs-btn outline1 me-3">Live Stream<i
+                                <a href="{{ route('liveStreams.index') }}" class="vs-btn outline1 me-3">Live Stream<i
                                         class="fas fa-wifi"></i></a>
-                                <a href="#" class="vs-btn outline3">Meet Our Staff <i class="fas fa-users"></i> </a>
+                                <a href="{{ route('staff.index') }}" class="vs-btn outline3">Meet Our Staff <i class="fas fa-users"></i> </a>
                             </div>
                         </div>
                     </div>
