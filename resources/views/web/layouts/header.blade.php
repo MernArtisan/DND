@@ -168,6 +168,18 @@
                             <div class="col-sm-6 text-end d-none d-md-block">
                                 <div class="d-flex align-items-center justify-content-end">
                                     <ul class="social-links fs-xs text-white">
+                                        @if (Auth::user())
+                                            <li>
+                                                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="btn border-0 bg-transparent p-0 text-start">
+                                                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        @endif
+
                                         <li><a href="{{ $general_content->facebook }}" class="icon-btn6"
                                                 target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                                         <li><a href="{{ $general_content->twitter }}" class="icon-btn6"
@@ -187,8 +199,8 @@
                 <div class="row align-items-center">
                     <div class="col-6 col-lg-3 col-xl-2">
                         <div class="header-logo py-3 py-lg-0">
-                            <a href="{{ route('home.index') }}"><img
-                                    src="{{ asset('web/assets/img/main-logo-1.png') }}" alt="main-logo"></a>
+                            <a href="{{ route('home.index') }}"><img src="{{ asset('web/assets/img/main-logo-1.png') }}"
+                                    alt="main-logo"></a>
                         </div>
                     </div>
                     <div class="col-6 col-lg-6 col-xl-5 text-end">
@@ -220,16 +232,27 @@
                     <div class="col-lg-8 col-xl-5 d-none d-lg-block">
                         <div class="header-right d-flex align-items-center justify-content-end">
                             <a href="{{ route('liveStreams.index') }}"
-                                class="vs-btn outline3 d-none d-xl-inline-block"><i
-                                    class="fas fa-wifi"></i><strong>Live Streaming</strong></a>
-                            <a href="{{ route('signup.index') }}"> <button
-                                    class="icon-btn7 sideCartToggler has-badge mr-10" type="button">
-                                    <i class="fa fa-user-plus"></i>
-                                </button></a>
-                            <a href="{{ route('login.index') }}"> <button class="icon-btn7 sideCartToggler has-badge"
-                                    type="button">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </button></a>
+                                class="vs-btn outline3 d-none d-xl-inline-block"><i class="fas fa-wifi"></i><strong>Live
+                                    Streaming</strong></a>
+                            @if(Auth::check())
+                                <a href="#"> <button class="icon-btn7 sideCartToggler has-badge mr-10" type="button">
+                                        <i class="fa fa-user">
+                                            {{ Auth::user()->name }}
+                                        </i>
+                                    </button></a>
+                            @else
+                                <a href="{{ route('signup.index') }}"> <button
+                                        class="icon-btn7 sideCartToggler has-badge mr-10" type="button">
+                                        <i class="fa fa-user-plus"></i>
+                                    </button></a>
+                            @endif
+
+                            @if (!Auth::check())
+                                <a href="{{ route('login.index') }}"> <button class="icon-btn7 sideCartToggler has-badge"
+                                        type="button">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </button></a>
+                            @endif
                             <ul class="header-list1 list-style-none">
                                 <li>
                                     <button class="icon-btn7 sideMenuToggler"><i class="far fa-bars"></i></button>
