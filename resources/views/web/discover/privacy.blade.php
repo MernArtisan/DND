@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-@section('title', 'Corporate Sponsors')
+@section('title', 'Privacy Policy')
 @section('content')
 
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
