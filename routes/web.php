@@ -34,7 +34,7 @@ Route::post('/resend-otp', [App\Http\Controllers\web\AuthController::class, 'res
 
 
 
-Route::get('/logout', [App\Http\Controllers\web\AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [App\Http\Controllers\web\AuthController::class, 'logout'])->name('logout');
 
 Route::get('forgot-password', [App\Http\Controllers\web\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [App\Http\Controllers\web\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');

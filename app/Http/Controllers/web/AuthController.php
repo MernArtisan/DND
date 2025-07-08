@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\web;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Requests\SignupRequest;
 use App\Services\UserService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SignupRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -173,5 +174,16 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Somthin went wrong while' . $e->getMessage()], 500);
         }
+    }
+
+
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Log the user out
+
+        $request->session()->invalidate(); // Invalidate the session
+        $request->session()->regenerateToken(); // Prevent CSRF attacks
+
+        return redirect()->route('login.index')->with('success', 'You have been logged out.');
     }
 }
