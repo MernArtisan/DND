@@ -26,6 +26,17 @@
 
 </head>
 <style>
+    .custom-user-btn {
+        min-width: 100px;
+        font-size: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
     /* Popup Container */
     .popup {
         display: none;

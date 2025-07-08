@@ -229,17 +229,21 @@
                         <button type="button" class="vs-menu-toggle text-white d-inline-block d-lg-none"> <i
                                 class="far fa-bars"></i></button>
                     </div>
+                    @php
+                        use Illuminate\Support\Str;
+                    @endphp
                     <div class="col-lg-8 col-xl-5 d-none d-lg-block">
                         <div class="header-right d-flex align-items-center justify-content-end">
                             <a href="{{ route('liveStreams.index') }}"
                                 class="vs-btn outline3 d-none d-xl-inline-block"><i class="fas fa-wifi"></i><strong>Live
                                     Streaming</strong></a>
                             @if(Auth::check())
-                                <a href="#"> <button class="icon-btn7 sideCartToggler has-badge mr-10" type="button">
+                                <a href="#">
+                                    <button class="icon-btn7 sideCartToggler has-badge mr-10 custom-user-btn" type="button">
                                         <i class="fa fa-user">
-                                            {{ Auth::user()->name }}
-                                        </i>
-                                    </button></a>
+                                            {{ Str::limit(Auth::user()->name, 12) }}</i>
+                                    </button>
+                                </a>
                             @else
                                 <a href="{{ route('signup.index') }}"> <button
                                         class="icon-btn7 sideCartToggler has-badge mr-10" type="button">
