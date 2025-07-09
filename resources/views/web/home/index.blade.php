@@ -275,9 +275,6 @@
             </div>
         </div>
     </section>
-
-
-
     <section class="vs-testimonial testimonial-layout1 space">
         <div class="container position-relative">
             <div class="row justify-content-center">
