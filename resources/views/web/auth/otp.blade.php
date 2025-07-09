@@ -127,7 +127,7 @@
                     <div class="otp-verification-box">
                         <div class="otp-header text-center mb-5">
                             <h2 class="otp-title">Verify Your Email</h2>
-                            <p class="otp-subtitle">We've sent a 6-digit verification code to your email</p>
+                            <p class="otp-subtitle">We've sent a 4-digit verification code to your email</p>
                         </div>
 
                         <form class="otp-form" id="otpForm" method="POST" action="{{ route('verifyOtp.submit') }}">
@@ -142,10 +142,6 @@
                                         style="--start-x: -60px; animation-delay: 0.3s">
                                     <input type="text" maxlength="1" class="otp-field" data-index="4"
                                         style="--start-x: 60px; animation-delay: 0.4s">
-                                    <input type="text" maxlength="1" class="otp-field" data-index="5"
-                                        style="--start-x: -60px; animation-delay: 0.5s">
-                                    <input type="text" maxlength="1" class="otp-field" data-index="6"
-                                        style="--start-x: 60px; animation-delay: 0.6s">
                                 </div>
 
                                 <input type="hidden" name="otp" id="fullOtp">
