@@ -275,17 +275,12 @@
             </div>
         </div>
     </section>
-
-
-
     <section class="vs-testimonial testimonial-layout1 space">
         <div class="container position-relative">
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-10 col-md-12">
                     <div class="author-area pb-40">
-                        <div class="author-name text-center vs-carousel" id="slide3" data-asnavfor="#slide2, #slide1"
-                            data-slide-show="1" data-fade="true">
-
+                        <div class="author-name text-center vs-carousel" id="slide3" data-slide-show="1" data-fade="true">
                             @foreach ($testimonials as $testimonial)
                                 <div>
                                     {{-- Star Ratings --}}
@@ -321,5 +316,18 @@
         </div> {{-- /.container --}}
     </section>
 
+<script>
+    $(document).ready(function () {
+        $('#slide3').slick({
+            slidesToShow: 1,
+            arrows: false,
+            dots: true,
+            fade: true,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            adaptiveHeight: true,
+        });
+    });
+</script>
 
 @endsection

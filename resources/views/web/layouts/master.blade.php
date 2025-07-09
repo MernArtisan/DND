@@ -26,6 +26,11 @@
 
 </head>
 <style>
+    .vs-blog {
+        min-height: 400px;
+        /* adjust based on content */
+    }
+
     .custom-user-btn {
         min-width: 100px;
         font-size: 15px;

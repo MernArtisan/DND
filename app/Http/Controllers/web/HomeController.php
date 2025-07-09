@@ -17,10 +17,8 @@ class HomeController extends Controller
     {
         $banners = Banner::where('platform', ['both', 'web'])->get();
         $testimonials = Testimonial::where('status', 1)->get();
-        $articals = Article::with('images')->take(3)->get();
-
+        $articals = Article::with('images')->get();
         $streamsLive = Stream::with('channel')->where('status', 'live')->get();
-
         $streamsPending = Stream::with('channel')
             ->where('status', 'pending')
             ->whereDate('date', '>', Carbon::today())
@@ -28,14 +26,10 @@ class HomeController extends Controller
             ->groupBy(function ($stream) {
                 return Carbon::parse($stream->date)->format('l');
             });
-
-        // ✅ Get top viewed stream per category_id
         $categoryIds = Stream::where('status', 'live')
             ->pluck('category_id')
             ->unique();
-
         $streamsGrouped = [];
-
         foreach ($categoryIds as $catId) {
             $streamsGrouped[$catId] = Stream::with(['channel', 'category']) // add category relationship
                 ->where('status', 'live')
@@ -43,10 +37,7 @@ class HomeController extends Controller
                 ->orderByDesc('viewer_count')
                 ->first();
         }
-
-        // ✅ Load category names for display
         $categories = Category::whereIn('id', array_keys($streamsGrouped))->get()->keyBy('id');
-
         return view('web.home.index', [
             'banners' => $banners,
             'testimonials' => $testimonials,
