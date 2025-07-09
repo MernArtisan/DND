@@ -41,7 +41,7 @@ class AuthController extends Controller
             if ($otpRecord && now()->diffInSeconds($otpRecord->created_at) < 60) {
                 $otp = $otpRecord->otp; // Reuse existing OTP
             } else {
-                $otp = rand(1000, 9999); // Generate new 6-digit OTP
+                $otp = rand(1000, 9999); 
                 DB::table('user_otps')->updateOrInsert(
                     ['user_id' => $user->id],
                     ['otp' => $otp, 'created_at' => now()]

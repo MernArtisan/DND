@@ -102,8 +102,8 @@
         }
     </style>
     <!--==============================
-                                                                        Breadcumb
-                                                                        ============================== -->
+                                                                            Breadcumb
+                                                                            ============================== -->
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
         data-bg-src="{{asset('web/assets/img/breadcumb/breadcumb.jpg')}}" data-overlay>
         <div class="container z-index-common">
@@ -118,8 +118,8 @@
         </div>
     </div>
     <!--==============================
-                                                                        Register OTP Start
-                                                                        ==============================-->
+                                                                            Register OTP Start
+                                                                            ==============================-->
     <section class="otp-verification-section space-top space-md-bottom">
         <div class="container">
             <div class="row justify-content-center">
