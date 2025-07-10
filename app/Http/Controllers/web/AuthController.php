@@ -26,7 +26,7 @@ class AuthController extends Controller
         try {
             $request->validate([
                 'email' => 'required|email',
-                'password' => 'required|string|min:6',
+                'password' => 'required|string|min:4',
             ]);
 
             $user = User::where('email', $request->email)->first();
@@ -41,7 +41,7 @@ class AuthController extends Controller
             if ($otpRecord && now()->diffInSeconds($otpRecord->created_at) < 60) {
                 $otp = $otpRecord->otp; // Reuse existing OTP
             } else {
-                $otp = rand(1000, 9999); 
+                $otp = rand(1000, 9999); // Generate new 4-digit OTP
                 DB::table('user_otps')->updateOrInsert(
                     ['user_id' => $user->id],
                     ['otp' => $otp, 'created_at' => now()]
@@ -147,10 +147,11 @@ class AuthController extends Controller
                 return response()->json(['message' => 'User not found.'], 404);
             }
 
-            // Check if OTP was recently sent (1-minute cooldown)
             $otpRecord = DB::table('user_otps')->where('user_id', $user->id)->first();
+            // return $otpRecord;
+
             if ($otpRecord && now()->diffInSeconds($otpRecord->created_at) < 60) {
-                return response()->json(['message' => 'Please wait before requesting a new OTP.'], 429);
+                DB::table('user_otps')->where('user_id', $user->id)->delete();
             }
 
             // Generate new OTP
@@ -166,13 +167,13 @@ class AuthController extends Controller
                     $msg->to($user->email)->subject('Your New OTP Code');
                 });
 
-                return response()->json(['message' => 'New OTP has been sent.']);
+                return response()->json(['message' => 'New OTP has been sent.'] );
             } catch (\Exception $e) {
                 Log::error('Resend OTP error: ' . $e->getMessage());
                 return response()->json(['message' => 'Failed to send OTP. Try again.'], 500);
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Somthin went wrong while' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Somthing went wrong while' . $e->getMessage()], 500);
         }
     }
 

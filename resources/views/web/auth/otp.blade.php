@@ -323,6 +323,8 @@
                             otpFields.forEach(field => field.value = '');
                             fullOtpInput.value = '';
                             otpFields[0].focus();
+                            secondsLeft = 60;
+                            localStorage.setItem('otp_expiry', Date.now() + 60000);
                             startTimer();
                         })
                         .catch(() => {
