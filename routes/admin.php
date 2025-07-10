@@ -45,7 +45,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/edit-general-details', [App\Http\Controllers\admin\GeneralController::class, 'edit'])->name('edit.general.details');
     Route::post('/update-general-details', [App\Http\Controllers\admin\GeneralController::class, 'update'])->name('update.general.details');
 
-    Route::post('/newsletter-submit', [App\Http\Controllers\admin\NewsletterController::class, 'newsletter'])->name('newsletter.submit');
     Route::get('/newsletter', [App\Http\Controllers\admin\NewsletterController::class, 'index'])->name('newsletter.index');
 
     Route::get('/inquiries', [App\Http\Controllers\admin\InquiryController::class, 'index'])->name('inquiries.index');

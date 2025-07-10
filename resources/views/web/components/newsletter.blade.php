@@ -8,7 +8,7 @@
                         <h2 class="mb-0 text-white">{!! $cms_content[5]->description !!}</h2>
                     </div>
                     <div class="col-md-10 col-lg-8 col-xl-6">
-                        <form id="newsletterForm" action="{{ route('admin.newsletter.submit') }}" method="POST"
+                        <form id="newsletterForm" action="{{ route('newsletter.submit') }}" method="POST"
                             class="newsletter-style1 d-md-flex">
                             @csrf
                             <input type="email" name="email" class="form-control me-md-2 mb-2 mb-md-0"

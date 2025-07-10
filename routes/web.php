@@ -32,6 +32,7 @@ Route::post('/signup-submit', [App\Http\Controllers\web\AuthController::class, '
 Route::post('/resend-otp', [App\Http\Controllers\web\AuthController::class, 'resendOtp'])->name('resend.otp');
 
 
+Route::post('/newsletter-submit', [App\Http\Controllers\admin\NewsletterController::class, 'newsletter'])->name('newsletter.submit');
 
 
 Route::post('/logout', [App\Http\Controllers\web\AuthController::class, 'logout'])->name('logout');
