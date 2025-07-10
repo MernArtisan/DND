@@ -129,7 +129,6 @@
                     <div class="position-relative arrow-wrap">
                         <div id="slideStrem" class="strem-video1 vs-carousel arrow-white" data-slide-show="1"
                             data-arrows="true" data-speed="500" data-infinite="false">
-
                             @foreach ($streamsGrouped as $categoryId => $stream)
                                 <div class="position-relative image-scale-hover">
                                     <a class="popup-video" href="{{ $stream->video_url }}">
@@ -140,9 +139,6 @@
                                             class="fas fa-play"></i></a>
                                 </div>
                             @endforeach
-
-
-
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,7 @@
         <div class="row g-0 justify-content-center w-100 m-xxl-5 px-xxl-4 m-3">
             <div class="col-xl-4 col-lg-5 col-md-6">
                 <div class="card overflow-hidden text-center h-100 p-xxl-4 p-3 mb-0" style="background: #0f1116">
-                    <a href="#" class="auth-brand mb-3">
+                    <a href="/" class="auth-brand mb-3">
                         <img src="{{asset('web/assets/img/main-logo-1.png')}}" alt="dark logo" height="100"
                             class="logo-dark">
                         <img src="{{asset('admin/assets/images/logo.png')}}" alt="logo light" height="30"
