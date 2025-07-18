@@ -39,9 +39,9 @@ class AuthController extends Controller
             $otpRecord = DB::table('user_otps')->where('user_id', $user->id)->first();
 
             if ($otpRecord && now()->diffInSeconds($otpRecord->created_at) < 60) {
-                $otp = $otpRecord->otp; // Reuse existing OTP
+                $otp = $otpRecord->otp;
             } else {
-                $otp = rand(1000, 9999); // Generate new 4-digit OTP
+                $otp = rand(1000, 9999);
                 DB::table('user_otps')->updateOrInsert(
                     ['user_id' => $user->id],
                     ['otp' => $otp, 'created_at' => now()]
@@ -54,7 +54,6 @@ class AuthController extends Controller
                     $msg->to($user->email)->subject('Your OTP Code');
                 });
 
-                // Store info in session for verification
                 session([
                     'otp_user_id' => $user->id,
                     'otp_sent_at' => now()
@@ -65,9 +64,7 @@ class AuthController extends Controller
                 Log::error('OTP email error: ' . $e->getMessage(), [
                     'line' => $e->getLine(),
                     'file' => $e->getFile(),
-                    // Optional: 'trace' => $e->getTraceAsString()
                 ]);
-
                 return back()->with('error', 'Failed to send OTP. Please try again.');
             }
         } catch (\Exception $e) {
@@ -97,8 +94,26 @@ class AuthController extends Controller
 
     public function verifyOtp()
     {
-        return view('web.auth.otp');
+        $userId = session('otp_user_id');
+
+        if (!$userId) {
+            return redirect()->route('login.index')->with('error', 'Session expired.');
+        }
+
+        $otpRecord = DB::table('user_otps')->where('user_id', $userId)->first();
+
+        if (!$otpRecord) {
+            return redirect()->route('login.index')->with('error', 'No OTP found.');
+        }
+
+        $otpCreatedAt = \Carbon\Carbon::parse($otpRecord->created_at);
+        $otpExpiryTimestamp = $otpCreatedAt->addSeconds(60)->timestamp * 1000;  
+
+        return view('web.auth.otp', [
+            'otpExpiryTimestamp' => $otpExpiryTimestamp,
+        ]);
     }
+
 
     public function verifyOtpSubmit(Request $request)
     {
@@ -115,15 +130,23 @@ class AuthController extends Controller
 
             $otpRecord = DB::table('user_otps')->where('user_id', $userId)->first();
 
-            if (!$otpRecord || $otpRecord->otp != $request->otp) {
+            if (!$otpRecord) {
+                return back()->with('error', 'OTP not found.');
+            }
+
+            // Check if OTP expired
+            $otpCreated = \Carbon\Carbon::parse($otpRecord->created_at);
+            if ($otpCreated->addSeconds(60)->isPast()) {
+                return back()->with('error', 'OTP has expired. Please request a new one.');
+            }
+
+            if ($otpRecord->otp != $request->otp) {
                 return back()->with('error', 'Invalid OTP. Please try again.');
             }
 
-            // Log the user in
             $user = User::find($userId);
             auth()->login($user);
 
-            // Clear OTP session and record (optional)
             session()->forget(['otp_user_id', 'otp_sent_at']);
             DB::table('user_otps')->where('user_id', $userId)->delete();
 
@@ -167,7 +190,7 @@ class AuthController extends Controller
                     $msg->to($user->email)->subject('Your New OTP Code');
                 });
 
-                return response()->json(['message' => 'New OTP has been sent.'] );
+                return response()->json(['message' => 'New OTP has been sent.']);
             } catch (\Exception $e) {
                 Log::error('Resend OTP error: ' . $e->getMessage());
                 return response()->json(['message' => 'Failed to send OTP. Try again.'], 500);

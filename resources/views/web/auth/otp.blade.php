@@ -3,7 +3,6 @@
 @section('content')
 
     <style>
-        /* OTP Verification Styles */
         .otp-verification-section {
             background-color: #f8f9fa;
             padding: 60px 0;
@@ -14,6 +13,7 @@
             border-radius: 12px;
             box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
             padding: 40px;
+            position: relative;
         }
 
         .otp-title {
@@ -57,7 +57,7 @@
 
         .time-remaining {
             font-size: 15px;
-            color: #555;
+            color: #ccc;
             margin-bottom: 5px;
         }
 
@@ -67,7 +67,7 @@
         }
 
         .resend-otp {
-            color: #666;
+            color: #aaa;
             text-decoration: none;
             font-size: 15px;
             cursor: pointer;
@@ -80,11 +80,36 @@
         }
 
         .resend-otp:disabled {
-            color: #aaa;
+            color: #777;
             cursor: not-allowed;
         }
 
-        /* Responsive Design */
+        /* Spinner overlay */
+        .otp-overlay-spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+        }
+
+        .otp-overlay-spinner.active {
+            display: flex;
+        }
+
+        /* Blur when spinner shows */
+        .otp-blur {
+            filter: blur(3px);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
         @media (max-width: 767px) {
             .otp-verification-box {
                 padding: 30px 20px;
@@ -100,26 +125,46 @@
                 gap: 8px;
             }
         }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-4px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(4px);
+            }
+        }
+
+        .otp-shake .otp-field {
+            animation: shake 0.4s ease;
+            border-color: red;
+        }
     </style>
-    <!--==============================
-                                                                            Breadcumb
-                                                                            ============================== -->
+
+    <!-- Breadcrumb -->
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
-        data-bg-src="{{asset('web/assets/img/breadcumb/breadcumb.jpg')}}" data-overlay>
+        data-bg-src="{{ asset('web/assets/img/breadcumb/breadcumb.jpg') }}" data-overlay>
         <div class="container z-index-common">
             <div class="breadcumb-content text-center">
                 <h1 class="breadcumb-title h1 text-white my-0">OTP Code</h1>
-                <!--  <h2 class="breadcumb-bg-title">News</h2> -->
                 <ul class="breadcumb-menu-style1 text-white mx-auto fs-xs">
-                    <li><a href="{{route('home.index')}}"><i class="fal fa-home"></i>Home</a></li>
+                    <li><a href="{{ route('home.index') }}"><i class="fal fa-home"></i>Home</a></li>
                     <li class="active">OTP Code</li>
                 </ul>
             </div>
         </div>
     </div>
-    <!--==============================
-                                                                            Register OTP Start
-                                                                            ==============================-->
+
+    <!-- OTP Form -->
     <section class="otp-verification-section space-top space-md-bottom">
         <div class="container">
             <div class="row justify-content-center">
@@ -132,36 +177,41 @@
 
                         <form class="otp-form" id="otpForm" method="POST" action="{{ route('verifyOtp.submit') }}">
                             @csrf
-                            <div class="otp-input-group mb-4">
-                                <div class="otp-fields">
-                                    <input type="text" maxlength="1" class="otp-field" data-index="1"
-                                        style="--start-x: -60px; animation-delay: 0.1s" autofocus>
-                                    <input type="text" maxlength="1" class="otp-field" data-index="2"
-                                        style="--start-x: 60px; animation-delay: 0.2s">
-                                    <input type="text" maxlength="1" class="otp-field" data-index="3"
-                                        style="--start-x: -60px; animation-delay: 0.3s">
-                                    <input type="text" maxlength="1" class="otp-field" data-index="4"
-                                        style="--start-x: 60px; animation-delay: 0.4s">
+
+                            <!-- Spinner Overlay -->
+                            <div class="otp-overlay-spinner" id="resendSpinner">
+                                <div class="spinner-border text-danger" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+
+                            <!-- OTP Form Content -->
+                            <div id="otpWrapper">
+                                <div class="otp-input-group mb-4">
+                                    <div class="otp-fields">
+                                        <input type="text" maxlength="1" class="otp-field" data-index="1" autofocus>
+                                        <input type="text" maxlength="1" class="otp-field" data-index="2">
+                                        <input type="text" maxlength="1" class="otp-field" data-index="3">
+                                        <input type="text" maxlength="1" class="otp-field" data-index="4">
+                                    </div>
+                                    <input type="hidden" name="otp" id="fullOtp">
                                 </div>
 
-                                <input type="hidden" name="otp" id="fullOtp">
-                            </div>
+                                <div class="otp-timer text-center mb-4">
+                                    <p class="time-remaining">Time remaining: <span id="countdown">01:00</span></p>
+                                    <p class="otp-expired text-danger" style="display: none;">OTP has expired!</p>
+                                </div>
 
-                            <div class="otp-timer text-center mb-4">
-                                <p class="time-remaining">Time remaining: <span id="countdown">01:00</span></p>
-                                <p class="otp-expired text-danger" style="display: none;">OTP has expired!</p>
-                            </div>
+                                <div class="text-center mb-4">
+                                    <button type="button" class="btn btn-link resend-otp" id="resendOtp" disabled>
+                                        Resend OTP (<span id="resendCountdown">60</span>s)
+                                    </button>
+                                </div>
 
-                            <div class="text-center mb-4">
-                                <button type="button" class="btn btn-link resend-otp" id="resendOtp" disabled>
-                                    Resend OTP (<span id="resendCountdown">60</span>s)
-                                </button>
-                            </div>
-
-                            <div class="otp-submit">
-                                <button type="submit" class="vs-btn gradient-btn w-100 py-3" id="verifyBtn">Verify &
-                                    Continue</button>
-
+                                <div class="otp-submit">
+                                    <button type="submit" class="vs-btn gradient-btn w-100 py-3" id="verifyBtn">Verify &
+                                        Continue</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -169,43 +219,9 @@
             </div>
         </div>
     </section>
-    <style>
-        @keyframes shake {
-            0% {
-                transform: translateX(0);
-            }
 
-            20% {
-                transform: translateX(-4px);
-            }
-
-            40% {
-                transform: translateX(4px);
-            }
-
-            60% {
-                transform: translateX(-4px);
-            }
-
-            80% {
-                transform: translateX(4px);
-            }
-
-            100% {
-                transform: translateX(0);
-            }
-        }
-
-        .otp-shake .otp-field {
-            animation: shake 0.4s ease;
-            border-color: red;
-        }
-    </style>
+    <!-- JS -->
     <script>
-        otpForm.addEventListener('submit', function () {
-            document.getElementById('verifyBtn').disabled = true;
-        });
-
         document.addEventListener('DOMContentLoaded', function () {
             const otpFields = document.querySelectorAll('.otp-field');
             const fullOtpInput = document.getElementById('fullOtp');
@@ -214,65 +230,31 @@
             const resendOtpBtn = document.getElementById('resendOtp');
             const otpExpiredMsg = document.querySelector('.otp-expired');
             const otpForm = document.getElementById('otpForm');
+            const fieldsContainer = document.querySelector('.otp-fields');
+            const otpWrapper = document.getElementById('otpWrapper');
+            const resendSpinner = document.getElementById('resendSpinner');
 
             let timer;
-            let secondsLeft = 60;
-            const savedExpiry = localStorage.getItem('otp_expiry');
+            let secondsLeft = 0;
+
+            const otpExpiryTimestamp = {{ $otpExpiryTimestamp ?? 'null' }};
             const now = Date.now();
 
-            // If expiry is in future, resume from where left
-            if (savedExpiry && parseInt(savedExpiry) > now) {
-                secondsLeft = Math.floor((parseInt(savedExpiry) - now) / 1000);
+            if (!otpExpiryTimestamp || now >= otpExpiryTimestamp) {
+                otpExpiredMsg.style.display = 'block';
+                countdownElement.style.display = 'none';
+                resendOtpBtn.disabled = false;
+                resendOtpBtn.innerText = 'Resend OTP';
+                localStorage.removeItem('otp_expiry');
             } else {
-                localStorage.setItem('otp_expiry', Date.now() + 60000); // 60s from now
-            }
-            startTimer();
-
-
-            // OTP field navigation logic
-            otpFields.forEach((field, index) => {
-                field.addEventListener('input', function () {
-                    const value = this.value;
-                    const nextIndex = parseInt(this.getAttribute('data-index')) + 1;
-
-                    // Auto-focus next field
-                    if (value && nextIndex <= otpFields.length) {
-                        otpFields[nextIndex - 1].focus();
-                    }
-
-                    updateFullOtp();
-                });
-
-                field.addEventListener('keydown', function (e) {
-                    if (e.key === 'Backspace' && !this.value) {
-                        const prevIndex = parseInt(this.getAttribute('data-index')) - 1;
-                        if (prevIndex >= 1) {
-                            otpFields[prevIndex - 1].focus();
-                        }
-                    }
-                });
-            });
-
-            // Trigger shake on page refresh
-            const fieldsContainer = document.querySelector('.otp-fields');
-            fieldsContainer.classList.add('otp-shake');
-            setTimeout(() => {
-                fieldsContainer.classList.remove('otp-shake');
-            }, 400);
-
-            // Update the hidden full OTP field
-            function updateFullOtp() {
-                let otp = '';
-                otpFields.forEach(field => {
-                    otp += field.value;
-                });
-                fullOtpInput.value = otp;
+                secondsLeft = Math.floor((otpExpiryTimestamp - now) / 1000);
+                localStorage.setItem('otp_expiry', otpExpiryTimestamp);
+                startTimer();
             }
 
-            // Timer functions
             function startTimer() {
                 clearInterval(timer);
-                updateTimerDisplay(); // ✅ use the existing value of `secondsLeft`
+                updateTimerDisplay();
                 resendOtpBtn.disabled = true;
 
                 timer = setInterval(() => {
@@ -281,10 +263,11 @@
 
                     if (secondsLeft <= 0) {
                         clearInterval(timer);
-                        otpExpired();
+                        otpExpiredMsg.style.display = 'block';
+                        countdownElement.style.display = 'none';
                         resendOtpBtn.disabled = false;
-                        resendOtpBtn.innerHTML = 'Resend OTP';
-                        localStorage.removeItem('otp_expiry'); // clear from storage
+                        resendOtpBtn.innerText = 'Resend OTP';
+                        localStorage.removeItem('otp_expiry');
                     }
                 }, 1000);
             }
@@ -296,42 +279,76 @@
                 resendCountdownElement.textContent = secondsLeft;
             }
 
-            function otpExpired() {
-                otpExpiredMsg.style.display = 'block';
-                countdownElement.style.display = 'none';
-            }
-
-            // Resend OTP functionality
             resendOtpBtn.addEventListener('click', function () {
                 if (!this.disabled) {
+                    resendSpinner.classList.add('active');
+                    otpWrapper.classList.add('otp-blur');
+
                     fetch("{{ route('resend.otp') }}", {
                         method: "POST",
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             'Content-Type': 'application/json',
-                        },
+                        }
                     })
                         .then(response => response.json())
                         .then(data => {
-                            if (data.message) {
-                                alert(data.message);
-                            }
-
-                            // Reset UI
+                            toastr.success(data.message || 'OTP resent successfully.');
                             otpExpiredMsg.style.display = 'none';
                             countdownElement.style.display = 'inline';
                             otpFields.forEach(field => field.value = '');
                             fullOtpInput.value = '';
                             otpFields[0].focus();
+
                             secondsLeft = 60;
-                            localStorage.setItem('otp_expiry', Date.now() + 60000);
+                            const newExpiry = Date.now() + 60000;
+                            localStorage.setItem('otp_expiry', newExpiry);
                             startTimer();
                         })
                         .catch(() => {
-                            alert('Failed to resend OTP. Try again.');
+                            alert('Failed to resend OTP.');
+                        })
+                        .finally(() => {
+                            resendSpinner.classList.remove('active');
+                            otpWrapper.classList.remove('otp-blur');
                         });
                 }
             });
+
+            otpFields.forEach((field, index) => {
+                field.addEventListener('input', function () {
+                    const nextIndex = parseInt(this.dataset.index) + 1;
+                    if (this.value && nextIndex <= otpFields.length) {
+                        otpFields[nextIndex - 1].focus();
+                    }
+                    updateFullOtp();
+                });
+
+                field.addEventListener('keydown', function (e) {
+                    if (e.key === 'Backspace' && !this.value) {
+                        const prevIndex = parseInt(this.dataset.index) - 1;
+                        if (prevIndex >= 1) {
+                            otpFields[prevIndex - 1].focus();
+                        }
+                    }
+                });
+            });
+
+            function updateFullOtp() {
+                let otp = '';
+                otpFields.forEach(field => {
+                    otp += field.value;
+                });
+                fullOtpInput.value = otp;
+            }
+
+            otpForm.addEventListener('submit', function () {
+                document.getElementById('verifyBtn').disabled = true;
+            });
+
+            fieldsContainer.classList.add('otp-shake');
+            setTimeout(() => fieldsContainer.classList.remove('otp-shake'), 400);
         });
     </script>
+
 @endsection

@@ -56,10 +56,33 @@
             box-shadow: 0 0 0 0.25rem rgba(216, 46, 46, 0.25);
         }
 
-        .input-group {
-            position: relative;
+        /* Spinner overlay */
+        .login-overlay-spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .login-overlay-spinner.active {
+            display: flex;
+        }
+
+        /* Blur content */
+        .login-blur {
+            filter: blur(2px);
+            pointer-events: none;
+            opacity: 0.6;
         }
     </style>
+
     <div class="breadcumb-wrapper breadcumb-layout1 pt-200 pb-50"
         data-bg-src="{{ asset('web/assets/img/breadcumb/breadcumb.jpg') }}" data-overlay>
         <div class="container z-index-common">
@@ -78,32 +101,46 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-8">
                     <div class="register-form-wrap">
-                        <h2 class="register-form-title text-center mb-4">Enter Your Email</h2>
-                        <form id="registrationForm" action="{{ route('login.authenticate') }}" method="POST">
-                            @csrf
 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email Address*</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
+                        <!-- Spinner Overlay -->
+                        <div class="login-overlay-spinner" id="loginSpinner">
+                            <div class="spinner-border text-danger" role="status">
+                                <span class="visually-hidden">Loading...</span>
                             </div>
+                        </div>
 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                        <div id="loginFormWrapper">
+                            <h2 class="register-form-title text-center mb-4">Enter Your Email</h2>
+
+                            <form id="registrationForm" action="{{ route('login.authenticate') }}" method="POST">
+                                @csrf
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email Address*</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12 text-end mb-3">
-                                <a href="{{ route('password.request') }}" class="text-white" style="font-size: 14px;">
-                                    Forgot Password?
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="vs-btn gradient-btn w-100 py-3">Login</button>
-                            </div>
-                        </form>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 text-end mb-3">
+                                    <a href="{{ route('password.request') }}" class="text-white" style="font-size: 14px;">
+                                        Forgot Password?
+                                    </a>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" id="loginBtn"
+                                        class="vs-btn gradient-btn w-100 py-3">Login</button>
+                                </div>
+                            </form>
+                        </div>
 
                     </div>
                 </div>
@@ -111,6 +148,18 @@
         </div>
     </section>
 
-    {{-- @include('web.components.newsletter') --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registrationForm');
+            const spinner = document.getElementById('loginSpinner');
+            const wrapper = document.getElementById('loginFormWrapper');
+            const loginBtn = document.getElementById('loginBtn');
 
+            form.addEventListener('submit', function () {
+                spinner.classList.add('active');
+                wrapper.classList.add('login-blur');
+                loginBtn.disabled = true;
+            });
+        });
+    </script>
 @endsection
